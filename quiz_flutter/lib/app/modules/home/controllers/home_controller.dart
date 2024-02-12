@@ -52,6 +52,7 @@ class HomeController extends GetxController with StateMixin {
       await client.quiz
           .updateQuizStatus(quizId: quizes[index].id!, status: status);
       await getQuizes();
+      Get.back();
     } catch (e) {
       change(null,
           status: RxStatus.error("PROBLEM IN CHANGE QUIZ STATUS METHODE : $e"));
