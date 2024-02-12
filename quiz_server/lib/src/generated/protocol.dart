@@ -86,7 +86,7 @@ class Protocol extends _i1.SerializationManagerServer {
             )
           ],
           type: 'btree',
-          isUnique: false,
+          isUnique: true,
           isPrimary: false,
         ),
       ],
