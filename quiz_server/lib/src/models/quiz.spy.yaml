@@ -1,0 +1,11 @@
+class: Quiz
+table: quiz
+fields:
+    name: String 
+    description: String
+    status: Status
+
+indexes:
+  quiz_name_idx:
+    fields: name
+    

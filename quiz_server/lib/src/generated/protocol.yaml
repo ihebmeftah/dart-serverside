@@ -1,2 +1,9 @@
 example:
   - hello:
+quiz:
+  - getQuizes:
+  - getOneQuiz:
+  - createQuiz:
+  - updateQuizStatus:
+  - updateQuiz:
+  - deleteQuiz:

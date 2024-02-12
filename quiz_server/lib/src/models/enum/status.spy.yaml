@@ -1,0 +1,5 @@
+enum: Status
+values:
+ - pending
+ - rejected
+ - accepted

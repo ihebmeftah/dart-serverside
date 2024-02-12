@@ -1,0 +1,502 @@
+/* AUTOMATICALLY GENERATED CODE DO NOT MODIFY */
+/*   To generate run: "serverpod generate"    */
+
+// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: public_member_api_docs
+// ignore_for_file: implementation_imports
+// ignore_for_file: use_super_parameters
+// ignore_for_file: type_literal_in_constant_pattern
+
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:serverpod/serverpod.dart' as _i1;
+import '../protocol.dart' as _i2;
+
+abstract class Quiz extends _i1.TableRow {
+  Quiz._({
+    int? id,
+    required this.name,
+    required this.description,
+    required this.status,
+  }) : super(id);
+
+  factory Quiz({
+    int? id,
+    required String name,
+    required String description,
+    required _i2.Status status,
+  }) = _QuizImpl;
+
+  factory Quiz.fromJson(
+    Map<String, dynamic> jsonSerialization,
+    _i1.SerializationManager serializationManager,
+  ) {
+    return Quiz(
+      id: serializationManager.deserialize<int?>(jsonSerialization['id']),
+      name: serializationManager.deserialize<String>(jsonSerialization['name']),
+      description: serializationManager
+          .deserialize<String>(jsonSerialization['description']),
+      status: serializationManager
+          .deserialize<_i2.Status>(jsonSerialization['status']),
+    );
+  }
+
+  static final t = QuizTable();
+
+  static const db = QuizRepository._();
+
+  String name;
+
+  String description;
+
+  _i2.Status status;
+
+  @override
+  _i1.Table get table => t;
+
+  Quiz copyWith({
+    int? id,
+    String? name,
+    String? description,
+    _i2.Status? status,
+  });
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      'name': name,
+      'description': description,
+      'status': status.toJson(),
+    };
+  }
+
+  @override
+  @Deprecated('Will be removed in 2.0.0')
+  Map<String, dynamic> toJsonForDatabase() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'status': status,
+    };
+  }
+
+  @override
+  Map<String, dynamic> allToJson() {
+    return {
+      if (id != null) 'id': id,
+      'name': name,
+      'description': description,
+      'status': status.toJson(),
+    };
+  }
+
+  @override
+  @Deprecated('Will be removed in 2.0.0')
+  void setColumn(
+    String columnName,
+    value,
+  ) {
+    switch (columnName) {
+      case 'id':
+        id = value;
+        return;
+      case 'name':
+        name = value;
+        return;
+      case 'description':
+        description = value;
+        return;
+      case 'status':
+        status = value;
+        return;
+      default:
+        throw UnimplementedError();
+    }
+  }
+
+  @Deprecated('Will be removed in 2.0.0. Use: db.find instead.')
+  static Future<List<Quiz>> find(
+    _i1.Session session, {
+    _i1.WhereExpressionBuilder<QuizTable>? where,
+    int? limit,
+    int? offset,
+    _i1.Column? orderBy,
+    List<_i1.Order>? orderByList,
+    bool orderDescending = false,
+    bool useCache = true,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.db.find<Quiz>(
+      where: where != null ? where(Quiz.t) : null,
+      limit: limit,
+      offset: offset,
+      orderBy: orderBy,
+      orderByList: orderByList,
+      orderDescending: orderDescending,
+      useCache: useCache,
+      transaction: transaction,
+    );
+  }
+
+  @Deprecated('Will be removed in 2.0.0. Use: db.findRow instead.')
+  static Future<Quiz?> findSingleRow(
+    _i1.Session session, {
+    _i1.WhereExpressionBuilder<QuizTable>? where,
+    int? offset,
+    _i1.Column? orderBy,
+    bool orderDescending = false,
+    bool useCache = true,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.db.findSingleRow<Quiz>(
+      where: where != null ? where(Quiz.t) : null,
+      offset: offset,
+      orderBy: orderBy,
+      orderDescending: orderDescending,
+      useCache: useCache,
+      transaction: transaction,
+    );
+  }
+
+  @Deprecated('Will be removed in 2.0.0. Use: db.findById instead.')
+  static Future<Quiz?> findById(
+    _i1.Session session,
+    int id,
+  ) async {
+    return session.db.findById<Quiz>(id);
+  }
+
+  @Deprecated('Will be removed in 2.0.0. Use: db.deleteWhere instead.')
+  static Future<int> delete(
+    _i1.Session session, {
+    required _i1.WhereExpressionBuilder<QuizTable> where,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.db.delete<Quiz>(
+      where: where(Quiz.t),
+      transaction: transaction,
+    );
+  }
+
+  @Deprecated('Will be removed in 2.0.0. Use: db.deleteRow instead.')
+  static Future<bool> deleteRow(
+    _i1.Session session,
+    Quiz row, {
+    _i1.Transaction? transaction,
+  }) async {
+    return session.db.deleteRow(
+      row,
+      transaction: transaction,
+    );
+  }
+
+  @Deprecated('Will be removed in 2.0.0. Use: db.update instead.')
+  static Future<bool> update(
+    _i1.Session session,
+    Quiz row, {
+    _i1.Transaction? transaction,
+  }) async {
+    return session.db.update(
+      row,
+      transaction: transaction,
+    );
+  }
+
+  @Deprecated(
+      'Will be removed in 2.0.0. Use: db.insert instead. Important note: In db.insert, the object you pass in is no longer modified, instead a new copy with the added row is returned which contains the inserted id.')
+  static Future<void> insert(
+    _i1.Session session,
+    Quiz row, {
+    _i1.Transaction? transaction,
+  }) async {
+    return session.db.insert(
+      row,
+      transaction: transaction,
+    );
+  }
+
+  @Deprecated('Will be removed in 2.0.0. Use: db.count instead.')
+  static Future<int> count(
+    _i1.Session session, {
+    _i1.WhereExpressionBuilder<QuizTable>? where,
+    int? limit,
+    bool useCache = true,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.db.count<Quiz>(
+      where: where != null ? where(Quiz.t) : null,
+      limit: limit,
+      useCache: useCache,
+      transaction: transaction,
+    );
+  }
+
+  static QuizInclude include() {
+    return QuizInclude._();
+  }
+
+  static QuizIncludeList includeList({
+    _i1.WhereExpressionBuilder<QuizTable>? where,
+    int? limit,
+    int? offset,
+    _i1.OrderByBuilder<QuizTable>? orderBy,
+    bool orderDescending = false,
+    _i1.OrderByListBuilder<QuizTable>? orderByList,
+    QuizInclude? include,
+  }) {
+    return QuizIncludeList._(
+      where: where,
+      limit: limit,
+      offset: offset,
+      orderBy: orderBy?.call(Quiz.t),
+      orderDescending: orderDescending,
+      orderByList: orderByList?.call(Quiz.t),
+      include: include,
+    );
+  }
+}
+
+class _Undefined {}
+
+class _QuizImpl extends Quiz {
+  _QuizImpl({
+    int? id,
+    required String name,
+    required String description,
+    required _i2.Status status,
+  }) : super._(
+          id: id,
+          name: name,
+          description: description,
+          status: status,
+        );
+
+  @override
+  Quiz copyWith({
+    Object? id = _Undefined,
+    String? name,
+    String? description,
+    _i2.Status? status,
+  }) {
+    return Quiz(
+      id: id is int? ? id : this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      status: status ?? this.status,
+    );
+  }
+}
+
+class QuizTable extends _i1.Table {
+  QuizTable({super.tableRelation}) : super(tableName: 'quiz') {
+    name = _i1.ColumnString(
+      'name',
+      this,
+    );
+    description = _i1.ColumnString(
+      'description',
+      this,
+    );
+    status = _i1.ColumnEnum(
+      'status',
+      this,
+      _i1.EnumSerialization.byIndex,
+    );
+  }
+
+  late final _i1.ColumnString name;
+
+  late final _i1.ColumnString description;
+
+  late final _i1.ColumnEnum<_i2.Status> status;
+
+  @override
+  List<_i1.Column> get columns => [
+        id,
+        name,
+        description,
+        status,
+      ];
+}
+
+@Deprecated('Use QuizTable.t instead.')
+QuizTable tQuiz = QuizTable();
+
+class QuizInclude extends _i1.IncludeObject {
+  QuizInclude._();
+
+  @override
+  Map<String, _i1.Include?> get includes => {};
+
+  @override
+  _i1.Table get table => Quiz.t;
+}
+
+class QuizIncludeList extends _i1.IncludeList {
+  QuizIncludeList._({
+    _i1.WhereExpressionBuilder<QuizTable>? where,
+    super.limit,
+    super.offset,
+    super.orderBy,
+    super.orderDescending,
+    super.orderByList,
+    super.include,
+  }) {
+    super.where = where?.call(Quiz.t);
+  }
+
+  @override
+  Map<String, _i1.Include?> get includes => include?.includes ?? {};
+
+  @override
+  _i1.Table get table => Quiz.t;
+}
+
+class QuizRepository {
+  const QuizRepository._();
+
+  Future<List<Quiz>> find(
+    _i1.Session session, {
+    _i1.WhereExpressionBuilder<QuizTable>? where,
+    int? limit,
+    int? offset,
+    _i1.OrderByBuilder<QuizTable>? orderBy,
+    bool orderDescending = false,
+    _i1.OrderByListBuilder<QuizTable>? orderByList,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.find<Quiz>(
+      where: where?.call(Quiz.t),
+      orderBy: orderBy?.call(Quiz.t),
+      orderByList: orderByList?.call(Quiz.t),
+      orderDescending: orderDescending,
+      limit: limit,
+      offset: offset,
+      transaction: transaction,
+    );
+  }
+
+  Future<Quiz?> findFirstRow(
+    _i1.Session session, {
+    _i1.WhereExpressionBuilder<QuizTable>? where,
+    int? offset,
+    _i1.OrderByBuilder<QuizTable>? orderBy,
+    bool orderDescending = false,
+    _i1.OrderByListBuilder<QuizTable>? orderByList,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.findFirstRow<Quiz>(
+      where: where?.call(Quiz.t),
+      orderBy: orderBy?.call(Quiz.t),
+      orderByList: orderByList?.call(Quiz.t),
+      orderDescending: orderDescending,
+      offset: offset,
+      transaction: transaction,
+    );
+  }
+
+  Future<Quiz?> findById(
+    _i1.Session session,
+    int id, {
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.findById<Quiz>(
+      id,
+      transaction: transaction,
+    );
+  }
+
+  Future<List<Quiz>> insert(
+    _i1.Session session,
+    List<Quiz> rows, {
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.insert<Quiz>(
+      rows,
+      transaction: transaction,
+    );
+  }
+
+  Future<Quiz> insertRow(
+    _i1.Session session,
+    Quiz row, {
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.insertRow<Quiz>(
+      row,
+      transaction: transaction,
+    );
+  }
+
+  Future<List<Quiz>> update(
+    _i1.Session session,
+    List<Quiz> rows, {
+    _i1.ColumnSelections<QuizTable>? columns,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.update<Quiz>(
+      rows,
+      columns: columns?.call(Quiz.t),
+      transaction: transaction,
+    );
+  }
+
+  Future<Quiz> updateRow(
+    _i1.Session session,
+    Quiz row, {
+    _i1.ColumnSelections<QuizTable>? columns,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.updateRow<Quiz>(
+      row,
+      columns: columns?.call(Quiz.t),
+      transaction: transaction,
+    );
+  }
+
+  Future<List<int>> delete(
+    _i1.Session session,
+    List<Quiz> rows, {
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.delete<Quiz>(
+      rows,
+      transaction: transaction,
+    );
+  }
+
+  Future<int> deleteRow(
+    _i1.Session session,
+    Quiz row, {
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.deleteRow<Quiz>(
+      row,
+      transaction: transaction,
+    );
+  }
+
+  Future<List<int>> deleteWhere(
+    _i1.Session session, {
+    required _i1.WhereExpressionBuilder<QuizTable> where,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.deleteWhere<Quiz>(
+      where: where(Quiz.t),
+      transaction: transaction,
+    );
+  }
+
+  Future<int> count(
+    _i1.Session session, {
+    _i1.WhereExpressionBuilder<QuizTable>? where,
+    int? limit,
+    _i1.Transaction? transaction,
+  }) async {
+    return session.dbNext.count<Quiz>(
+      where: where?.call(Quiz.t),
+      limit: limit,
+      transaction: transaction,
+    );
+  }
+}
