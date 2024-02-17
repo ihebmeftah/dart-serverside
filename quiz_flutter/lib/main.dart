@@ -12,7 +12,7 @@ final Client client = Client('http://localhost:8080/')
 void main() {
   runApp(
     GetMaterialApp(
-      title: "Application",
+      title: "Quiz",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),
