@@ -3,7 +3,10 @@ import 'package:serverpod/serverpod.dart';
 
 class QuizEndpoint extends Endpoint {
   Future<List<Quiz>> getQuizes(Session s) async {
-    return Quiz.db.find(s);
+    return Quiz.db.find(
+      s,
+      orderBy: (p0) => p0.id,
+    );
   }
 
   Future<Quiz?> getOneQuiz(Session s, {required int id}) async {
