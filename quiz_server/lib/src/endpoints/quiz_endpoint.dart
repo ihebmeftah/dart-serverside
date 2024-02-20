@@ -21,10 +21,10 @@ class QuizEndpoint extends Endpoint {
     return await Quiz.db.insertRow(
         s,
         Quiz(
-          name: name,
-          description: description,
-          status: Status.pending,
-        ));
+            name: name,
+            description: description,
+            status: Status.pending,
+            questions: []));
   }
 
   Future<Quiz> updateQuizStatus(Session s,

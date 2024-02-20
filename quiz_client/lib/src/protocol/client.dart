@@ -29,6 +29,27 @@ class EndpointExample extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointQuestion extends _i1.EndpointRef {
+  EndpointQuestion(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'question';
+
+  _i2.Future<_i3.Quiz> addQuestionToQuiz({
+    required String question,
+    required int quizId,
+  }) =>
+      caller.callServerEndpoint<_i3.Quiz>(
+        'question',
+        'addQuestionToQuiz',
+        {
+          'question': question,
+          'quizId': quizId,
+        },
+      );
+}
+
+/// {@category Endpoint}
 class EndpointQuiz extends _i1.EndpointRef {
   EndpointQuiz(_i1.EndpointCaller caller) : super(caller);
 
@@ -113,16 +134,20 @@ class Client extends _i1.ServerpodClient {
           connectionTimeout: connectionTimeout,
         ) {
     example = EndpointExample(this);
+    question = EndpointQuestion(this);
     quiz = EndpointQuiz(this);
   }
 
   late final EndpointExample example;
+
+  late final EndpointQuestion question;
 
   late final EndpointQuiz quiz;
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'example': example,
+        'question': question,
         'quiz': quiz,
       };
 

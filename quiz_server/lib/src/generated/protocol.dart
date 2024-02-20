@@ -13,10 +13,13 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'models/enum/status.dart' as _i3;
 import 'models/example.dart' as _i4;
-import 'models/quiz.dart' as _i5;
-import 'package:quiz_server/src/generated/models/quiz.dart' as _i6;
+import 'models/question.dart' as _i5;
+import 'models/quiz.dart' as _i6;
+import 'protocol.dart' as _i7;
+import 'package:quiz_server/src/generated/models/quiz.dart' as _i8;
 export 'models/enum/status.dart';
 export 'models/example.dart';
+export 'models/question.dart';
 export 'models/quiz.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -29,6 +32,61 @@ class Protocol extends _i1.SerializationManagerServer {
   static final Protocol _instance = Protocol._();
 
   static final List<_i2.TableDefinition> targetTableDefinitions = [
+    _i2.TableDefinition(
+      name: 'question',
+      dartName: 'Question',
+      schema: 'public',
+      module: 'quiz',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'question_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'question',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'quizId',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'question_fk_0',
+          columns: ['quizId'],
+          referenceTable: 'quiz',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.cascade,
+          matchType: null,
+        )
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'question_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        )
+      ],
+      managed: true,
+    ),
     _i2.TableDefinition(
       name: 'quiz',
       dartName: 'Quiz',
@@ -110,8 +168,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i4.Example) {
       return _i4.Example.fromJson(data, this) as T;
     }
-    if (t == _i5.Quiz) {
-      return _i5.Quiz.fromJson(data, this) as T;
+    if (t == _i5.Question) {
+      return _i5.Question.fromJson(data, this) as T;
+    }
+    if (t == _i6.Quiz) {
+      return _i6.Quiz.fromJson(data, this) as T;
     }
     if (t == _i1.getType<_i3.Status?>()) {
       return (data != null ? _i3.Status.fromJson(data) : null) as T;
@@ -119,11 +180,19 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i4.Example?>()) {
       return (data != null ? _i4.Example.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<_i5.Quiz?>()) {
-      return (data != null ? _i5.Quiz.fromJson(data, this) : null) as T;
+    if (t == _i1.getType<_i5.Question?>()) {
+      return (data != null ? _i5.Question.fromJson(data, this) : null) as T;
     }
-    if (t == List<_i6.Quiz>) {
-      return (data as List).map((e) => deserialize<_i6.Quiz>(e)).toList()
+    if (t == _i1.getType<_i6.Quiz?>()) {
+      return (data != null ? _i6.Quiz.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<List<_i7.Question>?>()) {
+      return (data != null
+          ? (data as List).map((e) => deserialize<_i7.Question>(e)).toList()
+          : null) as dynamic;
+    }
+    if (t == List<_i8.Quiz>) {
+      return (data as List).map((e) => deserialize<_i8.Quiz>(e)).toList()
           as dynamic;
     }
     try {
@@ -140,7 +209,10 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i4.Example) {
       return 'Example';
     }
-    if (data is _i5.Quiz) {
+    if (data is _i5.Question) {
+      return 'Question';
+    }
+    if (data is _i6.Quiz) {
       return 'Quiz';
     }
     return super.getClassNameForObject(data);
@@ -154,8 +226,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'Example') {
       return deserialize<_i4.Example>(data['data']);
     }
+    if (data['className'] == 'Question') {
+      return deserialize<_i5.Question>(data['data']);
+    }
     if (data['className'] == 'Quiz') {
-      return deserialize<_i5.Quiz>(data['data']);
+      return deserialize<_i6.Quiz>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -169,8 +244,10 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i5.Quiz:
-        return _i5.Quiz.t;
+      case _i5.Question:
+        return _i5.Question.t;
+      case _i6.Quiz:
+        return _i6.Quiz.t;
     }
     return null;
   }

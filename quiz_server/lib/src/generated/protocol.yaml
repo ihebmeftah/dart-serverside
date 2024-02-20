@@ -1,5 +1,7 @@
 example:
   - hello:
+question:
+  - addQuestionToQuiz:
 quiz:
   - getQuizes:
   - getOneQuiz:
