@@ -23,7 +23,7 @@ class HomeController extends GetxController with StateMixin {
       if (quizes.isEmpty) {
         change(null, status: RxStatus.empty());
       } else {
-        log(quizes.first.questions.toString());
+        log(quizes.first.toString());
         change(null, status: RxStatus.success());
       }
     } catch (e) {
@@ -39,7 +39,6 @@ class HomeController extends GetxController with StateMixin {
             .createQuiz(name: nameInput.text, description: descInput.text);
         await getQuizes();
         client.question.addQuestionToQuiz(question: "question 1 ", quizId: 1);
-
         nameInput.clear();
         descInput.clear();
       }

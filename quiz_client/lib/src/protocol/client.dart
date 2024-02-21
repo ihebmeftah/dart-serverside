@@ -10,8 +10,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:quiz_client/src/protocol/models/quiz.dart' as _i3;
-import 'package:quiz_client/src/protocol/models/enum/status.dart' as _i4;
+import 'package:quiz_client/src/protocol/quiz.dart' as _i3;
+import 'package:quiz_client/src/protocol/enum/status.dart' as _i4;
 import 'protocol.dart' as _i5;
 
 /// {@category Endpoint}

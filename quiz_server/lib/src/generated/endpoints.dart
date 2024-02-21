@@ -12,8 +12,8 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/example_endpoint.dart' as _i2;
 import '../endpoints/question_endpoint.dart' as _i3;
 import '../endpoints/quiz_endpoint.dart' as _i4;
-import 'package:quiz_server/src/generated/models/enum/status.dart' as _i5;
-import 'package:quiz_server/src/generated/models/quiz.dart' as _i6;
+import 'package:quiz_server/src/generated/enum/status.dart' as _i5;
+import 'package:quiz_server/src/generated/quiz.dart' as _i6;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override

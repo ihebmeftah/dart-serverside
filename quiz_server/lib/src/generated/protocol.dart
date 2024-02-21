@@ -11,16 +11,16 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'models/enum/status.dart' as _i3;
-import 'models/example.dart' as _i4;
-import 'models/question.dart' as _i5;
-import 'models/quiz.dart' as _i6;
+import 'enum/status.dart' as _i3;
+import 'example.dart' as _i4;
+import 'question.dart' as _i5;
+import 'quiz.dart' as _i6;
 import 'protocol.dart' as _i7;
-import 'package:quiz_server/src/generated/models/quiz.dart' as _i8;
-export 'models/enum/status.dart';
-export 'models/example.dart';
-export 'models/question.dart';
-export 'models/quiz.dart';
+import 'package:quiz_server/src/generated/quiz.dart' as _i8;
+export 'enum/status.dart';
+export 'example.dart';
+export 'question.dart';
+export 'quiz.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
