@@ -12,8 +12,10 @@ final Client client = Client('http://localhost:8080/')
 void main() {
   runApp(
     GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Quiz",
-      initialRoute: AppPages.INITIAL,
+      theme: ThemeData(colorSchemeSeed: Colors.blue),
+      initialRoute: Routes.QUIZ,
       getPages: AppPages.routes,
     ),
   );
