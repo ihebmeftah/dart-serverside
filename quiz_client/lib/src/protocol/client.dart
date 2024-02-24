@@ -56,6 +56,9 @@ class EndpointQuiz extends _i1.EndpointRef {
   @override
   String get name => 'quiz';
 
+  /// This request "getQuizes" get all quiz in the databe
+  /// Ordred by id
+  /// Include list question of the quiz 'RELATION ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)'
   _i2.Future<List<_i3.Quiz>> getQuizes() =>
       caller.callServerEndpoint<List<_i3.Quiz>>(
         'quiz',
@@ -83,11 +86,11 @@ class EndpointQuiz extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<_i3.Quiz> updateQuizStatus({
+  _i2.Future<int> updateQuizStatus({
     required int quizId,
     required _i4.Status status,
   }) =>
-      caller.callServerEndpoint<_i3.Quiz>(
+      caller.callServerEndpoint<int>(
         'quiz',
         'updateQuizStatus',
         {
@@ -96,12 +99,12 @@ class EndpointQuiz extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<_i3.Quiz> updateQuiz({
+  _i2.Future<int> updateQuiz({
     required int quizId,
     required String name,
     required String description,
   }) =>
-      caller.callServerEndpoint<_i3.Quiz>(
+      caller.callServerEndpoint<int>(
         'quiz',
         'updateQuiz',
         {
