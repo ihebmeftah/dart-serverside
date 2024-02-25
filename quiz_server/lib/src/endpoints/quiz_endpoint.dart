@@ -4,15 +4,21 @@ import 'package:serverpod/serverpod.dart';
 class QuizEndpoint extends Endpoint {
   /// This request "getQuizes" get all quiz in the databe
   /// Ordred by id
-  /// Include list question of the quiz 'RELATION ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)'
   Future<List<Quiz>> getQuizes(Session s) async {
-    return Quiz.db.find(s,
-        orderBy: (p0) => p0.id,
-        include: Quiz.include(questions: Question.includeList()));
+    return Quiz.db.find(
+      s,
+      orderBy: (p0) => p0.id,
+    );
   }
 
+  /// This request get one quiz by id
+  /// Include list question of the quiz 'RELATION ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)'
   Future<Quiz?> getOneQuiz(Session s, {required int id}) async {
-    return Quiz.db.findById(s, id);
+    return Quiz.db.findById(
+      s,
+      id,
+      include: Quiz.include(questions: Question.includeList()),
+    );
   }
 
   Future<Quiz> createQuiz(
