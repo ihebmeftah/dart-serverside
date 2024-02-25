@@ -10,9 +10,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:quiz_client/src/protocol/quiz.dart' as _i3;
-import 'package:quiz_client/src/protocol/enum/status.dart' as _i4;
-import 'protocol.dart' as _i5;
+import 'package:quiz_client/src/protocol/question.dart' as _i3;
+import 'package:quiz_client/src/protocol/quiz.dart' as _i4;
+import 'package:quiz_client/src/protocol/enum/status.dart' as _i5;
+import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
 class EndpointExample extends _i1.EndpointRef {
@@ -35,11 +36,11 @@ class EndpointQuestion extends _i1.EndpointRef {
   @override
   String get name => 'question';
 
-  _i2.Future<_i3.Quiz> addQuestionToQuiz({
+  _i2.Future<_i3.Question> addQuestionToQuiz({
     required String question,
     required int quizId,
   }) =>
-      caller.callServerEndpoint<_i3.Quiz>(
+      caller.callServerEndpoint<_i3.Question>(
         'question',
         'addQuestionToQuiz',
         {
@@ -58,8 +59,8 @@ class EndpointQuiz extends _i1.EndpointRef {
 
   /// This request "getQuizes" get all quiz in the databe
   /// Ordred by id
-  _i2.Future<List<_i3.Quiz>> getQuizes() =>
-      caller.callServerEndpoint<List<_i3.Quiz>>(
+  _i2.Future<List<_i4.Quiz>> getQuizes() =>
+      caller.callServerEndpoint<List<_i4.Quiz>>(
         'quiz',
         'getQuizes',
         {},
@@ -67,18 +68,18 @@ class EndpointQuiz extends _i1.EndpointRef {
 
   /// This request get one quiz by id
   /// Include list question of the quiz 'RELATION ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)'
-  _i2.Future<_i3.Quiz?> getOneQuiz({required int id}) =>
-      caller.callServerEndpoint<_i3.Quiz?>(
+  _i2.Future<_i4.Quiz?> getOneQuiz({required int id}) =>
+      caller.callServerEndpoint<_i4.Quiz?>(
         'quiz',
         'getOneQuiz',
         {'id': id},
       );
 
-  _i2.Future<_i3.Quiz> createQuiz({
+  _i2.Future<_i4.Quiz> createQuiz({
     required String name,
     required String description,
   }) =>
-      caller.callServerEndpoint<_i3.Quiz>(
+      caller.callServerEndpoint<_i4.Quiz>(
         'quiz',
         'createQuiz',
         {
@@ -89,7 +90,7 @@ class EndpointQuiz extends _i1.EndpointRef {
 
   _i2.Future<int> updateQuizStatus({
     required int quizId,
-    required _i4.Status status,
+    required _i5.Status status,
   }) =>
       caller.callServerEndpoint<int>(
         'quiz',
@@ -115,7 +116,7 @@ class EndpointQuiz extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<int> deleteQuiz(_i3.Quiz quiz) => caller.callServerEndpoint<int>(
+  _i2.Future<int> deleteQuiz(_i4.Quiz quiz) => caller.callServerEndpoint<int>(
         'quiz',
         'deleteQuiz',
         {'quiz': quiz},
@@ -131,7 +132,7 @@ class Client extends _i1.ServerpodClient {
     Duration? connectionTimeout,
   }) : super(
           host,
-          _i5.Protocol(),
+          _i6.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
