@@ -35,8 +35,8 @@ class EndpointQuestion extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<void> deleteQuestion(_i3.Question question) =>
-      caller.callServerEndpoint<void>(
+  _i2.Future<int> deleteQuestion(_i3.Question question) =>
+      caller.callServerEndpoint<int>(
         'question',
         'deleteQuestion',
         {'question': question},
