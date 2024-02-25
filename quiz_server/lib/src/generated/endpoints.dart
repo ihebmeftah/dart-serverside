@@ -9,60 +9,29 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../endpoints/example_endpoint.dart' as _i2;
-import '../endpoints/question_endpoint.dart' as _i3;
-import '../endpoints/quiz_endpoint.dart' as _i4;
-import 'package:quiz_server/src/generated/question.dart' as _i5;
-import 'package:quiz_server/src/generated/enum/status.dart' as _i6;
-import 'package:quiz_server/src/generated/quiz.dart' as _i7;
+import '../endpoints/question_endpoint.dart' as _i2;
+import '../endpoints/quiz_endpoint.dart' as _i3;
+import 'package:quiz_server/src/generated/question.dart' as _i4;
+import 'package:quiz_server/src/generated/enum/status.dart' as _i5;
+import 'package:quiz_server/src/generated/quiz.dart' as _i6;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'example': _i2.ExampleEndpoint()
-        ..initialize(
-          server,
-          'example',
-          null,
-        ),
-      'question': _i3.QuestionEndpoint()
+      'question': _i2.QuestionEndpoint()
         ..initialize(
           server,
           'question',
           null,
         ),
-      'quiz': _i4.QuizEndpoint()
+      'quiz': _i3.QuizEndpoint()
         ..initialize(
           server,
           'quiz',
           null,
         ),
     };
-    connectors['example'] = _i1.EndpointConnector(
-      name: 'example',
-      endpoint: endpoints['example']!,
-      methodConnectors: {
-        'hello': _i1.MethodConnector(
-          name: 'hello',
-          params: {
-            'name': _i1.ParameterDescription(
-              name: 'name',
-              type: _i1.getType<String>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['example'] as _i2.ExampleEndpoint).hello(
-            session,
-            params['name'],
-          ),
-        )
-      },
-    );
     connectors['question'] = _i1.EndpointConnector(
       name: 'question',
       endpoint: endpoints['question']!,
@@ -85,7 +54,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['question'] as _i3.QuestionEndpoint).addQuestionToQuiz(
+              (endpoints['question'] as _i2.QuestionEndpoint).addQuestionToQuiz(
             session,
             question: params['question'],
             quizId: params['quizId'],
@@ -96,7 +65,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'question': _i1.ParameterDescription(
               name: 'question',
-              type: _i1.getType<_i5.Question>(),
+              type: _i1.getType<_i4.Question>(),
               nullable: false,
             )
           },
@@ -104,7 +73,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['question'] as _i3.QuestionEndpoint).deleteQuestion(
+              (endpoints['question'] as _i2.QuestionEndpoint).deleteQuestion(
             session,
             params['question'],
           ),
@@ -122,7 +91,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).getQuizes(session),
+              (endpoints['quiz'] as _i3.QuizEndpoint).getQuizes(session),
         ),
         'getOneQuiz': _i1.MethodConnector(
           name: 'getOneQuiz',
@@ -137,7 +106,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).getOneQuiz(
+              (endpoints['quiz'] as _i3.QuizEndpoint).getOneQuiz(
             session,
             id: params['id'],
           ),
@@ -160,7 +129,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).createQuiz(
+              (endpoints['quiz'] as _i3.QuizEndpoint).createQuiz(
             session,
             name: params['name'],
             description: params['description'],
@@ -176,7 +145,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'status': _i1.ParameterDescription(
               name: 'status',
-              type: _i1.getType<_i6.Status>(),
+              type: _i1.getType<_i5.Status>(),
               nullable: false,
             ),
           },
@@ -184,7 +153,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).updateQuizStatus(
+              (endpoints['quiz'] as _i3.QuizEndpoint).updateQuizStatus(
             session,
             quizId: params['quizId'],
             status: params['status'],
@@ -213,7 +182,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).updateQuiz(
+              (endpoints['quiz'] as _i3.QuizEndpoint).updateQuiz(
             session,
             quizId: params['quizId'],
             name: params['name'],
@@ -225,7 +194,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'quiz': _i1.ParameterDescription(
               name: 'quiz',
-              type: _i1.getType<_i7.Quiz>(),
+              type: _i1.getType<_i6.Quiz>(),
               nullable: false,
             )
           },
@@ -233,7 +202,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).deleteQuiz(
+              (endpoints['quiz'] as _i3.QuizEndpoint).deleteQuiz(
             session,
             params['quiz'],
           ),

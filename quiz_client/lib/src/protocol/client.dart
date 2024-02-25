@@ -16,20 +16,6 @@ import 'package:quiz_client/src/protocol/enum/status.dart' as _i5;
 import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
-class EndpointExample extends _i1.EndpointRef {
-  EndpointExample(_i1.EndpointCaller caller) : super(caller);
-
-  @override
-  String get name => 'example';
-
-  _i2.Future<String> hello(String name) => caller.callServerEndpoint<String>(
-        'example',
-        'hello',
-        {'name': name},
-      );
-}
-
-/// {@category Endpoint}
 class EndpointQuestion extends _i1.EndpointRef {
   EndpointQuestion(_i1.EndpointCaller caller) : super(caller);
 
@@ -145,12 +131,9 @@ class Client extends _i1.ServerpodClient {
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
         ) {
-    example = EndpointExample(this);
     question = EndpointQuestion(this);
     quiz = EndpointQuiz(this);
   }
-
-  late final EndpointExample example;
 
   late final EndpointQuestion question;
 
@@ -158,7 +141,6 @@ class Client extends _i1.ServerpodClient {
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
-        'example': example,
         'question': question,
         'quiz': quiz,
       };
