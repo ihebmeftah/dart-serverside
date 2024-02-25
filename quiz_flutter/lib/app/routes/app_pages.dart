@@ -14,7 +14,6 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-
   static final routes = [
     GetPage(
       name: _Paths.HOME,
@@ -27,7 +26,7 @@ class AppPages {
       binding: QuizBinding(),
     ),
     GetPage(
-      name: _Paths.QUESTION,
+      name: "${_Paths.QUESTION}/:quizId",
       page: () => const QuestionView(),
       binding: QuestionBinding(),
     ),

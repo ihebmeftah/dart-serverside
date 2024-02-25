@@ -14,5 +14,5 @@ abstract class _Paths {
   _Paths._();
   static const HOME = '/home';
   static const QUIZ = '/quiz';
-  static const QUESTION = '/question/:quizId';
+  static const QUESTION = '/question';
 }
