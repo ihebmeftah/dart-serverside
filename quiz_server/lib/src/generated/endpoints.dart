@@ -12,8 +12,9 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/example_endpoint.dart' as _i2;
 import '../endpoints/question_endpoint.dart' as _i3;
 import '../endpoints/quiz_endpoint.dart' as _i4;
-import 'package:quiz_server/src/generated/enum/status.dart' as _i5;
-import 'package:quiz_server/src/generated/quiz.dart' as _i6;
+import 'package:quiz_server/src/generated/question.dart' as _i5;
+import 'package:quiz_server/src/generated/enum/status.dart' as _i6;
+import 'package:quiz_server/src/generated/quiz.dart' as _i7;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -89,7 +90,25 @@ class Endpoints extends _i1.EndpointDispatch {
             question: params['question'],
             quizId: params['quizId'],
           ),
-        )
+        ),
+        'deleteQuestion': _i1.MethodConnector(
+          name: 'deleteQuestion',
+          params: {
+            'question': _i1.ParameterDescription(
+              name: 'question',
+              type: _i1.getType<_i5.Question>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['question'] as _i3.QuestionEndpoint).deleteQuestion(
+            session,
+            params['question'],
+          ),
+        ),
       },
     );
     connectors['quiz'] = _i1.EndpointConnector(
@@ -157,7 +176,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'status': _i1.ParameterDescription(
               name: 'status',
-              type: _i1.getType<_i5.Status>(),
+              type: _i1.getType<_i6.Status>(),
               nullable: false,
             ),
           },
@@ -206,7 +225,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'quiz': _i1.ParameterDescription(
               name: 'quiz',
-              type: _i1.getType<_i6.Quiz>(),
+              type: _i1.getType<_i7.Quiz>(),
               nullable: false,
             )
           },

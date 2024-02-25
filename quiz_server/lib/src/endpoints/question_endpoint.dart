@@ -8,11 +8,15 @@ class QuestionEndpoint extends Endpoint {
     required int quizId,
   }) async {
     Quiz? quiz = await Quiz.db.findById(s, quizId);
-    final Question createdQuestion =
-        Question(question: question, quizId: quizId);
-    await Question.db.insertRow(s, createdQuestion);
+    Question createdQuestion = Question(question: question, quizId: quizId);
+    createdQuestion = await Question.db.insertRow(s, createdQuestion);
+    // i do this affectation for have the id in the response 
     quiz?.questions?.add(createdQuestion);
     await Quiz.db.updateRow(s, quiz!);
     return createdQuestion;
+  }
+
+  Future<void> deleteQuestion(Session session, Question question) async {
+    await Question.db.deleteRow(session, question);
   }
 }

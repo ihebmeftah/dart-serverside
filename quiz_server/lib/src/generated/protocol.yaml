@@ -2,6 +2,7 @@ example:
   - hello:
 question:
   - addQuestionToQuiz:
+  - deleteQuestion:
 quiz:
   - getQuizes:
   - getOneQuiz:
