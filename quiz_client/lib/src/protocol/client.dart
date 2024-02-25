@@ -58,7 +58,6 @@ class EndpointQuiz extends _i1.EndpointRef {
 
   /// This request "getQuizes" get all quiz in the databe
   /// Ordred by id
-  /// Include list question of the quiz 'RELATION ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)'
   _i2.Future<List<_i3.Quiz>> getQuizes() =>
       caller.callServerEndpoint<List<_i3.Quiz>>(
         'quiz',
@@ -66,6 +65,8 @@ class EndpointQuiz extends _i1.EndpointRef {
         {},
       );
 
+  /// This request get one quiz by id
+  /// Include list question of the quiz 'RELATION ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)'
   _i2.Future<_i3.Quiz?> getOneQuiz({required int id}) =>
       caller.callServerEndpoint<_i3.Quiz?>(
         'quiz',
