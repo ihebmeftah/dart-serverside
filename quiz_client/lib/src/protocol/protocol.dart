@@ -15,6 +15,7 @@ import 'question.dart' as _i3;
 import 'quiz.dart' as _i4;
 import 'protocol.dart' as _i5;
 import 'package:quiz_client/src/protocol/quiz.dart' as _i6;
+import 'package:serverpod_auth_client/module.dart' as _i7;
 export 'enum/status.dart';
 export 'question.dart';
 export 'quiz.dart';
@@ -65,11 +66,19 @@ class Protocol extends _i1.SerializationManager {
       return (data as List).map((e) => deserialize<_i6.Quiz>(e)).toList()
           as dynamic;
     }
+    try {
+      return _i7.Protocol().deserialize<T>(data, t);
+    } catch (_) {}
     return super.deserialize<T>(data, t);
   }
 
   @override
   String? getClassNameForObject(Object data) {
+    String? className;
+    className = _i7.Protocol().getClassNameForObject(data);
+    if (className != null) {
+      return 'serverpod_auth.$className';
+    }
     if (data is _i2.Status) {
       return 'Status';
     }
@@ -84,6 +93,10 @@ class Protocol extends _i1.SerializationManager {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
+    if (data['className'].startsWith('serverpod_auth.')) {
+      data['className'] = data['className'].substring(15);
+      return _i7.Protocol().deserializeByClassName(data);
+    }
     if (data['className'] == 'Status') {
       return deserialize<_i2.Status>(data['data']);
     }

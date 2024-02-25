@@ -14,6 +14,7 @@ import '../endpoints/quiz_endpoint.dart' as _i3;
 import 'package:quiz_server/src/generated/question.dart' as _i4;
 import 'package:quiz_server/src/generated/enum/status.dart' as _i5;
 import 'package:quiz_server/src/generated/quiz.dart' as _i6;
+import 'package:serverpod_auth_server/module.dart' as _i7;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -209,5 +210,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
   }
 }

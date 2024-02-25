@@ -1,17 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:quiz_client/quiz_client.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 import 'app/routes/app_pages.dart';
 
-final Client client = Client(
-    GetPlatform.isAndroid ? 'http://10.0.2.2:8080/' : 'http://localhost:8080/')
-  ..connectivityMonitor = FlutterConnectivityMonitor();
-
+late SessionManager sessionManager;
+late Client client;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final String ipAddress = GetPlatform.isAndroid ? "10.0.2.2" : 'localhost';
+  client = Client(
+    'http://$ipAddress:8080/',
+    authenticationKeyManager: FlutterAuthenticationKeyManager(),
+  )..connectivityMonitor = FlutterConnectivityMonitor();
+  sessionManager = SessionManager(caller: client.modules.auth);
+  await sessionManager.initialize();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -42,7 +50,7 @@ void main() async {
                 OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
           )),
-      initialRoute: Routes.QUIZ,
+      initialRoute: sessionManager.isSignedIn ? Routes.QUIZ : Routes.AUTH,
       getPages: AppPages.routes,
     ),
   );

@@ -11,11 +11,12 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'enum/status.dart' as _i3;
-import 'question.dart' as _i4;
-import 'quiz.dart' as _i5;
-import 'protocol.dart' as _i6;
-import 'package:quiz_server/src/generated/quiz.dart' as _i7;
+import 'package:serverpod_auth_server/module.dart' as _i3;
+import 'enum/status.dart' as _i4;
+import 'question.dart' as _i5;
+import 'quiz.dart' as _i6;
+import 'protocol.dart' as _i7;
+import 'package:quiz_server/src/generated/quiz.dart' as _i8;
 export 'enum/status.dart';
 export 'question.dart';
 export 'quiz.dart';
@@ -148,6 +149,7 @@ class Protocol extends _i1.SerializationManagerServer {
       ],
       managed: true,
     ),
+    ..._i3.Protocol.targetTableDefinitions,
     ..._i2.Protocol.targetTableDefinitions,
   ];
 
@@ -160,33 +162,36 @@ class Protocol extends _i1.SerializationManagerServer {
     if (customConstructors.containsKey(t)) {
       return customConstructors[t]!(data, this) as T;
     }
-    if (t == _i3.Status) {
-      return _i3.Status.fromJson(data) as T;
+    if (t == _i4.Status) {
+      return _i4.Status.fromJson(data) as T;
     }
-    if (t == _i4.Question) {
-      return _i4.Question.fromJson(data, this) as T;
+    if (t == _i5.Question) {
+      return _i5.Question.fromJson(data, this) as T;
     }
-    if (t == _i5.Quiz) {
-      return _i5.Quiz.fromJson(data, this) as T;
+    if (t == _i6.Quiz) {
+      return _i6.Quiz.fromJson(data, this) as T;
     }
-    if (t == _i1.getType<_i3.Status?>()) {
-      return (data != null ? _i3.Status.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.Status?>()) {
+      return (data != null ? _i4.Status.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.Question?>()) {
-      return (data != null ? _i4.Question.fromJson(data, this) : null) as T;
+    if (t == _i1.getType<_i5.Question?>()) {
+      return (data != null ? _i5.Question.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<_i5.Quiz?>()) {
-      return (data != null ? _i5.Quiz.fromJson(data, this) : null) as T;
+    if (t == _i1.getType<_i6.Quiz?>()) {
+      return (data != null ? _i6.Quiz.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<List<_i6.Question>?>()) {
+    if (t == _i1.getType<List<_i7.Question>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i6.Question>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i7.Question>(e)).toList()
           : null) as dynamic;
     }
-    if (t == List<_i7.Quiz>) {
-      return (data as List).map((e) => deserialize<_i7.Quiz>(e)).toList()
+    if (t == List<_i8.Quiz>) {
+      return (data as List).map((e) => deserialize<_i8.Quiz>(e)).toList()
           as dynamic;
     }
+    try {
+      return _i3.Protocol().deserialize<T>(data, t);
+    } catch (_) {}
     try {
       return _i2.Protocol().deserialize<T>(data, t);
     } catch (_) {}
@@ -195,13 +200,18 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   String? getClassNameForObject(Object data) {
-    if (data is _i3.Status) {
+    String? className;
+    className = _i3.Protocol().getClassNameForObject(data);
+    if (className != null) {
+      return 'serverpod_auth.$className';
+    }
+    if (data is _i4.Status) {
       return 'Status';
     }
-    if (data is _i4.Question) {
+    if (data is _i5.Question) {
       return 'Question';
     }
-    if (data is _i5.Quiz) {
+    if (data is _i6.Quiz) {
       return 'Quiz';
     }
     return super.getClassNameForObject(data);
@@ -209,14 +219,18 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
+    if (data['className'].startsWith('serverpod_auth.')) {
+      data['className'] = data['className'].substring(15);
+      return _i3.Protocol().deserializeByClassName(data);
+    }
     if (data['className'] == 'Status') {
-      return deserialize<_i3.Status>(data['data']);
+      return deserialize<_i4.Status>(data['data']);
     }
     if (data['className'] == 'Question') {
-      return deserialize<_i4.Question>(data['data']);
+      return deserialize<_i5.Question>(data['data']);
     }
     if (data['className'] == 'Quiz') {
-      return deserialize<_i5.Quiz>(data['data']);
+      return deserialize<_i6.Quiz>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -224,16 +238,22 @@ class Protocol extends _i1.SerializationManagerServer {
   @override
   _i1.Table? getTableForType(Type t) {
     {
+      var table = _i3.Protocol().getTableForType(t);
+      if (table != null) {
+        return table;
+      }
+    }
+    {
       var table = _i2.Protocol().getTableForType(t);
       if (table != null) {
         return table;
       }
     }
     switch (t) {
-      case _i4.Question:
-        return _i4.Question.t;
-      case _i5.Quiz:
-        return _i5.Quiz.t;
+      case _i5.Question:
+        return _i5.Question.t;
+      case _i6.Quiz:
+        return _i6.Quiz.t;
     }
     return null;
   }

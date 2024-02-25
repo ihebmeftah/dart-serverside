@@ -13,7 +13,8 @@ import 'dart:async' as _i2;
 import 'package:quiz_client/src/protocol/question.dart' as _i3;
 import 'package:quiz_client/src/protocol/quiz.dart' as _i4;
 import 'package:quiz_client/src/protocol/enum/status.dart' as _i5;
-import 'protocol.dart' as _i6;
+import 'package:serverpod_auth_client/module.dart' as _i6;
+import 'protocol.dart' as _i7;
 
 /// {@category Endpoint}
 class EndpointQuestion extends _i1.EndpointRef {
@@ -116,6 +117,14 @@ class EndpointQuiz extends _i1.EndpointRef {
       );
 }
 
+class _Modules {
+  _Modules(Client client) {
+    auth = _i6.Caller(client);
+  }
+
+  late final _i6.Caller auth;
+}
+
 class Client extends _i1.ServerpodClient {
   Client(
     String host, {
@@ -125,7 +134,7 @@ class Client extends _i1.ServerpodClient {
     Duration? connectionTimeout,
   }) : super(
           host,
-          _i6.Protocol(),
+          _i7.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -133,11 +142,14 @@ class Client extends _i1.ServerpodClient {
         ) {
     question = EndpointQuestion(this);
     quiz = EndpointQuiz(this);
+    modules = _Modules(this);
   }
 
   late final EndpointQuestion question;
 
   late final EndpointQuiz quiz;
+
+  late final _Modules modules;
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
@@ -146,5 +158,6 @@ class Client extends _i1.ServerpodClient {
       };
 
   @override
-  Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};
+  Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>
+      {'auth': modules.auth};
 }
