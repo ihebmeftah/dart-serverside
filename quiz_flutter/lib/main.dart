@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -25,12 +23,12 @@ void main() async {
       debugShowCheckedModeBanner: false,
       title: "Quiz",
       theme: ThemeData(
-          colorSchemeSeed: Colors.blue.shade900,
-          scaffoldBackgroundColor: Colors.blue.shade900,
-          appBarTheme: AppBarTheme(
+          colorSchemeSeed: Colors.blue,
+          scaffoldBackgroundColor: Colors.blue,
+          appBarTheme: const AppBarTheme(
               toolbarHeight: 70,
-              backgroundColor: Colors.blue.shade900,
-              titleTextStyle: const TextStyle(
+              backgroundColor: Colors.blue,
+              titleTextStyle: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 26)),

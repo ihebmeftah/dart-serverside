@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_client/quiz_client.dart';
+import 'package:quiz_flutter/app/routes/app_pages.dart';
 
 import '../../../../main.dart';
 
@@ -13,6 +14,7 @@ class QuizController extends GetxController with StateMixin {
   final descInput = TextEditingController();
   @override
   void onInit() async {
+    log(sessionManager.signedInUser.toString());
     await getQuizes();
     super.onInit();
   }
@@ -81,5 +83,10 @@ class QuizController extends GetxController with StateMixin {
           status: RxStatus.error("PROBLEM IN CREATE QUIZ METHODE : $e"));
       log(e.toString());
     }
+  }
+
+  void logout() async {
+    await sessionManager.signOut();
+    Get.offAllNamed(Routes.AUTH);
   }
 }

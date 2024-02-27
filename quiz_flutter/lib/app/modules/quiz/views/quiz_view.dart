@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_client/quiz_client.dart';
 import 'package:quiz_flutter/app/routes/app_pages.dart';
+import 'package:quiz_flutter/main.dart';
 
 import '../controllers/quiz_controller.dart';
 
@@ -14,7 +15,10 @@ class QuizView extends GetView<QuizController> {
   Widget build(BuildContext context) {
     log("Build");
     return Scaffold(
-        appBar: AppBar(title: const Text('Dashboard quizes')),
+        appBar: AppBar(title: const Text('Dashboard quizes'), actions: [
+          IconButton(
+              onPressed: controller.logout, icon: const Icon(Icons.logout))
+        ]),
         floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               Get.bottomSheet(
@@ -72,111 +76,126 @@ class QuizView extends GetView<QuizController> {
             },
             icon: const Icon(Icons.add),
             label: const Text("Add quiz")),
-        body: controller.obx((state) {
-          log("controller.obx Build ");
-          return GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, mainAxisSpacing: 15, crossAxisSpacing: 10),
-            itemCount: controller.quizes.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Get.bottomSheet(
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Wrap(
-                          children: <Widget>[
-                            ListTile(
-                              title:
-                                  const Text('Go add question for this quiz'),
-                              onTap: () => Get.toNamed(
-                                  '${Routes.QUESTION}/${controller.quizes[index].id}'),
+        body: Column(
+          children: [
+            UserAccountsDrawerHeader(
+                currentAccountPicture: const CircleAvatar(),
+                accountName: Text(sessionManager.signedInUser!.userName),
+                accountEmail: Text(sessionManager.signedInUser!.email!)),
+            Expanded(
+              child: controller.obx((state) {
+                log("controller.obx Build ");
+                return GridView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 15,
+                      crossAxisSpacing: 10),
+                  itemCount: controller.quizes.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.bottomSheet(
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Wrap(
+                                children: <Widget>[
+                                  ListTile(
+                                    title: const Text(
+                                        'Go add question for this quiz'),
+                                    onTap: () => Get.toNamed(
+                                        '${Routes.QUESTION}/${controller.quizes[index].id}'),
+                                  ),
+                                  ListTile(
+                                    title: const Text('Accepted'),
+                                    onTap: () => controller.changeQuizStatus(
+                                        index, Status.accepted),
+                                  ),
+                                  ListTile(
+                                    title: const Text('Pending'),
+                                    onTap: () => controller.changeQuizStatus(
+                                        index, Status.pending),
+                                  ),
+                                  ListTile(
+                                    title: const Text('Rejected'),
+                                    onTap: () => controller.changeQuizStatus(
+                                        index, Status.rejected),
+                                  ),
+                                  ListTile(
+                                    title: const Text('Delete'),
+                                    onTap: () => controller.deleteQuiz(index),
+                                  ),
+                                ],
+                              ),
                             ),
-                            ListTile(
-                              title: const Text('Accepted'),
-                              onTap: () => controller.changeQuizStatus(
-                                  index, Status.accepted),
-                            ),
-                            ListTile(
-                              title: const Text('Pending'),
-                              onTap: () => controller.changeQuizStatus(
-                                  index, Status.pending),
-                            ),
-                            ListTile(
-                              title: const Text('Rejected'),
-                              onTap: () => controller.changeQuizStatus(
-                                  index, Status.rejected),
-                            ),
-                            ListTile(
-                              title: const Text('Delete'),
-                              onTap: () => controller.deleteQuiz(index),
-                            ),
-                          ],
+                            backgroundColor: Colors.white);
+                      },
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GetBuilder<QuizController>(
+                              id: index,
+                              builder: (_) {
+                                log("Getx build in listtile Build $index ");
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                        radius: 22,
+                                        backgroundColor: controller
+                                                    .quizes[index].status ==
+                                                Status.accepted
+                                            ? Colors.green.shade100
+                                            : controller.quizes[index].status ==
+                                                    Status.rejected
+                                                ? Colors.red.shade100
+                                                : Colors.blue.shade100,
+                                        child: Text(
+                                          controller.quizes[index].id
+                                              .toString(),
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                    Text(
+                                      controller.quizes[index].name.capitalize!,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      ".${controller.quizes[index].status.name.toUpperCase()}.",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                        backgroundColor: controller
+                                                    .quizes[index].status ==
+                                                Status.accepted
+                                            ? Colors.green.shade900
+                                            : controller.quizes[index].status ==
+                                                    Status.rejected
+                                                ? Colors.red.shade900
+                                                : Colors.blue.shade900,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(controller.quizes[index].description),
+                                  ],
+                                );
+                              }),
                         ),
                       ),
-                      backgroundColor: Colors.white);
-                },
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GetBuilder<QuizController>(
-                        id: index,
-                        builder: (_) {
-                          log("Getx build in listtile Build $index ");
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                  radius: 22,
-                                  backgroundColor:
-                                      controller.quizes[index].status ==
-                                              Status.accepted
-                                          ? Colors.green.shade100
-                                          : controller.quizes[index].status ==
-                                                  Status.rejected
-                                              ? Colors.red.shade100
-                                              : Colors.blue.shade100,
-                                  child: Text(
-                                    controller.quizes[index].id.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                              Text(
-                                controller.quizes[index].name.capitalize!,
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                ".${controller.quizes[index].status.name.toUpperCase()}.",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white,
-                                  backgroundColor:
-                                      controller.quizes[index].status ==
-                                              Status.accepted
-                                          ? Colors.green.shade900
-                                          : controller.quizes[index].status ==
-                                                  Status.rejected
-                                              ? Colors.red.shade900
-                                              : Colors.blue.shade900,
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(controller.quizes[index].description),
-                            ],
-                          );
-                        }),
-                  ),
-                ),
-              );
-            },
-          );
-        },
-            onError: (error) => Text("$error"),
-            onEmpty: const Center(child: Text("You don't have any quize"))));
+                    );
+                  },
+                );
+              },
+                  onError: (error) => Text("$error"),
+                  onEmpty:
+                      const Center(child: Text("You don't have any quize"))),
+            ),
+          ],
+        ));
   }
 }
