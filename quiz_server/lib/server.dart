@@ -37,9 +37,8 @@ void run(List<String> args) async {
       return true;
     },
     onUserCreated: (session, userInfo) async {
-      await auth.Users.updateUserScopes(session, userInfo.id!, {
-        Scope.admin,
-      });
+      auth.Users.updateUserScopes(session, userInfo.id!, {Scope.admin});
+      User.db.insertRow(session, User(userInfoId: userInfo.id!));
     },
     sendPasswordResetEmail: (session, userInfo, validationCode) async {
       // integrate with mail server

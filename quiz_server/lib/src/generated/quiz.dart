@@ -19,6 +19,7 @@ abstract class Quiz extends _i1.TableRow {
     required this.description,
     required this.status,
     this.questions,
+    required this.userId,
   }) : super(id);
 
   factory Quiz({
@@ -27,6 +28,7 @@ abstract class Quiz extends _i1.TableRow {
     required String description,
     required _i2.Status status,
     List<_i2.Question>? questions,
+    required int userId,
   }) = _QuizImpl;
 
   factory Quiz.fromJson(
@@ -42,6 +44,8 @@ abstract class Quiz extends _i1.TableRow {
           .deserialize<_i2.Status>(jsonSerialization['status']),
       questions: serializationManager
           .deserialize<List<_i2.Question>?>(jsonSerialization['questions']),
+      userId:
+          serializationManager.deserialize<int>(jsonSerialization['userId']),
     );
   }
 
@@ -58,6 +62,8 @@ abstract class Quiz extends _i1.TableRow {
   /// ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)
   List<_i2.Question>? questions;
 
+  int userId;
+
   @override
   _i1.Table get table => t;
 
@@ -67,6 +73,7 @@ abstract class Quiz extends _i1.TableRow {
     String? description,
     _i2.Status? status,
     List<_i2.Question>? questions,
+    int? userId,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -77,6 +84,7 @@ abstract class Quiz extends _i1.TableRow {
       'status': status.toJson(),
       if (questions != null)
         'questions': questions?.toJson(valueToJson: (v) => v.toJson()),
+      'userId': userId,
     };
   }
 
@@ -88,6 +96,7 @@ abstract class Quiz extends _i1.TableRow {
       'name': name,
       'description': description,
       'status': status,
+      'userId': userId,
     };
   }
 
@@ -100,6 +109,7 @@ abstract class Quiz extends _i1.TableRow {
       'status': status.toJson(),
       if (questions != null)
         'questions': questions?.toJson(valueToJson: (v) => v.allToJson()),
+      'userId': userId,
     };
   }
 
@@ -121,6 +131,9 @@ abstract class Quiz extends _i1.TableRow {
         return;
       case 'status':
         status = value;
+        return;
+      case 'userId':
+        userId = value;
         return;
       default:
         throw UnimplementedError();
@@ -286,12 +299,14 @@ class _QuizImpl extends Quiz {
     required String description,
     required _i2.Status status,
     List<_i2.Question>? questions,
+    required int userId,
   }) : super._(
           id: id,
           name: name,
           description: description,
           status: status,
           questions: questions,
+          userId: userId,
         );
 
   @override
@@ -301,6 +316,7 @@ class _QuizImpl extends Quiz {
     String? description,
     _i2.Status? status,
     Object? questions = _Undefined,
+    int? userId,
   }) {
     return Quiz(
       id: id is int? ? id : this.id,
@@ -310,6 +326,7 @@ class _QuizImpl extends Quiz {
       questions: questions is List<_i2.Question>?
           ? questions
           : this.questions?.clone(),
+      userId: userId ?? this.userId,
     );
   }
 }
@@ -329,6 +346,10 @@ class QuizTable extends _i1.Table {
       this,
       _i1.EnumSerialization.byIndex,
     );
+    userId = _i1.ColumnInt(
+      'userId',
+      this,
+    );
   }
 
   late final _i1.ColumnString name;
@@ -342,6 +363,8 @@ class QuizTable extends _i1.Table {
 
   /// ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)
   _i1.ManyRelation<_i2.QuestionTable>? _questions;
+
+  late final _i1.ColumnInt userId;
 
   _i2.QuestionTable get __questions {
     if (___questions != null) return ___questions!;
@@ -380,6 +403,7 @@ class QuizTable extends _i1.Table {
         name,
         description,
         status,
+        userId,
       ];
 
   @override

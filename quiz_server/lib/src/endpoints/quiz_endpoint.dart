@@ -1,13 +1,20 @@
+import 'dart:developer';
+
 import 'package:quiz_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 
 class QuizEndpoint extends Endpoint {
+  @override
+  bool get requireLogin => true;
+
   /// This request "getQuizes" get all quiz in the databe
   /// Ordred by id
   Future<List<Quiz>> getQuizes(Session s) async {
+    int? userId = await s.auth.authenticatedUserId;
     return Quiz.db.find(
       s,
       orderBy: (p0) => p0.id,
+      where: (p0) => p0.userId.equals(userId),
     );
   }
 
@@ -26,9 +33,12 @@ class QuizEndpoint extends Endpoint {
     required String name,
     required String description,
   }) async {
+    int? userId = await s.auth.authenticatedUserId;
+    log(s.scopes.toString());
     return await Quiz.db.insertRow(
         s,
         Quiz(
+            userId: userId!,
             name: name,
             description: description,
             status: Status.pending,

@@ -6,6 +6,7 @@ fields:
     status: Status
     ### ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)
     questions: List<Question>?, relation(name=quiz_questions)
+    userId: int, relation(name=user_quiz, parent=user, onDelete=Cascade) 
 
 indexes:
   quiz_name_idx:

@@ -2,6 +2,9 @@ import 'package:quiz_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 
 class QuestionEndpoint extends Endpoint {
+  @override
+  bool get requireLogin => true;
+  
   Future<Question> addQuestionToQuiz(
     Session s, {
     required String question,

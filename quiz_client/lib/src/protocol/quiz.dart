@@ -18,6 +18,7 @@ abstract class Quiz extends _i1.SerializableEntity {
     required this.description,
     required this.status,
     this.questions,
+    required this.userId,
   });
 
   factory Quiz({
@@ -26,6 +27,7 @@ abstract class Quiz extends _i1.SerializableEntity {
     required String description,
     required _i2.Status status,
     List<_i2.Question>? questions,
+    required int userId,
   }) = _QuizImpl;
 
   factory Quiz.fromJson(
@@ -41,6 +43,8 @@ abstract class Quiz extends _i1.SerializableEntity {
           .deserialize<_i2.Status>(jsonSerialization['status']),
       questions: serializationManager
           .deserialize<List<_i2.Question>?>(jsonSerialization['questions']),
+      userId:
+          serializationManager.deserialize<int>(jsonSerialization['userId']),
     );
   }
 
@@ -58,12 +62,15 @@ abstract class Quiz extends _i1.SerializableEntity {
   /// ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)
   List<_i2.Question>? questions;
 
+  int userId;
+
   Quiz copyWith({
     int? id,
     String? name,
     String? description,
     _i2.Status? status,
     List<_i2.Question>? questions,
+    int? userId,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -74,6 +81,7 @@ abstract class Quiz extends _i1.SerializableEntity {
       'status': status.toJson(),
       if (questions != null)
         'questions': questions?.toJson(valueToJson: (v) => v.toJson()),
+      'userId': userId,
     };
   }
 }
@@ -87,12 +95,14 @@ class _QuizImpl extends Quiz {
     required String description,
     required _i2.Status status,
     List<_i2.Question>? questions,
+    required int userId,
   }) : super._(
           id: id,
           name: name,
           description: description,
           status: status,
           questions: questions,
+          userId: userId,
         );
 
   @override
@@ -102,6 +112,7 @@ class _QuizImpl extends Quiz {
     String? description,
     _i2.Status? status,
     Object? questions = _Undefined,
+    int? userId,
   }) {
     return Quiz(
       id: id is int? ? id : this.id,
@@ -111,6 +122,7 @@ class _QuizImpl extends Quiz {
       questions: questions is List<_i2.Question>?
           ? questions
           : this.questions?.clone(),
+      userId: userId ?? this.userId,
     );
   }
 }
