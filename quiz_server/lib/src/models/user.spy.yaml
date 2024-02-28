@@ -1,9 +1,0 @@
-class: User
-table: user
-fields:
-  userInfo: module:auth:UserInfo?, relation
-  quiz: List<Quiz>?, relation(name=user_quiz)
-indexes:
-  user_info_id_unique_idx:
-    fields: userInfoId
-    unique: true

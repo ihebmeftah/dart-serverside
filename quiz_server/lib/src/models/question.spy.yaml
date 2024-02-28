@@ -1,8 +1,0 @@
-class: Question
-table: question
-fields:
-    question: String
-    ### ONE TO MANY BIDRECTIONAL RELATION (QUIZ - QUESTIONS)
-    quizId: int, relation(name=quiz_questions, parent=quiz, onDelete=Cascade) 
-
-

@@ -1,6 +1,0 @@
-type: server
-
-client_package_path: ../quiz_client
-modules:
-  serverpod_auth:
-    nickname: auth
