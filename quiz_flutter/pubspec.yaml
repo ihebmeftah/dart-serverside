@@ -7,15 +7,15 @@ environment:
   flutter: '>=3.10.0'
 
 dependencies: 
-  serverpod_flutter: 1.2.4
+  serverpod_flutter: 1.2.5
   cupertino_icons: ^1.0.5
   get: 4.6.6
   flutter: 
     sdk: flutter
   quiz_client: 
     path: ../quiz_client
-  serverpod_auth_shared_flutter: 1.2.4
-  serverpod_auth_email_flutter: 1.2.4
+  serverpod_auth_shared_flutter: 1.2.5
+  serverpod_auth_email_flutter: 1.2.5
 
 dev_dependencies: 
   flutter_lints: ^3.0.0
