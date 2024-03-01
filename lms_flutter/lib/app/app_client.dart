@@ -4,6 +4,7 @@ import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 late SessionManager sessionManager;
 late Client client;
+
 Future<void> appClientInit() async {
   // The android emulator does not have access to the localhost of the machine.
   // const ipAddress = '10.0.2.2'; // Android emulator ip for the host
