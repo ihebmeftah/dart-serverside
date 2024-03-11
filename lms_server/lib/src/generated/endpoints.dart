@@ -9,40 +9,46 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../endpoints/example_endpoint.dart' as _i2;
+import '../endpoints/users_endpoint.dart' as _i2;
 import 'package:serverpod_auth_server/module.dart' as _i3;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'example': _i2.ExampleEndpoint()
+      'users': _i2.UsersEndpoint()
         ..initialize(
           server,
-          'example',
+          'users',
           null,
         )
     };
-    connectors['example'] = _i1.EndpointConnector(
-      name: 'example',
-      endpoint: endpoints['example']!,
+    connectors['users'] = _i1.EndpointConnector(
+      name: 'users',
+      endpoint: endpoints['users']!,
       methodConnectors: {
-        'hello': _i1.MethodConnector(
-          name: 'hello',
+        'createUsers': _i1.MethodConnector(
+          name: 'createUsers',
           params: {
-            'name': _i1.ParameterDescription(
-              name: 'name',
-              type: _i1.getType<String>(),
+            'isAdmin': _i1.ParameterDescription(
+              name: 'isAdmin',
+              type: _i1.getType<bool>(),
               nullable: false,
-            )
+            ),
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
           },
           call: (
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['example'] as _i2.ExampleEndpoint).hello(
+              (endpoints['users'] as _i2.UsersEndpoint).createUsers(
             session,
-            params['name'],
+            isAdmin: params['isAdmin'],
+            userId: params['userId'],
           ),
         )
       },

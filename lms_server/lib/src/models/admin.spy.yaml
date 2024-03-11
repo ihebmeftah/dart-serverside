@@ -1,0 +1,8 @@
+class: Admin
+table: admin
+fields:
+  userInfo: module:auth:UserInfo?, relation
+indexes:
+  admin_info_id_unique_idx:
+    fields: userInfoId
+    unique: true

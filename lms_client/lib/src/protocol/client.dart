@@ -14,16 +14,23 @@ import 'package:serverpod_auth_client/module.dart' as _i3;
 import 'protocol.dart' as _i4;
 
 /// {@category Endpoint}
-class EndpointExample extends _i1.EndpointRef {
-  EndpointExample(_i1.EndpointCaller caller) : super(caller);
+class EndpointUsers extends _i1.EndpointRef {
+  EndpointUsers(_i1.EndpointCaller caller) : super(caller);
 
   @override
-  String get name => 'example';
+  String get name => 'users';
 
-  _i2.Future<String> hello(String name) => caller.callServerEndpoint<String>(
-        'example',
-        'hello',
-        {'name': name},
+  _i2.Future<String> createUsers({
+    required bool isAdmin,
+    required int userId,
+  }) =>
+      caller.callServerEndpoint<String>(
+        'users',
+        'createUsers',
+        {
+          'isAdmin': isAdmin,
+          'userId': userId,
+        },
       );
 }
 
@@ -50,16 +57,16 @@ class Client extends _i1.ServerpodClient {
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
         ) {
-    example = EndpointExample(this);
+    users = EndpointUsers(this);
     modules = _Modules(this);
   }
 
-  late final EndpointExample example;
+  late final EndpointUsers users;
 
   late final _Modules modules;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'example': example};
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {'users': users};
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>
