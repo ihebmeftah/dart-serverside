@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:lms_flutter/flavors.dart';
 
 import '../controllers/auth_controller.dart';
 
@@ -11,25 +12,19 @@ class AuthView extends GetView<AuthController> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          body: Row(
-        children: [
-          Expanded(
-              child: Container(
-            color: Colors.teal,
-          )),
-          Expanded(
-              child: Column(
+        appBar: AppBar(title: Text(F.name)),
+        body: SafeArea(
+          child: Column(
             children: [
-              Container(
-                margin: const EdgeInsets.only(top: 50),
-                width: Get.width / 5,
-                child: const TabBar(
+              const Padding(
+                padding: EdgeInsets.all(30),
+                child: TabBar(
                   tabs: [Tab(text: "Login"), Tab(text: "Registre")],
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(50.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: TabBarView(
                     children: [
                       Form(
@@ -41,7 +36,8 @@ class AuthView extends GetView<AuthController> {
                                 decoration: const InputDecoration(
                                     hintText: "user@gmail.com"),
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.isEmpty ||
+                                      GetUtils.isEmail(value) == false) {
                                     return "Field is required";
                                   }
                                   return null;
@@ -89,6 +85,9 @@ class AuthView extends GetView<AuthController> {
                                   if (value!.isEmpty) {
                                     return "Field is required";
                                   }
+                                  if (GetUtils.isEmail(value) == false) {
+                                    return "Field is email";
+                                  }
                                   return null;
                                 },
                               ),
@@ -116,9 +115,9 @@ class AuthView extends GetView<AuthController> {
                 ),
               ),
             ],
-          ))
-        ],
-      )),
+          ),
+        ),
+      ),
     );
   }
 }

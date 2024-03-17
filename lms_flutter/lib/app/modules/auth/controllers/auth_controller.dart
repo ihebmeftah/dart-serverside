@@ -4,8 +4,9 @@ import 'package:lms_flutter/app/routes/app_pages.dart';
 import 'package:lms_flutter/initclient.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 
+import '../../../../flavors.dart';
+
 class AuthController extends GetxController {
-  final isAdminAuth = Get.currentRoute.split("/").last.toLowerCase() == "admin";
   final authController = EmailAuthController(client.modules.auth);
 
   final loginkey = GlobalKey<FormState>();
@@ -64,8 +65,10 @@ class AuthController extends GetxController {
             createemail.text, verificationCode.text);
         if (user != null) {
           user = await authController.signIn(createemail.text, createpwd.text);
-          await client.users.createUsers(isAdmin: isAdminAuth, userId: 100);
+          final result = await client.users.createUsers(
+              isAdmin: F.appFlavor == Flavor.admin, userId: user!.id!);
           Get.offAllNamed(Routes.HOME);
+          Get.snackbar("Done", result);
         } else {
           Get.snackbar("Error", "verififcation code incorrect");
         }
