@@ -21,6 +21,12 @@
       "type": "dart",
       "program": "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_player.dart",
       "args": ["--flavor", "player", "--target", "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_player.dart" ]
+    },  {
+      "name": "player ios",
+      "request": "launch",
+      "type": "dart",
+      "program": "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_player.dart",
+      "args": ["--target", "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_player.dart" ]
     },
 
   ],
