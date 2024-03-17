@@ -6,13 +6,13 @@ part of 'app_pages.dart';
 abstract class Routes {
   Routes._();
   static const HOME = _Paths.HOME;
-  static const AUTHADMIN = _Paths.AUTHADMIN;
   static const AUTH = _Paths.AUTH;
+  static const CATEGORY = _Paths.CATEGORY;
 }
 
 abstract class _Paths {
   _Paths._();
   static const HOME = '/home';
-  static const AUTHADMIN = '/auth/admin';
   static const AUTH = '/auth';
+  static const CATEGORY = '/category';
 }
