@@ -2,7 +2,9 @@ class: Admin
 table: admin
 fields:
   userInfo: module:auth:UserInfo?, relation
+  categories: List<Category>?, relation(name=admin_categroy)
+
 indexes:
   admin_info_id_unique_idx:
-    fields: userInfoId
+    fields: userInfoId,id
     unique: true

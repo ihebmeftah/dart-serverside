@@ -13,9 +13,13 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'package:serverpod_auth_server/module.dart' as _i3;
 import 'admin.dart' as _i4;
-import 'enum/roles.enum.dart' as _i5;
-import 'player.dart' as _i6;
+import 'category.dart' as _i5;
+import 'enum/roles.enum.dart' as _i6;
+import 'player.dart' as _i7;
+import 'protocol.dart' as _i8;
+import 'package:lms_server/src/generated/category.dart' as _i9;
 export 'admin.dart';
+export 'category.dart';
 export 'enum/roles.enum.dart';
 export 'player.dart';
 
@@ -82,6 +86,84 @@ class Protocol extends _i1.SerializationManagerServer {
             _i2.IndexElementDefinition(
               type: _i2.IndexElementDefinitionType.column,
               definition: 'userInfoId',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'category',
+      dartName: 'Category',
+      schema: 'public',
+      module: 'lms',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'category_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'desc',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userId',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'category_fk_0',
+          columns: ['userId'],
+          referenceTable: 'admin',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.cascade,
+          matchType: null,
+        )
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'category_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'category_name_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'name',
             )
           ],
           type: 'btree',
@@ -169,20 +251,35 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i4.Admin) {
       return _i4.Admin.fromJson(data, this) as T;
     }
-    if (t == _i5.Roles) {
-      return _i5.Roles.fromJson(data) as T;
+    if (t == _i5.Category) {
+      return _i5.Category.fromJson(data, this) as T;
     }
-    if (t == _i6.Player) {
-      return _i6.Player.fromJson(data, this) as T;
+    if (t == _i6.Roles) {
+      return _i6.Roles.fromJson(data) as T;
+    }
+    if (t == _i7.Player) {
+      return _i7.Player.fromJson(data, this) as T;
     }
     if (t == _i1.getType<_i4.Admin?>()) {
       return (data != null ? _i4.Admin.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<_i5.Roles?>()) {
-      return (data != null ? _i5.Roles.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.Category?>()) {
+      return (data != null ? _i5.Category.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<_i6.Player?>()) {
-      return (data != null ? _i6.Player.fromJson(data, this) : null) as T;
+    if (t == _i1.getType<_i6.Roles?>()) {
+      return (data != null ? _i6.Roles.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i7.Player?>()) {
+      return (data != null ? _i7.Player.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<List<_i8.Category>?>()) {
+      return (data != null
+          ? (data as List).map((e) => deserialize<_i8.Category>(e)).toList()
+          : null) as dynamic;
+    }
+    if (t == List<_i9.Category>) {
+      return (data as List).map((e) => deserialize<_i9.Category>(e)).toList()
+          as dynamic;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -203,10 +300,13 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i4.Admin) {
       return 'Admin';
     }
-    if (data is _i5.Roles) {
+    if (data is _i5.Category) {
+      return 'Category';
+    }
+    if (data is _i6.Roles) {
       return 'Roles';
     }
-    if (data is _i6.Player) {
+    if (data is _i7.Player) {
       return 'Player';
     }
     return super.getClassNameForObject(data);
@@ -221,11 +321,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'Admin') {
       return deserialize<_i4.Admin>(data['data']);
     }
+    if (data['className'] == 'Category') {
+      return deserialize<_i5.Category>(data['data']);
+    }
     if (data['className'] == 'Roles') {
-      return deserialize<_i5.Roles>(data['data']);
+      return deserialize<_i6.Roles>(data['data']);
     }
     if (data['className'] == 'Player') {
-      return deserialize<_i6.Player>(data['data']);
+      return deserialize<_i7.Player>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -247,8 +350,10 @@ class Protocol extends _i1.SerializationManagerServer {
     switch (t) {
       case _i4.Admin:
         return _i4.Admin.t;
-      case _i6.Player:
-        return _i6.Player.t;
+      case _i5.Category:
+        return _i5.Category.t;
+      case _i7.Player:
+        return _i7.Player.t;
     }
     return null;
   }

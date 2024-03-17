@@ -10,18 +10,22 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod_auth_server/module.dart' as _i2;
+import 'protocol.dart' as _i3;
+import 'package:serverpod_serialization/serverpod_serialization.dart';
 
 abstract class Admin extends _i1.TableRow {
   Admin._({
     int? id,
     required this.userInfoId,
     this.userInfo,
+    this.categories,
   }) : super(id);
 
   factory Admin({
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    List<_i3.Category>? categories,
   }) = _AdminImpl;
 
   factory Admin.fromJson(
@@ -34,6 +38,8 @@ abstract class Admin extends _i1.TableRow {
           .deserialize<int>(jsonSerialization['userInfoId']),
       userInfo: serializationManager
           .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
+      categories: serializationManager
+          .deserialize<List<_i3.Category>?>(jsonSerialization['categories']),
     );
   }
 
@@ -45,6 +51,8 @@ abstract class Admin extends _i1.TableRow {
 
   _i2.UserInfo? userInfo;
 
+  List<_i3.Category>? categories;
+
   @override
   _i1.Table get table => t;
 
@@ -52,6 +60,7 @@ abstract class Admin extends _i1.TableRow {
     int? id,
     int? userInfoId,
     _i2.UserInfo? userInfo,
+    List<_i3.Category>? categories,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -59,6 +68,8 @@ abstract class Admin extends _i1.TableRow {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
+      if (categories != null)
+        'categories': categories?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -77,6 +88,8 @@ abstract class Admin extends _i1.TableRow {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.allToJson(),
+      if (categories != null)
+        'categories': categories?.toJson(valueToJson: (v) => v.allToJson()),
     };
   }
 
@@ -223,8 +236,14 @@ abstract class Admin extends _i1.TableRow {
     );
   }
 
-  static AdminInclude include({_i2.UserInfoInclude? userInfo}) {
-    return AdminInclude._(userInfo: userInfo);
+  static AdminInclude include({
+    _i2.UserInfoInclude? userInfo,
+    _i3.CategoryIncludeList? categories,
+  }) {
+    return AdminInclude._(
+      userInfo: userInfo,
+      categories: categories,
+    );
   }
 
   static AdminIncludeList includeList({
@@ -255,10 +274,12 @@ class _AdminImpl extends Admin {
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    List<_i3.Category>? categories,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
+          categories: categories,
         );
 
   @override
@@ -266,12 +287,16 @@ class _AdminImpl extends Admin {
     Object? id = _Undefined,
     int? userInfoId,
     Object? userInfo = _Undefined,
+    Object? categories = _Undefined,
   }) {
     return Admin(
       id: id is int? ? id : this.id,
       userInfoId: userInfoId ?? this.userInfoId,
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
+      categories: categories is List<_i3.Category>?
+          ? categories
+          : this.categories?.clone(),
     );
   }
 }
@@ -288,6 +313,10 @@ class AdminTable extends _i1.Table {
 
   _i2.UserInfoTable? _userInfo;
 
+  _i3.CategoryTable? ___categories;
+
+  _i1.ManyRelation<_i3.CategoryTable>? _categories;
+
   _i2.UserInfoTable get userInfo {
     if (_userInfo != null) return _userInfo!;
     _userInfo = _i1.createRelationTable(
@@ -301,6 +330,37 @@ class AdminTable extends _i1.Table {
     return _userInfo!;
   }
 
+  _i3.CategoryTable get __categories {
+    if (___categories != null) return ___categories!;
+    ___categories = _i1.createRelationTable(
+      relationFieldName: '__categories',
+      field: Admin.t.id,
+      foreignField: _i3.Category.t.userId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.CategoryTable(tableRelation: foreignTableRelation),
+    );
+    return ___categories!;
+  }
+
+  _i1.ManyRelation<_i3.CategoryTable> get categories {
+    if (_categories != null) return _categories!;
+    var relationTable = _i1.createRelationTable(
+      relationFieldName: 'categories',
+      field: Admin.t.id,
+      foreignField: _i3.Category.t.userId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.CategoryTable(tableRelation: foreignTableRelation),
+    );
+    _categories = _i1.ManyRelation<_i3.CategoryTable>(
+      tableWithRelations: relationTable,
+      table: _i3.CategoryTable(
+          tableRelation: relationTable.tableRelation!.lastRelation),
+    );
+    return _categories!;
+  }
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -312,6 +372,9 @@ class AdminTable extends _i1.Table {
     if (relationField == 'userInfo') {
       return userInfo;
     }
+    if (relationField == 'categories') {
+      return __categories;
+    }
     return null;
   }
 }
@@ -320,14 +383,23 @@ class AdminTable extends _i1.Table {
 AdminTable tAdmin = AdminTable();
 
 class AdminInclude extends _i1.IncludeObject {
-  AdminInclude._({_i2.UserInfoInclude? userInfo}) {
+  AdminInclude._({
+    _i2.UserInfoInclude? userInfo,
+    _i3.CategoryIncludeList? categories,
+  }) {
     _userInfo = userInfo;
+    _categories = categories;
   }
 
   _i2.UserInfoInclude? _userInfo;
 
+  _i3.CategoryIncludeList? _categories;
+
   @override
-  Map<String, _i1.Include?> get includes => {'userInfo': _userInfo};
+  Map<String, _i1.Include?> get includes => {
+        'userInfo': _userInfo,
+        'categories': _categories,
+      };
 
   @override
   _i1.Table get table => Admin.t;
@@ -355,6 +427,8 @@ class AdminIncludeList extends _i1.IncludeList {
 
 class AdminRepository {
   const AdminRepository._();
+
+  final attach = const AdminAttachRepository._();
 
   final attachRow = const AdminAttachRowRepository._();
 
@@ -510,6 +584,29 @@ class AdminRepository {
   }
 }
 
+class AdminAttachRepository {
+  const AdminAttachRepository._();
+
+  Future<void> categories(
+    _i1.Session session,
+    Admin admin,
+    List<_i3.Category> category,
+  ) async {
+    if (category.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('category.id');
+    }
+    if (admin.id == null) {
+      throw ArgumentError.notNull('admin.id');
+    }
+
+    var $category = category.map((e) => e.copyWith(userId: admin.id)).toList();
+    await session.dbNext.update<_i3.Category>(
+      $category,
+      columns: [_i3.Category.t.userId],
+    );
+  }
+}
+
 class AdminAttachRowRepository {
   const AdminAttachRowRepository._();
 
@@ -529,6 +626,25 @@ class AdminAttachRowRepository {
     await session.dbNext.updateRow<Admin>(
       $admin,
       columns: [Admin.t.userInfoId],
+    );
+  }
+
+  Future<void> categories(
+    _i1.Session session,
+    Admin admin,
+    _i3.Category category,
+  ) async {
+    if (category.id == null) {
+      throw ArgumentError.notNull('category.id');
+    }
+    if (admin.id == null) {
+      throw ArgumentError.notNull('admin.id');
+    }
+
+    var $category = category.copyWith(userId: admin.id);
+    await session.dbNext.updateRow<_i3.Category>(
+      $category,
+      columns: [_i3.Category.t.userId],
     );
   }
 }

@@ -9,20 +9,67 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../endpoints/users_endpoint.dart' as _i2;
-import 'package:serverpod_auth_server/module.dart' as _i3;
+import '../endpoints/category_endpoint.dart' as _i2;
+import '../endpoints/users_endpoint.dart' as _i3;
+import 'package:serverpod_auth_server/module.dart' as _i4;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'users': _i2.UsersEndpoint()
+      'category': _i2.CategoryEndpoint()
+        ..initialize(
+          server,
+          'category',
+          null,
+        ),
+      'users': _i3.UsersEndpoint()
         ..initialize(
           server,
           'users',
           null,
-        )
+        ),
     };
+    connectors['category'] = _i1.EndpointConnector(
+      name: 'category',
+      endpoint: endpoints['category']!,
+      methodConnectors: {
+        'getCategory': _i1.MethodConnector(
+          name: 'getCategory',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['category'] as _i2.CategoryEndpoint)
+                  .getCategory(session),
+        ),
+        'createCategory': _i1.MethodConnector(
+          name: 'createCategory',
+          params: {
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'desc': _i1.ParameterDescription(
+              name: 'desc',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['category'] as _i2.CategoryEndpoint).createCategory(
+            session,
+            name: params['name'],
+            desc: params['desc'],
+          ),
+        ),
+      },
+    );
     connectors['users'] = _i1.EndpointConnector(
       name: 'users',
       endpoint: endpoints['users']!,
@@ -45,7 +92,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i2.UsersEndpoint).createUsers(
+              (endpoints['users'] as _i3.UsersEndpoint).createUsers(
             session,
             isAdmin: params['isAdmin'],
             userId: params['userId'],
@@ -53,6 +100,6 @@ class Endpoints extends _i1.EndpointDispatch {
         )
       },
     );
-    modules['serverpod_auth'] = _i3.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i4.Endpoints()..initializeEndpoints(server);
   }
 }

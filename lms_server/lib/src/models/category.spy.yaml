@@ -1,0 +1,11 @@
+class: Category
+table: category
+fields:
+    name: String
+    desc: String
+    userId: int, relation(name=admin_categroy, parent=admin,  onDelete=Cascade)
+indexes:
+  category_name_unique_idx:
+    fields: name
+    unique: true
+
