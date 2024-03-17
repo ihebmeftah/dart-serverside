@@ -1,21 +1,28 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "admin",
-        "request": "launch",
-        "type": "dart",
-        "program": "lib/main_admin.dart",
-        "args": ["--flavor", "admin", "--target", "lib/main_admin.dart" ]
-      },
-      {
-        "name": "player",
-        "request": "launch",
-        "type": "dart",
-        "program": "lib/main_player.dart",
-        "args": ["--flavor", "player", "--target", "lib/main_player.dart" ]
-      },
-    ],
-    "compounds": []
-  }
-  
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "admin",
+      "request": "launch",
+      "type": "dart",
+      "program": "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_admin.dart",
+      "args": ["--flavor", "admin", "--target", "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_admin.dart" ]
+    },
+    {
+      "name": "admin ios",
+      "request": "launch",
+      "type": "dart",
+      "program": "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_admin.dart",
+      "args": ["--target", "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_admin.dart" ]
+    },
+    {
+      "name": "player",
+      "request": "launch",
+      "type": "dart",
+      "program": "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_player.dart",
+      "args": ["--flavor", "player", "--target", "/Users/maalejahmed/Desktop/playing-with-serverpod-dart-serverside/lms_flutter/lib/main_player.dart" ]
+    },
+
+  ],
+  "compounds": []
+}
