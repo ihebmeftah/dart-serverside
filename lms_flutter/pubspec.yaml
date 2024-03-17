@@ -21,6 +21,25 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   flutter_test: 
     sdk: flutter
+  flutter_flavorizr: ^2.2.1
+
+flavorizr:
+  flavors:
+    player:
+      app:
+        name: "Quiz-player"
+      android: 
+        applicationId: "com.player"
+
+    admin:
+      app:
+        name: "Quiz-admin"
+      android: 
+        applicationId: "com.admin"
+
+
+
+
 
 flutter: 
   uses-material-design: true

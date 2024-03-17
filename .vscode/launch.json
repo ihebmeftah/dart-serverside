@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "admin",
+        "request": "launch",
+        "type": "dart",
+        "program": "lib/main_admin.dart",
+        "args": ["--flavor", "admin", "--target", "lib/main_admin.dart" ]
+      },
+      {
+        "name": "player",
+        "request": "launch",
+        "type": "dart",
+        "program": "lib/main_player.dart",
+        "args": ["--flavor", "player", "--target", "lib/main_player.dart" ]
+      },
+    ],
+    "compounds": []
+  }
+  

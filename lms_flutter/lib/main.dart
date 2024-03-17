@@ -1,17 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lms_flutter/initclient.dart';
+import 'app.dart';
 
-import 'package:get/get.dart';
-
-import 'app/routes/app_pages.dart';
-import 'initclient.dart';
-
-void main() async {
+FutureOr<void> main() async {
   await appClientInit();
-  runApp(
-    GetMaterialApp(
-      title: "Application",
-      initialRoute: sessionManager.isSignedIn ? Routes.HOME : Routes.AUTH,
-      getPages: AppPages.routes,
-    ),
-  );
+  runApp(const App());
 }
