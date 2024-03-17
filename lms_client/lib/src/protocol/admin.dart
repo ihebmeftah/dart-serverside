@@ -10,18 +10,21 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'package:serverpod_auth_client/module.dart' as _i2;
+import 'protocol.dart' as _i3;
 
 abstract class Admin extends _i1.SerializableEntity {
   Admin._({
     this.id,
     required this.userInfoId,
     this.userInfo,
+    this.categories,
   });
 
   factory Admin({
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    List<_i3.Category>? categories,
   }) = _AdminImpl;
 
   factory Admin.fromJson(
@@ -34,6 +37,8 @@ abstract class Admin extends _i1.SerializableEntity {
           .deserialize<int>(jsonSerialization['userInfoId']),
       userInfo: serializationManager
           .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
+      categories: serializationManager
+          .deserialize<List<_i3.Category>?>(jsonSerialization['categories']),
     );
   }
 
@@ -46,10 +51,13 @@ abstract class Admin extends _i1.SerializableEntity {
 
   _i2.UserInfo? userInfo;
 
+  List<_i3.Category>? categories;
+
   Admin copyWith({
     int? id,
     int? userInfoId,
     _i2.UserInfo? userInfo,
+    List<_i3.Category>? categories,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -57,6 +65,8 @@ abstract class Admin extends _i1.SerializableEntity {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
+      if (categories != null)
+        'categories': categories?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 }
@@ -68,10 +78,12 @@ class _AdminImpl extends Admin {
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    List<_i3.Category>? categories,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
+          categories: categories,
         );
 
   @override
@@ -79,12 +91,16 @@ class _AdminImpl extends Admin {
     Object? id = _Undefined,
     int? userInfoId,
     Object? userInfo = _Undefined,
+    Object? categories = _Undefined,
   }) {
     return Admin(
       id: id is int? ? id : this.id,
       userInfoId: userInfoId ?? this.userInfoId,
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
+      categories: categories is List<_i3.Category>?
+          ? categories
+          : this.categories?.clone(),
     );
   }
 }
