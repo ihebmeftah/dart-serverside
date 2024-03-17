@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:lms_flutter/app/modules/category/views/category_view.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -9,38 +11,79 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: [
-            UserAccountsDrawerHeader(
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(controller.user!.imageUrl!),
+        drawer: Drawer(
+          child: Column(
+            children: [
+              UserAccountsDrawerHeader(
+                  currentAccountPicture: CircleAvatar(
+                    backgroundImage: NetworkImage(controller.user!.imageUrl!),
+                  ),
+                  accountName: Text(
+                      "${controller.user!.userName}(${controller.user!.scopeNames.join("-")})"),
+                  accountEmail: Text(controller.user!.email ?? "")),
+              GetBuilder<HomeController>(
+                  id: 0,
+                  builder: (_) {
+                    return ListTile(
+                      onTap: () => controller.changeView(0),
+                      selected: _.currentScreen == 0,
+                      leading: const Icon(Icons.dashboard),
+                      title: const Text("Dashboard"),
+                    );
+                  }),
+              GetBuilder<HomeController>(
+                  id: 1,
+                  builder: (_) {
+                    return ListTile(
+                      onTap: () => controller.changeView(1),
+                      selected: _.currentScreen == 1,
+                      leading: const Icon(Icons.person),
+                      title: const Text("Users"),
+                    );
+                  }),
+              GetBuilder<HomeController>(
+                  id: 2,
+                  builder: (_) {
+                    return ListTile(
+                      onTap: () => controller.changeView(2),
+                      selected: _.currentScreen == 2,
+                      leading: const Icon(Icons.category),
+                      title: const Text("Category"),
+                    );
+                  }),
+              GetBuilder<HomeController>(
+                  id: 3,
+                  builder: (_) {
+                    return ListTile(
+                      onTap: () => controller.changeView(3),
+                      selected: _.currentScreen == 3,
+                      leading: const Icon(Icons.quiz),
+                      title: const Text("Quizes"),
+                    );
+                  }),
+              const Spacer(),
+              ListTile(
+                tileColor: Colors.red.shade500,
+                onTap: controller.logout,
+                trailing: Icon(Icons.logout, color: Colors.red.shade50),
+                title: Text(
+                  "Logout",
+                  style: TextStyle(color: Colors.red.shade50),
                 ),
-                accountName: Text(
-                    "${controller.user!.userName}(${controller.user!.scopeNames.join("-")})"),
-                accountEmail: Text(controller.user!.email ?? "")),
-            const Spacer(),
-            ListTile(
-              onTap: controller.logout,
-              trailing: const Icon(Icons.logout),
-              title: const Text(
-                "Logout",
-                style: TextStyle(color: Colors.red),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      ),
-      appBar: AppBar(
-        title: const Text('HomeView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'HomeView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-    );
+        appBar: AppBar(),
+        body: GetBuilder<HomeController>(
+            id: "body",
+            builder: (_) {
+              return [
+                const Text('HomeView is working'),
+                const Text('Users is working'),
+                const CategoryView(),
+                const Text('Quizs is working'),
+              ][controller.currentScreen];
+            }));
   }
 }
