@@ -11,9 +11,9 @@ class F {
   static String get title {
     switch (appFlavor) {
       case Flavor.player:
-        return 'Quiz-player';
+        return 'Quiz player';
       case Flavor.admin:
-        return 'Quiz-admin';
+        return 'Quiz admin';
       default:
         return 'title';
     }
