@@ -97,7 +97,34 @@ class Endpoints extends _i1.EndpointDispatch {
             isAdmin: params['isAdmin'],
             userId: params['userId'],
           ),
-        )
+        ),
+        'getPlayers': _i1.MethodConnector(
+          name: 'getPlayers',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['users'] as _i3.UsersEndpoint).getPlayers(session),
+        ),
+        'getAdmins': _i1.MethodConnector(
+          name: 'getAdmins',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['users'] as _i3.UsersEndpoint).getAdmins(session),
+        ),
+        'getUsersNumber': _i1.MethodConnector(
+          name: 'getUsersNumber',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['users'] as _i3.UsersEndpoint).getUsersNumber(session),
+        ),
       },
     );
     modules['serverpod_auth'] = _i4.Endpoints()..initializeEndpoints(server);

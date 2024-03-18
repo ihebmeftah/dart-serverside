@@ -9,7 +9,9 @@ class CategoryEndpoint extends Endpoint {
   Future<List<Category>> getCategory(Session session) async {
     final int? userId = await session.auth.authenticatedUserId;
     if (userId == null) {
-      throw Exception("User id is null");
+      throw AppException(
+          message: 'This request required authintification of admin',
+          errorType: ExceptionType.authenticationRequiredException);
     }
     final scopeOfUser = await session.scopes;
     if (scopeOfUser?.contains(UsersScope.admin) == true) {
@@ -26,16 +28,24 @@ class CategoryEndpoint extends Endpoint {
       {required String name, required String desc}) async {
     final int? userId = await session.auth.authenticatedUserId;
     if (userId == null) {
-      throw Exception("User id is null");
+      throw AppException(
+          message: 'This request required authintification of admin',
+          errorType: ExceptionType.authenticationRequiredException);
     }
-
+    final scopeOfUser = await session.scopes;
+    if (scopeOfUser?.contains(UsersScope.player) == true) {
+      throw AppException(
+          message: 'Only admin user can create categroy',
+          errorType: ExceptionType.unauthorizedAccessException);
+    }
     final existOrNot = await Category.db.findFirstRow(
       session,
       where: (cat) => cat.name.equals(name),
     );
     if (existOrNot != null) {
-      throw Exception(
-          "Categroy name : $name is unique and the name : $name existe");
+      throw AppException(
+          message: 'This name of category exist $name',
+          errorType: ExceptionType.duplicateKeyException);
     }
     final Category createdCategory = await Category.db
         .insertRow(session, Category(name: name, desc: desc, userId: userId));

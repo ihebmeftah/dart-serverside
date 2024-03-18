@@ -1,0 +1,7 @@
+enum: ExceptionType
+serialized: byName
+values:
+ - userNotFoundException
+ - authenticationRequiredException
+ - unauthorizedAccessException
+ - duplicateKeyException

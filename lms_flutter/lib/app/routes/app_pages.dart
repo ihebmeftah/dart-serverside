@@ -6,6 +6,8 @@ import '../modules/category/bindings/category_binding.dart';
 import '../modules/category/views/category_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/users/bindings/users_binding.dart';
+import '../modules/users/views/users_view.dart';
 
 // ignore_for_file: constant_identifier_names
 
@@ -19,11 +21,16 @@ class AppPages {
   static final routes = [
     GetPage(name: _Paths.HOME, page: () => const HomeView(), bindings: [
       HomeBinding(),
-      CategoryBinding()
+      CategoryBinding(),
+      UsersBinding()
     ], children: [
       GetPage(
         name: _Paths.CATEGORY,
         page: () => const CategoryView(),
+      ),
+      GetPage(
+        name: _Paths.USERS,
+        page: () => const UsersView(),
       ),
     ]),
     GetPage(

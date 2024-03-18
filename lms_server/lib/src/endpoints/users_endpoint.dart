@@ -11,8 +11,10 @@ class UsersEndpoint extends Endpoint {
   }) async {
     UserInfo? user = await Users.findUserByUserId(session, userId);
     if (user == null) {
-      throw Exception(
-          "User (Email / id ) not regisred in the user table created by auth module");
+      throw AppException(
+          message:
+              "User (Email / id ) not regisred in the user table created by auth module",
+          errorType: ExceptionType.userNotFoundException);
     }
     if (isAdmin) {
       await Admin.db
@@ -24,5 +26,58 @@ class UsersEndpoint extends Endpoint {
       await Users.updateUserScopes(session, userId, {UsersScope.player});
     }
     return "User ${user.id} created succefully";
+  }
+
+  Future<List<Player>> getPlayers(Session session) async {
+    final int? userId = await session.auth.authenticatedUserId;
+    if (userId == null) {
+      throw AppException(
+          message: 'This request required authintification of admin',
+          errorType: ExceptionType.authenticationRequiredException);
+    }
+    final scopeOfUser = await session.scopes;
+    if (scopeOfUser?.contains(UsersScope.player) == true) {
+      throw AppException(
+          message: 'Only admin user can create categroy',
+          errorType: ExceptionType.unauthorizedAccessException);
+    }
+    return Player.db
+        .find(session, include: Player.include(userInfo: UserInfo.include()));
+  }
+
+  Future<List<Admin>> getAdmins(Session session) async {
+    final int? userId = await session.auth.authenticatedUserId;
+    if (userId == null) {
+      throw AppException(
+          message: 'This request required authintification of admin',
+          errorType: ExceptionType.authenticationRequiredException);
+    }
+    final scopeOfUser = await session.scopes;
+    if (scopeOfUser?.contains(UsersScope.player) == true) {
+      throw AppException(
+          message: 'Only admin user can create categroy',
+          errorType: ExceptionType.unauthorizedAccessException);
+    }
+    return Admin.db
+        .find(session, include: Admin.include(userInfo: UserInfo.include()));
+  }
+
+  ///(ADMIN , PLAYER)
+  Future<List<int>> getUsersNumber(Session session) async {
+    final int? userId = await session.auth.authenticatedUserId;
+    if (userId == null) {
+      throw AppException(
+          message: 'This request required authintification of admin',
+          errorType: ExceptionType.authenticationRequiredException);
+    }
+    final scopeOfUser = await session.scopes;
+    if (scopeOfUser?.contains(UsersScope.player) == true) {
+      throw AppException(
+          message: 'Only admin user can create categroy',
+          errorType: ExceptionType.unauthorizedAccessException);
+    }
+    final int numberPlayer = await Player.db.count(session);
+    final int numberAdmin = await Player.db.count(session);
+    return [numberAdmin, numberPlayer];
   }
 }

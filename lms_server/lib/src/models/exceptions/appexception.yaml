@@ -1,0 +1,4 @@
+exception: AppException
+fields:
+  message: String
+  errorType: ExceptionType

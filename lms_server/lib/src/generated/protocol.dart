@@ -15,12 +15,18 @@ import 'package:serverpod_auth_server/module.dart' as _i3;
 import 'admin.dart' as _i4;
 import 'category.dart' as _i5;
 import 'enum/roles.enum.dart' as _i6;
-import 'player.dart' as _i7;
-import 'protocol.dart' as _i8;
-import 'package:lms_server/src/generated/category.dart' as _i9;
+import 'exceptions/appexception.dart' as _i7;
+import 'exceptions/exceptiontype.enum.dart' as _i8;
+import 'player.dart' as _i9;
+import 'protocol.dart' as _i10;
+import 'package:lms_server/src/generated/category.dart' as _i11;
+import 'package:lms_server/src/generated/player.dart' as _i12;
+import 'package:lms_server/src/generated/admin.dart' as _i13;
 export 'admin.dart';
 export 'category.dart';
 export 'enum/roles.enum.dart';
+export 'exceptions/appexception.dart';
+export 'exceptions/exceptiontype.enum.dart';
 export 'player.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -257,8 +263,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i6.Roles) {
       return _i6.Roles.fromJson(data) as T;
     }
-    if (t == _i7.Player) {
-      return _i7.Player.fromJson(data, this) as T;
+    if (t == _i7.AppException) {
+      return _i7.AppException.fromJson(data, this) as T;
+    }
+    if (t == _i8.ExceptionType) {
+      return _i8.ExceptionType.fromJson(data) as T;
+    }
+    if (t == _i9.Player) {
+      return _i9.Player.fromJson(data, this) as T;
     }
     if (t == _i1.getType<_i4.Admin?>()) {
       return (data != null ? _i4.Admin.fromJson(data, this) : null) as T;
@@ -269,17 +281,34 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i6.Roles?>()) {
       return (data != null ? _i6.Roles.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i7.Player?>()) {
-      return (data != null ? _i7.Player.fromJson(data, this) : null) as T;
+    if (t == _i1.getType<_i7.AppException?>()) {
+      return (data != null ? _i7.AppException.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<List<_i8.Category>?>()) {
+    if (t == _i1.getType<_i8.ExceptionType?>()) {
+      return (data != null ? _i8.ExceptionType.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i9.Player?>()) {
+      return (data != null ? _i9.Player.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<List<_i10.Category>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i8.Category>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i10.Category>(e)).toList()
           : null) as dynamic;
     }
-    if (t == List<_i9.Category>) {
-      return (data as List).map((e) => deserialize<_i9.Category>(e)).toList()
+    if (t == List<_i11.Category>) {
+      return (data as List).map((e) => deserialize<_i11.Category>(e)).toList()
           as dynamic;
+    }
+    if (t == List<_i12.Player>) {
+      return (data as List).map((e) => deserialize<_i12.Player>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i13.Admin>) {
+      return (data as List).map((e) => deserialize<_i13.Admin>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<int>) {
+      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -306,7 +335,13 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i6.Roles) {
       return 'Roles';
     }
-    if (data is _i7.Player) {
+    if (data is _i7.AppException) {
+      return 'AppException';
+    }
+    if (data is _i8.ExceptionType) {
+      return 'ExceptionType';
+    }
+    if (data is _i9.Player) {
       return 'Player';
     }
     return super.getClassNameForObject(data);
@@ -327,8 +362,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'Roles') {
       return deserialize<_i6.Roles>(data['data']);
     }
+    if (data['className'] == 'AppException') {
+      return deserialize<_i7.AppException>(data['data']);
+    }
+    if (data['className'] == 'ExceptionType') {
+      return deserialize<_i8.ExceptionType>(data['data']);
+    }
     if (data['className'] == 'Player') {
-      return deserialize<_i7.Player>(data['data']);
+      return deserialize<_i9.Player>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -352,8 +393,8 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i4.Admin.t;
       case _i5.Category:
         return _i5.Category.t;
-      case _i7.Player:
-        return _i7.Player.t;
+      case _i9.Player:
+        return _i9.Player.t;
     }
     return null;
   }

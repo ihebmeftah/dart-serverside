@@ -11,8 +11,10 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:lms_client/src/protocol/category.dart' as _i3;
-import 'package:serverpod_auth_client/module.dart' as _i4;
-import 'protocol.dart' as _i5;
+import 'package:lms_client/src/protocol/player.dart' as _i4;
+import 'package:lms_client/src/protocol/admin.dart' as _i5;
+import 'package:serverpod_auth_client/module.dart' as _i6;
+import 'protocol.dart' as _i7;
 
 /// {@category Endpoint}
 class EndpointCategory extends _i1.EndpointRef {
@@ -61,14 +63,36 @@ class EndpointUsers extends _i1.EndpointRef {
           'userId': userId,
         },
       );
+
+  _i2.Future<List<_i4.Player>> getPlayers() =>
+      caller.callServerEndpoint<List<_i4.Player>>(
+        'users',
+        'getPlayers',
+        {},
+      );
+
+  _i2.Future<List<_i5.Admin>> getAdmins() =>
+      caller.callServerEndpoint<List<_i5.Admin>>(
+        'users',
+        'getAdmins',
+        {},
+      );
+
+  ///(ADMIN , PLAYER)
+  _i2.Future<List<int>> getUsersNumber() =>
+      caller.callServerEndpoint<List<int>>(
+        'users',
+        'getUsersNumber',
+        {},
+      );
 }
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i4.Caller(client);
+    auth = _i6.Caller(client);
   }
 
-  late final _i4.Caller auth;
+  late final _i6.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
@@ -80,7 +104,7 @@ class Client extends _i1.ServerpodClient {
     Duration? connectionTimeout,
   }) : super(
           host,
-          _i5.Protocol(),
+          _i7.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,

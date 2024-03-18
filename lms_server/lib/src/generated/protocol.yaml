@@ -3,3 +3,6 @@ category:
   - createCategory:
 users:
   - createUsers:
+  - getPlayers:
+  - getAdmins:
+  - getUsersNumber:

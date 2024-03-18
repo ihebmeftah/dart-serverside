@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lms_client/lms_client.dart';
 import 'package:lms_flutter/app/routes/app_pages.dart';
 import 'package:lms_flutter/initclient.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
@@ -30,6 +31,8 @@ class AuthController extends GetxController {
           Get.snackbar("Error", "user not found");
         }
       }
+    } on AppException catch (e) {
+      Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
       Get.snackbar("Error", "$e");
     }
@@ -73,6 +76,8 @@ class AuthController extends GetxController {
           Get.snackbar("Error", "verififcation code incorrect");
         }
       }
+    } on AppException catch (e) {
+      Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
       Get.snackbar("Error", "$e");
     }

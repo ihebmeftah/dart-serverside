@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:lms_flutter/app/modules/category/views/category_view.dart';
+import 'package:lms_flutter/app/modules/users/views/users_view.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -79,8 +79,40 @@ class HomeView extends GetView<HomeController> {
             id: "body",
             builder: (_) {
               return [
-                const Text('HomeView is working'),
-                const Text('Users is working'),
+                controller.obx(
+                  (state) => Column(
+                    children: [
+                      SizedBox(
+                        width: Get.width,
+                        height: 60,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Card(
+                              child: Column(
+                                children: [
+                                  Text(controller.nbAdmins.toString()),
+                                  const Text("ADMIN"),
+                                ],
+                              ),
+                            )),
+                            Expanded(
+                                child: Card(
+                              child: Column(
+                                children: [
+                                  Text(controller.nbPlayer.toString()),
+                                  const Text("PLAYERS"),
+                                ],
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  onError: (error) => Text(error ?? "Somthing wrong"),
+                ),
+                const UsersView(),
                 const CategoryView(),
                 const Text('Quizs is working'),
               ][controller.currentScreen];

@@ -24,6 +24,8 @@ class CategoryController extends GetxController with StateMixin {
       } else {
         change(null, status: RxStatus.success());
       }
+    } on AppException catch (e) {
+      Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
       Get.snackbar("Somthing wrong", "$e");
       change(null, status: RxStatus.error(e.toString()));
@@ -38,6 +40,8 @@ class CategoryController extends GetxController with StateMixin {
         name.clear();
         desc.clear();
       }
+    } on AppException catch (e) {
+      Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
       Get.snackbar("Somthing wrong", "$e");
       change(null, status: RxStatus.error(e.toString()));
