@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:lms_client/lms_client.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -10,7 +11,7 @@ Future<void> appClientInit() async {
   // const ipAddress = '10.0.2.2'; // Android emulator ip for the host
 
   // On a real device replace the ipAddress with the IP address of your computer.
-  const ipAddress = 'localhost';
+  final ipAddress = GetPlatform.isAndroid ? '10.0.2.2' : 'localhost';
 
   // Sets up a singleton client object that can be used to talk to the server from
   // anywhere in our app. The client is generated from your server code.
