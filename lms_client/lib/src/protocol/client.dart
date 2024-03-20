@@ -43,6 +43,13 @@ class EndpointCategory extends _i1.EndpointRef {
           'desc': desc,
         },
       );
+
+  _i2.Future<String> deleteCategroy(int id) =>
+      caller.callServerEndpoint<String>(
+        'category',
+        'deleteCategroy',
+        {'id': id},
+      );
 }
 
 /// {@category Endpoint}
