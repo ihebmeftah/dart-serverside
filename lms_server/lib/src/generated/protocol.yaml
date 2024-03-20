@@ -2,9 +2,14 @@ category:
   - getCategory:
   - createCategory:
   - deleteCategroy:
+question:
+  - createQuestion:
+  - deleteQuestion:
 quiz:
   - getQuizes:
+  - getQuiz:
   - createQuiz:
+  - deleteQuiz:
 users:
   - createUsers:
   - getPlayers:
