@@ -35,7 +35,10 @@ class CategoryController extends GetxController with StateMixin {
   Future<void> createCategory() async {
     try {
       if (form.currentState!.validate()) {
-        await client.category.createCategory(name: name.text, desc: desc.text);
+        await client.category.createCategory(
+          name: name.text.trim(),
+          desc: desc.text.trim(),
+        );
         await getCategroy();
         name.clear();
         desc.clear();
