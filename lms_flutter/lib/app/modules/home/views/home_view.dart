@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:lms_flutter/app/modules/category/views/category_view.dart';
+import 'package:lms_flutter/app/modules/quiz/views/quiz_view.dart';
 import 'package:lms_flutter/app/modules/users/views/users_view.dart';
 
 import '../controllers/home_controller.dart';
@@ -114,7 +115,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 const UsersView(),
                 const CategoryView(),
-                const Text('Quizs is working'),
+                const QuizView(),
               ][controller.currentScreen];
             }));
   }
