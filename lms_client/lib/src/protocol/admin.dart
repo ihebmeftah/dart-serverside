@@ -18,6 +18,7 @@ abstract class Admin extends _i1.SerializableEntity {
     required this.userInfoId,
     this.userInfo,
     this.categories,
+    this.quizes,
   });
 
   factory Admin({
@@ -25,6 +26,7 @@ abstract class Admin extends _i1.SerializableEntity {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     List<_i3.Category>? categories,
+    List<_i3.Quiz>? quizes,
   }) = _AdminImpl;
 
   factory Admin.fromJson(
@@ -39,6 +41,8 @@ abstract class Admin extends _i1.SerializableEntity {
           .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
       categories: serializationManager
           .deserialize<List<_i3.Category>?>(jsonSerialization['categories']),
+      quizes: serializationManager
+          .deserialize<List<_i3.Quiz>?>(jsonSerialization['quizes']),
     );
   }
 
@@ -53,11 +57,14 @@ abstract class Admin extends _i1.SerializableEntity {
 
   List<_i3.Category>? categories;
 
+  List<_i3.Quiz>? quizes;
+
   Admin copyWith({
     int? id,
     int? userInfoId,
     _i2.UserInfo? userInfo,
     List<_i3.Category>? categories,
+    List<_i3.Quiz>? quizes,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -67,6 +74,8 @@ abstract class Admin extends _i1.SerializableEntity {
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
       if (categories != null)
         'categories': categories?.toJson(valueToJson: (v) => v.toJson()),
+      if (quizes != null)
+        'quizes': quizes?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 }
@@ -79,11 +88,13 @@ class _AdminImpl extends Admin {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     List<_i3.Category>? categories,
+    List<_i3.Quiz>? quizes,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
           categories: categories,
+          quizes: quizes,
         );
 
   @override
@@ -92,6 +103,7 @@ class _AdminImpl extends Admin {
     int? userInfoId,
     Object? userInfo = _Undefined,
     Object? categories = _Undefined,
+    Object? quizes = _Undefined,
   }) {
     return Admin(
       id: id is int? ? id : this.id,
@@ -101,6 +113,7 @@ class _AdminImpl extends Admin {
       categories: categories is List<_i3.Category>?
           ? categories
           : this.categories?.clone(),
+      quizes: quizes is List<_i3.Quiz>? ? quizes : this.quizes?.clone(),
     );
   }
 }
