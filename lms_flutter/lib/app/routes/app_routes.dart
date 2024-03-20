@@ -7,16 +7,24 @@ abstract class Routes {
   Routes._();
   static const HOME = _Paths.HOME;
   static const AUTH = _Paths.AUTH;
+  static const PROFILE = _Paths.PROFILE;
+  static const QUIZHISTORY = _Paths.QUIZHISTORY;
+  static const ABOUT = _Paths.ABOUT;
+  static const HELP = _Paths.HELP;
   static const CATEGORY = _Paths.CATEGORY;
-  static const USERS = _Paths.USERS;
-  static const QUIZ = _Paths.QUIZ;
+  static const QUIZES_CAT = _Paths.QUIZES_CAT;
+  static const QUIZ_PLAY = _Paths.QUIZ_PLAY;
 }
 
 abstract class _Paths {
   _Paths._();
   static const HOME = '/home';
   static const AUTH = '/auth';
+  static const PROFILE = '/profile';
+  static const QUIZHISTORY = '/quizhistory';
+  static const ABOUT = '/about';
+  static const HELP = '/help';
   static const CATEGORY = '/category';
-  static const USERS = '/users';
-  static const QUIZ = '/quiz';
+  static const QUIZES_CAT = '/quizes-cat';
+  static const QUIZ_PLAY = '/quiz-play';
 }

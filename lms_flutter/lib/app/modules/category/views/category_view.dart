@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:lms_flutter/app/component/appcard.dart';
+import 'package:lms_flutter/app/core/extension/imageext.dart';
+import 'package:lms_flutter/app/core/extension/spacing.dart';
 
+import '../../../component/appcategorywidget.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/category_controller.dart';
 
 class CategoryView extends GetView<CategoryController> {
@@ -9,67 +15,36 @@ class CategoryView extends GetView<CategoryController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Form(
-                key: controller.form,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: controller.name,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'field is required';
-                        }
-                        return null;
-                      },
-                      decoration:
-                          const InputDecoration(hintText: "Category name"),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: controller.desc,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'field is required';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                          hintText: "Category description"),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                        onPressed: controller.createCategory,
-                        child: const Text("Add"))
-                  ],
+        appBar: AppBar(
+          title: const Text('Category'),
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.search,
+                  size: 30,
+                )),
+            10.spaceW,
+          ],
+        ),
+        body: SafeArea(
+          child: GridView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            itemCount: 8,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 15.w,
+              mainAxisSpacing: 15.w,
+            ),
+            shrinkWrap: true,
+            itemBuilder: (context, index) => AppCard(
+                ontap: () => Get.toNamed(Routes.QUIZES_CAT),
+                child: AppCategroyWidget(
+                  img: "boarding".toPng,
+                  title: "Category",
+                  subtitle: "1$index Quizzes",
                 )),
           ),
-          Expanded(
-            child: controller.obx(
-              (state) => ListView.builder(
-                itemCount: controller.category.length,
-                itemBuilder: (context, index) => ListTile(
-                  trailing: IconButton(
-                      onPressed: () => controller
-                          .deleteCategroy(controller.category[index].id!),
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      )),
-                  title: Text(controller.category[index].name),
-                  subtitle: Text(controller.category[index].desc),
-                ),
-              ),
-              onError: (error) => Text(error ?? "Somthing wrong"),
-              onEmpty: const Center(child: Text("You don't have categroy")),
-            ),
-          )
-        ],
-      ),
-    );
+        ));
   }
 }
