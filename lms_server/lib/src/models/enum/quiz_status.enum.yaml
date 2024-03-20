@@ -1,6 +1,0 @@
-enum: QuizStatus
-serialized: byName
-values:
- - validated
- - rejected
- - pending
