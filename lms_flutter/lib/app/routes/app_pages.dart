@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/about/bindings/about_binding.dart';
 import '../modules/about/views/about_view.dart';
+import '../modules/admin_home/bindings/admin_home_binding.dart';
+import '../modules/admin_home/views/admin_home_view.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/auth_view.dart';
 import '../modules/category/bindings/category_binding.dart';
@@ -74,6 +76,11 @@ class AppPages {
       name: _Paths.QUIZ_PLAY,
       page: () => const QuizPlayView(),
       binding: QuizPlayBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADMIN_HOME,
+      page: () => const AdminHomeView(),
+      binding: AdminHomeBinding(),
     ),
   ];
 }

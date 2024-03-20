@@ -4,12 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lms_flutter/app/core/extension/spacing.dart';
 import 'package:lms_flutter/app/core/themes/themes.dart';
-import 'package:lms_flutter/app/routes/app_pages.dart';
 
 import '../../../component/appelevatedbutton.dart';
 import '../../../component/apptextformfield.dart';
 import '../controllers/auth_controller.dart';
-import '../widget/socialwidget.dart';
 
 class AuthView extends GetView<AuthController> {
   const AuthView({super.key});
@@ -39,12 +37,12 @@ class AuthView extends GetView<AuthController> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
+        body: Padding(
           padding: EdgeInsets.all(20.h),
           child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   "Discover the world one quiz\nat a time",
@@ -53,29 +51,31 @@ class AuthView extends GetView<AuthController> {
                 ),
                 20.spaceH,
                 SizedBox(
-                  width: GetPlatform.isWeb ? Get.width / 2 : Get.width,
+                  width: GetPlatform.isWeb ? Get.width / 2.2 : Get.width,
                   child: Form(
-                    key: controller.form,
+                    key: controller.loginkey,
                     child: Column(
                       children: [
-                        const AppTextFormField(
+                        AppTextFormField(
                           isEmail: true,
+                          controller: controller.email,
                           label: "Email Address",
                           hint: "you@email.com",
                         ),
                         10.spaceH,
-                        const AppTextFormField(
+                        AppTextFormField(
+                          controller: controller.pwd,
                           isPassword: true,
                           label: "Password",
                           hint: "***************",
                         ),
-                        20.spaceH,
+                        GetPlatform.isWeb ? 30.spaceH : 20.spaceH,
                         AppElevatedButton(
-                            onPressed: controller.signIn, title: "Login"),
-                        5.spaceH,
+                            onPressed: controller.login, title: "Login"),
+                        GetPlatform.isWeb ? 10.spaceH : 5.spaceH,
                         TextButton(
                             onPressed: () {},
-                            child: Text("Sigin up ",
+                            child: Text("Create Account",
                                 style: TextStyle(
                                     fontSize:
                                         GetPlatform.isWeb ? 4.sp : 18.sp))),
@@ -83,15 +83,6 @@ class AuthView extends GetView<AuthController> {
                     ),
                   ),
                 ),
-                const SocialWidget(),
-                TextButton(
-                    onPressed: () => Get.offAndToNamed(Routes.HOME),
-                    child: Text("Continue as Guest",
-                        style: TextStyle(
-                          fontSize: GetPlatform.isWeb ? 4.sp : 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: ThemesApp.yellow,
-                        )))
               ],
             ),
           ),

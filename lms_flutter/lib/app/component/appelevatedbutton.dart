@@ -8,12 +8,16 @@ class AppElevatedButton extends StatelessWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: onPressed,
-        child: Text(
-          title,
-          style: TextStyle(
-              fontSize: GetPlatform.isWeb ? 4.sp : 18.sp, color: Colors.white),
-        ));
+    return SizedBox(
+      width: GetPlatform.isWeb ? 100.w : Get.width,
+      child: ElevatedButton(
+          onPressed: onPressed,
+          child: Text(
+            title,
+            style: TextStyle(
+                fontSize: GetPlatform.isWeb ? 4.sp : 18.sp,
+                color: Colors.white),
+          )),
+    );
   }
 }

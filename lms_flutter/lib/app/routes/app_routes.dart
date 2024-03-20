@@ -14,6 +14,7 @@ abstract class Routes {
   static const CATEGORY = _Paths.CATEGORY;
   static const QUIZES_CAT = _Paths.QUIZES_CAT;
   static const QUIZ_PLAY = _Paths.QUIZ_PLAY;
+  static const ADMIN_HOME = _Paths.ADMIN_HOME;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const CATEGORY = '/category';
   static const QUIZES_CAT = '/quizes-cat';
   static const QUIZ_PLAY = '/quiz-play';
+  static const ADMIN_HOME = '/admin-home';
 }

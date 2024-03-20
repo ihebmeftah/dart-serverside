@@ -34,7 +34,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         Text(
           widget.label!,
           style: TextStyle(
-              fontSize: GetPlatform.isWeb ? 4.sp : 16.sp,
+              fontSize: GetPlatform.isWeb ? 6.sp : 16.sp,
               fontWeight: FontWeight.w500,
               color: iserror ? Colors.red.shade900 : Colors.black87),
         ),
@@ -53,7 +53,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
               });
               return 'This field is required';
             }
-            if (widget.isEmail) {
+            if (widget.isEmail && !GetUtils.isEmail(value)) {
               setState(() {
                 iserror = true;
               });
