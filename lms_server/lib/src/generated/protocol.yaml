@@ -1,6 +1,9 @@
 category:
   - getCategory:
   - createCategory:
+quiz:
+  - getQuizes:
+  - createQuiz:
 users:
   - createUsers:
   - getPlayers:

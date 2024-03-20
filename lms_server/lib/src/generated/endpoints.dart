@@ -10,8 +10,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/category_endpoint.dart' as _i2;
-import '../endpoints/users_endpoint.dart' as _i3;
-import 'package:serverpod_auth_server/module.dart' as _i4;
+import '../endpoints/quiz_endpoint.dart' as _i3;
+import '../endpoints/users_endpoint.dart' as _i4;
+import 'package:serverpod_auth_server/module.dart' as _i5;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -23,7 +24,13 @@ class Endpoints extends _i1.EndpointDispatch {
           'category',
           null,
         ),
-      'users': _i3.UsersEndpoint()
+      'quiz': _i3.QuizEndpoint()
+        ..initialize(
+          server,
+          'quiz',
+          null,
+        ),
+      'users': _i4.UsersEndpoint()
         ..initialize(
           server,
           'users',
@@ -70,6 +77,51 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['quiz'] = _i1.EndpointConnector(
+      name: 'quiz',
+      endpoint: endpoints['quiz']!,
+      methodConnectors: {
+        'getQuizes': _i1.MethodConnector(
+          name: 'getQuizes',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quiz'] as _i3.QuizEndpoint).getQuizes(session),
+        ),
+        'createQuiz': _i1.MethodConnector(
+          name: 'createQuiz',
+          params: {
+            'categoryId': _i1.ParameterDescription(
+              name: 'categoryId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'desc': _i1.ParameterDescription(
+              name: 'desc',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quiz'] as _i3.QuizEndpoint).createQuiz(
+            session,
+            categoryId: params['categoryId'],
+            name: params['name'],
+            desc: params['desc'],
+          ),
+        ),
+      },
+    );
     connectors['users'] = _i1.EndpointConnector(
       name: 'users',
       endpoint: endpoints['users']!,
@@ -92,7 +144,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i3.UsersEndpoint).createUsers(
+              (endpoints['users'] as _i4.UsersEndpoint).createUsers(
             session,
             isAdmin: params['isAdmin'],
             userId: params['userId'],
@@ -105,7 +157,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i3.UsersEndpoint).getPlayers(session),
+              (endpoints['users'] as _i4.UsersEndpoint).getPlayers(session),
         ),
         'getAdmins': _i1.MethodConnector(
           name: 'getAdmins',
@@ -114,7 +166,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i3.UsersEndpoint).getAdmins(session),
+              (endpoints['users'] as _i4.UsersEndpoint).getAdmins(session),
         ),
         'getUsersNumber': _i1.MethodConnector(
           name: 'getUsersNumber',
@@ -123,10 +175,10 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i3.UsersEndpoint).getUsersNumber(session),
+              (endpoints['users'] as _i4.UsersEndpoint).getUsersNumber(session),
         ),
       },
     );
-    modules['serverpod_auth'] = _i4.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i5.Endpoints()..initializeEndpoints(server);
   }
 }

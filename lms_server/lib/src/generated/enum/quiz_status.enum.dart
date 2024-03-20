@@ -10,25 +10,19 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 
-enum ExceptionType with _i1.SerializableEntity {
-  userNotFoundException,
-  authenticationRequiredException,
-  unauthorizedAccessException,
-  duplicateKeyException,
-  notFound;
+enum QuizStatus with _i1.SerializableEntity {
+  validated,
+  rejected,
+  pending;
 
-  static ExceptionType? fromJson(String name) {
+  static QuizStatus? fromJson(String name) {
     switch (name) {
-      case 'userNotFoundException':
-        return userNotFoundException;
-      case 'authenticationRequiredException':
-        return authenticationRequiredException;
-      case 'unauthorizedAccessException':
-        return unauthorizedAccessException;
-      case 'duplicateKeyException':
-        return duplicateKeyException;
-      case 'notFound':
-        return notFound;
+      case 'validated':
+        return validated;
+      case 'rejected':
+        return rejected;
+      case 'pending':
+        return pending;
       default:
         return null;
     }

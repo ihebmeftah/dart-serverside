@@ -19,6 +19,7 @@ abstract class Admin extends _i1.TableRow {
     required this.userInfoId,
     this.userInfo,
     this.categories,
+    this.quizes,
   }) : super(id);
 
   factory Admin({
@@ -26,6 +27,7 @@ abstract class Admin extends _i1.TableRow {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     List<_i3.Category>? categories,
+    List<_i3.Quiz>? quizes,
   }) = _AdminImpl;
 
   factory Admin.fromJson(
@@ -40,6 +42,8 @@ abstract class Admin extends _i1.TableRow {
           .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
       categories: serializationManager
           .deserialize<List<_i3.Category>?>(jsonSerialization['categories']),
+      quizes: serializationManager
+          .deserialize<List<_i3.Quiz>?>(jsonSerialization['quizes']),
     );
   }
 
@@ -53,6 +57,8 @@ abstract class Admin extends _i1.TableRow {
 
   List<_i3.Category>? categories;
 
+  List<_i3.Quiz>? quizes;
+
   @override
   _i1.Table get table => t;
 
@@ -61,6 +67,7 @@ abstract class Admin extends _i1.TableRow {
     int? userInfoId,
     _i2.UserInfo? userInfo,
     List<_i3.Category>? categories,
+    List<_i3.Quiz>? quizes,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -70,6 +77,8 @@ abstract class Admin extends _i1.TableRow {
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
       if (categories != null)
         'categories': categories?.toJson(valueToJson: (v) => v.toJson()),
+      if (quizes != null)
+        'quizes': quizes?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -90,6 +99,8 @@ abstract class Admin extends _i1.TableRow {
       if (userInfo != null) 'userInfo': userInfo?.allToJson(),
       if (categories != null)
         'categories': categories?.toJson(valueToJson: (v) => v.allToJson()),
+      if (quizes != null)
+        'quizes': quizes?.toJson(valueToJson: (v) => v.allToJson()),
     };
   }
 
@@ -239,10 +250,12 @@ abstract class Admin extends _i1.TableRow {
   static AdminInclude include({
     _i2.UserInfoInclude? userInfo,
     _i3.CategoryIncludeList? categories,
+    _i3.QuizIncludeList? quizes,
   }) {
     return AdminInclude._(
       userInfo: userInfo,
       categories: categories,
+      quizes: quizes,
     );
   }
 
@@ -275,11 +288,13 @@ class _AdminImpl extends Admin {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     List<_i3.Category>? categories,
+    List<_i3.Quiz>? quizes,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
           categories: categories,
+          quizes: quizes,
         );
 
   @override
@@ -288,6 +303,7 @@ class _AdminImpl extends Admin {
     int? userInfoId,
     Object? userInfo = _Undefined,
     Object? categories = _Undefined,
+    Object? quizes = _Undefined,
   }) {
     return Admin(
       id: id is int? ? id : this.id,
@@ -297,6 +313,7 @@ class _AdminImpl extends Admin {
       categories: categories is List<_i3.Category>?
           ? categories
           : this.categories?.clone(),
+      quizes: quizes is List<_i3.Quiz>? ? quizes : this.quizes?.clone(),
     );
   }
 }
@@ -316,6 +333,10 @@ class AdminTable extends _i1.Table {
   _i3.CategoryTable? ___categories;
 
   _i1.ManyRelation<_i3.CategoryTable>? _categories;
+
+  _i3.QuizTable? ___quizes;
+
+  _i1.ManyRelation<_i3.QuizTable>? _quizes;
 
   _i2.UserInfoTable get userInfo {
     if (_userInfo != null) return _userInfo!;
@@ -343,6 +364,19 @@ class AdminTable extends _i1.Table {
     return ___categories!;
   }
 
+  _i3.QuizTable get __quizes {
+    if (___quizes != null) return ___quizes!;
+    ___quizes = _i1.createRelationTable(
+      relationFieldName: '__quizes',
+      field: Admin.t.id,
+      foreignField: _i3.Quiz.t.userId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.QuizTable(tableRelation: foreignTableRelation),
+    );
+    return ___quizes!;
+  }
+
   _i1.ManyRelation<_i3.CategoryTable> get categories {
     if (_categories != null) return _categories!;
     var relationTable = _i1.createRelationTable(
@@ -361,6 +395,24 @@ class AdminTable extends _i1.Table {
     return _categories!;
   }
 
+  _i1.ManyRelation<_i3.QuizTable> get quizes {
+    if (_quizes != null) return _quizes!;
+    var relationTable = _i1.createRelationTable(
+      relationFieldName: 'quizes',
+      field: Admin.t.id,
+      foreignField: _i3.Quiz.t.userId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.QuizTable(tableRelation: foreignTableRelation),
+    );
+    _quizes = _i1.ManyRelation<_i3.QuizTable>(
+      tableWithRelations: relationTable,
+      table: _i3.QuizTable(
+          tableRelation: relationTable.tableRelation!.lastRelation),
+    );
+    return _quizes!;
+  }
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -375,6 +427,9 @@ class AdminTable extends _i1.Table {
     if (relationField == 'categories') {
       return __categories;
     }
+    if (relationField == 'quizes') {
+      return __quizes;
+    }
     return null;
   }
 }
@@ -386,19 +441,24 @@ class AdminInclude extends _i1.IncludeObject {
   AdminInclude._({
     _i2.UserInfoInclude? userInfo,
     _i3.CategoryIncludeList? categories,
+    _i3.QuizIncludeList? quizes,
   }) {
     _userInfo = userInfo;
     _categories = categories;
+    _quizes = quizes;
   }
 
   _i2.UserInfoInclude? _userInfo;
 
   _i3.CategoryIncludeList? _categories;
 
+  _i3.QuizIncludeList? _quizes;
+
   @override
   Map<String, _i1.Include?> get includes => {
         'userInfo': _userInfo,
         'categories': _categories,
+        'quizes': _quizes,
       };
 
   @override
@@ -605,6 +665,25 @@ class AdminAttachRepository {
       columns: [_i3.Category.t.userId],
     );
   }
+
+  Future<void> quizes(
+    _i1.Session session,
+    Admin admin,
+    List<_i3.Quiz> quiz,
+  ) async {
+    if (quiz.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('quiz.id');
+    }
+    if (admin.id == null) {
+      throw ArgumentError.notNull('admin.id');
+    }
+
+    var $quiz = quiz.map((e) => e.copyWith(userId: admin.id)).toList();
+    await session.dbNext.update<_i3.Quiz>(
+      $quiz,
+      columns: [_i3.Quiz.t.userId],
+    );
+  }
 }
 
 class AdminAttachRowRepository {
@@ -645,6 +724,25 @@ class AdminAttachRowRepository {
     await session.dbNext.updateRow<_i3.Category>(
       $category,
       columns: [_i3.Category.t.userId],
+    );
+  }
+
+  Future<void> quizes(
+    _i1.Session session,
+    Admin admin,
+    _i3.Quiz quiz,
+  ) async {
+    if (quiz.id == null) {
+      throw ArgumentError.notNull('quiz.id');
+    }
+    if (admin.id == null) {
+      throw ArgumentError.notNull('admin.id');
+    }
+
+    var $quiz = quiz.copyWith(userId: admin.id);
+    await session.dbNext.updateRow<_i3.Quiz>(
+      $quiz,
+      columns: [_i3.Quiz.t.userId],
     );
   }
 }
