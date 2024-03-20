@@ -6,6 +6,8 @@ import '../modules/category/bindings/category_binding.dart';
 import '../modules/category/views/category_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/quiz/bindings/quiz_binding.dart';
+import '../modules/quiz/views/quiz_view.dart';
 import '../modules/users/bindings/users_binding.dart';
 import '../modules/users/views/users_view.dart';
 
@@ -22,6 +24,7 @@ class AppPages {
     GetPage(name: _Paths.HOME, page: () => const HomeView(), bindings: [
       HomeBinding(),
       CategoryBinding(),
+      QuizBinding(),
       UsersBinding()
     ], children: [
       GetPage(
@@ -31,6 +34,10 @@ class AppPages {
       GetPage(
         name: _Paths.USERS,
         page: () => const UsersView(),
+      ),
+      GetPage(
+        name: _Paths.QUIZ,
+        page: () => const QuizView(),
       ),
     ]),
     GetPage(
