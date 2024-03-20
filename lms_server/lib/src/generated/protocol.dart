@@ -18,20 +18,24 @@ import 'enum/quiz_status.enum.dart' as _i6;
 import 'enum/roles.enum.dart' as _i7;
 import 'exceptions/appexception.dart' as _i8;
 import 'exceptions/exceptiontype.enum.dart' as _i9;
-import 'player.dart' as _i10;
-import 'quiz.dart' as _i11;
-import 'protocol.dart' as _i12;
-import 'package:lms_server/src/generated/category.dart' as _i13;
-import 'package:lms_server/src/generated/quiz.dart' as _i14;
-import 'package:lms_server/src/generated/player.dart' as _i15;
-import 'package:lms_server/src/generated/admin.dart' as _i16;
+import 'option.dart' as _i10;
+import 'player.dart' as _i11;
+import 'question.dart' as _i12;
+import 'quiz.dart' as _i13;
+import 'protocol.dart' as _i14;
+import 'package:lms_server/src/generated/category.dart' as _i15;
+import 'package:lms_server/src/generated/quiz.dart' as _i16;
+import 'package:lms_server/src/generated/player.dart' as _i17;
+import 'package:lms_server/src/generated/admin.dart' as _i18;
 export 'admin.dart';
 export 'category.dart';
 export 'enum/quiz_status.enum.dart';
 export 'enum/roles.enum.dart';
 export 'exceptions/appexception.dart';
 export 'exceptions/exceptiontype.enum.dart';
+export 'option.dart';
 export 'player.dart';
+export 'question.dart';
 export 'quiz.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -185,6 +189,80 @@ class Protocol extends _i1.SerializationManagerServer {
       managed: true,
     ),
     _i2.TableDefinition(
+      name: 'option',
+      dartName: 'Option',
+      schema: 'public',
+      module: 'lms',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'option_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'text',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'isCorrect',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'question',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'option_fk_0',
+          columns: ['question'],
+          referenceTable: 'question',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.cascade,
+          matchType: null,
+        )
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'option_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'text_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'text',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
       name: 'player',
       dartName: 'Player',
       schema: 'public',
@@ -237,6 +315,86 @@ class Protocol extends _i1.SerializationManagerServer {
             _i2.IndexElementDefinition(
               type: _i2.IndexElementDefinitionType.column,
               definition: 'userInfoId',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'question',
+      dartName: 'Question',
+      schema: 'public',
+      module: 'lms',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'question_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'question',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'additionalInformation',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'quiz',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'points',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'question_fk_0',
+          columns: ['quiz'],
+          referenceTable: 'quiz',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.cascade,
+          matchType: null,
+        )
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'question_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'question_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'question',
             )
           ],
           type: 'btree',
@@ -379,11 +537,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i9.ExceptionType) {
       return _i9.ExceptionType.fromJson(data) as T;
     }
-    if (t == _i10.Player) {
-      return _i10.Player.fromJson(data, this) as T;
+    if (t == _i10.Option) {
+      return _i10.Option.fromJson(data, this) as T;
     }
-    if (t == _i11.Quiz) {
-      return _i11.Quiz.fromJson(data, this) as T;
+    if (t == _i11.Player) {
+      return _i11.Player.fromJson(data, this) as T;
+    }
+    if (t == _i12.Question) {
+      return _i12.Question.fromJson(data, this) as T;
+    }
+    if (t == _i13.Quiz) {
+      return _i13.Quiz.fromJson(data, this) as T;
     }
     if (t == _i1.getType<_i4.Admin?>()) {
       return (data != null ? _i4.Admin.fromJson(data, this) : null) as T;
@@ -403,36 +567,52 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i9.ExceptionType?>()) {
       return (data != null ? _i9.ExceptionType.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i10.Player?>()) {
-      return (data != null ? _i10.Player.fromJson(data, this) : null) as T;
+    if (t == _i1.getType<_i10.Option?>()) {
+      return (data != null ? _i10.Option.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<_i11.Quiz?>()) {
-      return (data != null ? _i11.Quiz.fromJson(data, this) : null) as T;
+    if (t == _i1.getType<_i11.Player?>()) {
+      return (data != null ? _i11.Player.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<List<_i12.Category>?>()) {
+    if (t == _i1.getType<_i12.Question?>()) {
+      return (data != null ? _i12.Question.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<_i13.Quiz?>()) {
+      return (data != null ? _i13.Quiz.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<List<_i14.Category>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i12.Category>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i14.Category>(e)).toList()
           : null) as dynamic;
     }
-    if (t == _i1.getType<List<_i12.Quiz>?>()) {
+    if (t == _i1.getType<List<_i14.Quiz>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i12.Quiz>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i14.Quiz>(e)).toList()
           : null) as dynamic;
     }
-    if (t == List<_i13.Category>) {
-      return (data as List).map((e) => deserialize<_i13.Category>(e)).toList()
+    if (t == _i1.getType<List<_i14.Option>?>()) {
+      return (data != null
+          ? (data as List).map((e) => deserialize<_i14.Option>(e)).toList()
+          : null) as dynamic;
+    }
+    if (t == _i1.getType<List<_i14.Question>?>()) {
+      return (data != null
+          ? (data as List).map((e) => deserialize<_i14.Question>(e)).toList()
+          : null) as dynamic;
+    }
+    if (t == List<_i15.Category>) {
+      return (data as List).map((e) => deserialize<_i15.Category>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i14.Quiz>) {
-      return (data as List).map((e) => deserialize<_i14.Quiz>(e)).toList()
+    if (t == List<_i16.Quiz>) {
+      return (data as List).map((e) => deserialize<_i16.Quiz>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i15.Player>) {
-      return (data as List).map((e) => deserialize<_i15.Player>(e)).toList()
+    if (t == List<_i17.Player>) {
+      return (data as List).map((e) => deserialize<_i17.Player>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i16.Admin>) {
-      return (data as List).map((e) => deserialize<_i16.Admin>(e)).toList()
+    if (t == List<_i18.Admin>) {
+      return (data as List).map((e) => deserialize<_i18.Admin>(e)).toList()
           as dynamic;
     }
     if (t == List<int>) {
@@ -472,10 +652,16 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i9.ExceptionType) {
       return 'ExceptionType';
     }
-    if (data is _i10.Player) {
+    if (data is _i10.Option) {
+      return 'Option';
+    }
+    if (data is _i11.Player) {
       return 'Player';
     }
-    if (data is _i11.Quiz) {
+    if (data is _i12.Question) {
+      return 'Question';
+    }
+    if (data is _i13.Quiz) {
       return 'Quiz';
     }
     return super.getClassNameForObject(data);
@@ -505,11 +691,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'ExceptionType') {
       return deserialize<_i9.ExceptionType>(data['data']);
     }
+    if (data['className'] == 'Option') {
+      return deserialize<_i10.Option>(data['data']);
+    }
     if (data['className'] == 'Player') {
-      return deserialize<_i10.Player>(data['data']);
+      return deserialize<_i11.Player>(data['data']);
+    }
+    if (data['className'] == 'Question') {
+      return deserialize<_i12.Question>(data['data']);
     }
     if (data['className'] == 'Quiz') {
-      return deserialize<_i11.Quiz>(data['data']);
+      return deserialize<_i13.Quiz>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -533,10 +725,14 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i4.Admin.t;
       case _i5.Category:
         return _i5.Category.t;
-      case _i10.Player:
-        return _i10.Player.t;
-      case _i11.Quiz:
-        return _i11.Quiz.t;
+      case _i10.Option:
+        return _i10.Option.t;
+      case _i11.Player:
+        return _i11.Player.t;
+      case _i12.Question:
+        return _i12.Question.t;
+      case _i13.Quiz:
+        return _i13.Quiz.t;
     }
     return null;
   }

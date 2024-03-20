@@ -15,7 +15,22 @@ enum ExceptionType with _i1.SerializableEntity {
   authenticationRequiredException,
   unauthorizedAccessException,
   duplicateKeyException,
-  notFound;
+  notFound,
+  notImplemented,
+  badRequest,
+  forbidden,
+  internalServerError,
+  validationException,
+  notAcceptable,
+  unprocessableEntity,
+  conflict,
+  preconditionFailed,
+  preconditionRequired,
+  tooManyRequests,
+  gatewayTimeout,
+  serviceUnavailable,
+  badGateway,
+  unknown;
 
   static ExceptionType? fromJson(String name) {
     switch (name) {
@@ -29,6 +44,36 @@ enum ExceptionType with _i1.SerializableEntity {
         return duplicateKeyException;
       case 'notFound':
         return notFound;
+      case 'notImplemented':
+        return notImplemented;
+      case 'badRequest':
+        return badRequest;
+      case 'forbidden':
+        return forbidden;
+      case 'internalServerError':
+        return internalServerError;
+      case 'validationException':
+        return validationException;
+      case 'notAcceptable':
+        return notAcceptable;
+      case 'unprocessableEntity':
+        return unprocessableEntity;
+      case 'conflict':
+        return conflict;
+      case 'preconditionFailed':
+        return preconditionFailed;
+      case 'preconditionRequired':
+        return preconditionRequired;
+      case 'tooManyRequests':
+        return tooManyRequests;
+      case 'gatewayTimeout':
+        return gatewayTimeout;
+      case 'serviceUnavailable':
+        return serviceUnavailable;
+      case 'badGateway':
+        return badGateway;
+      case 'unknown':
+        return unknown;
       default:
         return null;
     }

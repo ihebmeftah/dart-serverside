@@ -10,6 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'protocol.dart' as _i2;
+import 'package:serverpod_serialization/serverpod_serialization.dart';
 
 abstract class Quiz extends _i1.TableRow {
   Quiz._({
@@ -20,6 +21,7 @@ abstract class Quiz extends _i1.TableRow {
     required this.categoryId,
     required this.userId,
     required this.points,
+    this.question,
   }) : super(id);
 
   factory Quiz({
@@ -30,6 +32,7 @@ abstract class Quiz extends _i1.TableRow {
     required int categoryId,
     required int userId,
     required int points,
+    List<_i2.Question>? question,
   }) = _QuizImpl;
 
   factory Quiz.fromJson(
@@ -49,6 +52,8 @@ abstract class Quiz extends _i1.TableRow {
           serializationManager.deserialize<int>(jsonSerialization['userId']),
       points:
           serializationManager.deserialize<int>(jsonSerialization['points']),
+      question: serializationManager
+          .deserialize<List<_i2.Question>?>(jsonSerialization['question']),
     );
   }
 
@@ -68,6 +73,8 @@ abstract class Quiz extends _i1.TableRow {
 
   int points;
 
+  List<_i2.Question>? question;
+
   @override
   _i1.Table get table => t;
 
@@ -79,6 +86,7 @@ abstract class Quiz extends _i1.TableRow {
     int? categoryId,
     int? userId,
     int? points,
+    List<_i2.Question>? question,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -90,6 +98,8 @@ abstract class Quiz extends _i1.TableRow {
       'categoryId': categoryId,
       'userId': userId,
       'points': points,
+      if (question != null)
+        'question': question?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -117,6 +127,8 @@ abstract class Quiz extends _i1.TableRow {
       'categoryId': categoryId,
       'userId': userId,
       'points': points,
+      if (question != null)
+        'question': question?.toJson(valueToJson: (v) => v.allToJson()),
     };
   }
 
@@ -164,6 +176,7 @@ abstract class Quiz extends _i1.TableRow {
     bool orderDescending = false,
     bool useCache = true,
     _i1.Transaction? transaction,
+    QuizInclude? include,
   }) async {
     return session.db.find<Quiz>(
       where: where != null ? where(Quiz.t) : null,
@@ -174,6 +187,7 @@ abstract class Quiz extends _i1.TableRow {
       orderDescending: orderDescending,
       useCache: useCache,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -186,6 +200,7 @@ abstract class Quiz extends _i1.TableRow {
     bool orderDescending = false,
     bool useCache = true,
     _i1.Transaction? transaction,
+    QuizInclude? include,
   }) async {
     return session.db.findSingleRow<Quiz>(
       where: where != null ? where(Quiz.t) : null,
@@ -194,15 +209,20 @@ abstract class Quiz extends _i1.TableRow {
       orderDescending: orderDescending,
       useCache: useCache,
       transaction: transaction,
+      include: include,
     );
   }
 
   @Deprecated('Will be removed in 2.0.0. Use: db.findById instead.')
   static Future<Quiz?> findById(
     _i1.Session session,
-    int id,
-  ) async {
-    return session.db.findById<Quiz>(id);
+    int id, {
+    QuizInclude? include,
+  }) async {
+    return session.db.findById<Quiz>(
+      id,
+      include: include,
+    );
   }
 
   @Deprecated('Will be removed in 2.0.0. Use: db.deleteWhere instead.')
@@ -270,8 +290,8 @@ abstract class Quiz extends _i1.TableRow {
     );
   }
 
-  static QuizInclude include() {
-    return QuizInclude._();
+  static QuizInclude include({_i2.QuestionIncludeList? question}) {
+    return QuizInclude._(question: question);
   }
 
   static QuizIncludeList includeList({
@@ -306,6 +326,7 @@ class _QuizImpl extends Quiz {
     required int categoryId,
     required int userId,
     required int points,
+    List<_i2.Question>? question,
   }) : super._(
           id: id,
           name: name,
@@ -314,6 +335,7 @@ class _QuizImpl extends Quiz {
           categoryId: categoryId,
           userId: userId,
           points: points,
+          question: question,
         );
 
   @override
@@ -325,6 +347,7 @@ class _QuizImpl extends Quiz {
     int? categoryId,
     int? userId,
     int? points,
+    Object? question = _Undefined,
   }) {
     return Quiz(
       id: id is int? ? id : this.id,
@@ -334,6 +357,8 @@ class _QuizImpl extends Quiz {
       categoryId: categoryId ?? this.categoryId,
       userId: userId ?? this.userId,
       points: points ?? this.points,
+      question:
+          question is List<_i2.Question>? ? question : this.question?.clone(),
     );
   }
 }
@@ -379,6 +404,41 @@ class QuizTable extends _i1.Table {
 
   late final _i1.ColumnInt points;
 
+  _i2.QuestionTable? ___question;
+
+  _i1.ManyRelation<_i2.QuestionTable>? _question;
+
+  _i2.QuestionTable get __question {
+    if (___question != null) return ___question!;
+    ___question = _i1.createRelationTable(
+      relationFieldName: '__question',
+      field: Quiz.t.id,
+      foreignField: _i2.Question.t.quiz,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i2.QuestionTable(tableRelation: foreignTableRelation),
+    );
+    return ___question!;
+  }
+
+  _i1.ManyRelation<_i2.QuestionTable> get question {
+    if (_question != null) return _question!;
+    var relationTable = _i1.createRelationTable(
+      relationFieldName: 'question',
+      field: Quiz.t.id,
+      foreignField: _i2.Question.t.quiz,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i2.QuestionTable(tableRelation: foreignTableRelation),
+    );
+    _question = _i1.ManyRelation<_i2.QuestionTable>(
+      tableWithRelations: relationTable,
+      table: _i2.QuestionTable(
+          tableRelation: relationTable.tableRelation!.lastRelation),
+    );
+    return _question!;
+  }
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -389,16 +449,28 @@ class QuizTable extends _i1.Table {
         userId,
         points,
       ];
+
+  @override
+  _i1.Table? getRelationTable(String relationField) {
+    if (relationField == 'question') {
+      return __question;
+    }
+    return null;
+  }
 }
 
 @Deprecated('Use QuizTable.t instead.')
 QuizTable tQuiz = QuizTable();
 
 class QuizInclude extends _i1.IncludeObject {
-  QuizInclude._();
+  QuizInclude._({_i2.QuestionIncludeList? question}) {
+    _question = question;
+  }
+
+  _i2.QuestionIncludeList? _question;
 
   @override
-  Map<String, _i1.Include?> get includes => {};
+  Map<String, _i1.Include?> get includes => {'question': _question};
 
   @override
   _i1.Table get table => Quiz.t;
@@ -427,6 +499,10 @@ class QuizIncludeList extends _i1.IncludeList {
 class QuizRepository {
   const QuizRepository._();
 
+  final attach = const QuizAttachRepository._();
+
+  final attachRow = const QuizAttachRowRepository._();
+
   Future<List<Quiz>> find(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<QuizTable>? where,
@@ -436,6 +512,7 @@ class QuizRepository {
     bool orderDescending = false,
     _i1.OrderByListBuilder<QuizTable>? orderByList,
     _i1.Transaction? transaction,
+    QuizInclude? include,
   }) async {
     return session.dbNext.find<Quiz>(
       where: where?.call(Quiz.t),
@@ -445,6 +522,7 @@ class QuizRepository {
       limit: limit,
       offset: offset,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -456,6 +534,7 @@ class QuizRepository {
     bool orderDescending = false,
     _i1.OrderByListBuilder<QuizTable>? orderByList,
     _i1.Transaction? transaction,
+    QuizInclude? include,
   }) async {
     return session.dbNext.findFirstRow<Quiz>(
       where: where?.call(Quiz.t),
@@ -464,6 +543,7 @@ class QuizRepository {
       orderDescending: orderDescending,
       offset: offset,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -471,10 +551,12 @@ class QuizRepository {
     _i1.Session session,
     int id, {
     _i1.Transaction? transaction,
+    QuizInclude? include,
   }) async {
     return session.dbNext.findById<Quiz>(
       id,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -569,6 +651,52 @@ class QuizRepository {
       where: where?.call(Quiz.t),
       limit: limit,
       transaction: transaction,
+    );
+  }
+}
+
+class QuizAttachRepository {
+  const QuizAttachRepository._();
+
+  Future<void> question(
+    _i1.Session session,
+    Quiz quiz,
+    List<_i2.Question> question,
+  ) async {
+    if (question.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('question.id');
+    }
+    if (quiz.id == null) {
+      throw ArgumentError.notNull('quiz.id');
+    }
+
+    var $question = question.map((e) => e.copyWith(quiz: quiz.id)).toList();
+    await session.dbNext.update<_i2.Question>(
+      $question,
+      columns: [_i2.Question.t.quiz],
+    );
+  }
+}
+
+class QuizAttachRowRepository {
+  const QuizAttachRowRepository._();
+
+  Future<void> question(
+    _i1.Session session,
+    Quiz quiz,
+    _i2.Question question,
+  ) async {
+    if (question.id == null) {
+      throw ArgumentError.notNull('question.id');
+    }
+    if (quiz.id == null) {
+      throw ArgumentError.notNull('quiz.id');
+    }
+
+    var $question = question.copyWith(quiz: quiz.id);
+    await session.dbNext.updateRow<_i2.Question>(
+      $question,
+      columns: [_i2.Question.t.quiz],
     );
   }
 }

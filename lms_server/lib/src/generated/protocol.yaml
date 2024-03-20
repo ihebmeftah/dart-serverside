@@ -1,6 +1,7 @@
 category:
   - getCategory:
   - createCategory:
+  - deleteCategroy:
 quiz:
   - getQuizes:
   - createQuiz:
