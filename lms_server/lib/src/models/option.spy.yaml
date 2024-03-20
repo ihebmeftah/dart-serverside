@@ -1,0 +1,12 @@
+class: Option
+table: option
+fields:
+    text: String
+    isCorrect: bool
+    question: int, relation(name=question_options, parent=question, onDelete=Cascade)
+
+
+indexes:
+  text_unique_idx:
+    fields: text
+    unique: true

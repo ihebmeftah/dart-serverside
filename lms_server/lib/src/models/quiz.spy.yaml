@@ -7,6 +7,7 @@ fields:
     categoryId: int, relation(parent=category, onDelete=Cascade) ### One to one With an Id field : Foreign key field
     userId: int, relation(name=admin_quiz, parent=admin, onDelete=Cascade)
     points: int
+    question: List<Question>?, relation(name=quiz_question) ### Bidirectional relations one to many
 
 
 indexes:

@@ -1,0 +1,14 @@
+class: Question
+table: question
+fields:
+    question: String
+    additionalInformation: String
+    quiz: int, relation(name=quiz_question, parent=quiz, onDelete=Cascade)
+    points: int
+    options: List<Option>?, relation(name=question_options) ### Bidirectional relations one to many
+
+
+indexes:
+  question_unique_idx:
+    fields: question
+    unique: true
