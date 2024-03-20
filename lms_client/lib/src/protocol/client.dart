@@ -11,11 +11,12 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:lms_client/src/protocol/category.dart' as _i3;
-import 'package:lms_client/src/protocol/quiz.dart' as _i4;
-import 'package:lms_client/src/protocol/player.dart' as _i5;
-import 'package:lms_client/src/protocol/admin.dart' as _i6;
-import 'package:serverpod_auth_client/module.dart' as _i7;
-import 'protocol.dart' as _i8;
+import 'package:lms_client/src/protocol/question.dart' as _i4;
+import 'package:lms_client/src/protocol/quiz.dart' as _i5;
+import 'package:lms_client/src/protocol/player.dart' as _i6;
+import 'package:lms_client/src/protocol/admin.dart' as _i7;
+import 'package:serverpod_auth_client/module.dart' as _i8;
+import 'protocol.dart' as _i9;
 
 /// {@category Endpoint}
 class EndpointCategory extends _i1.EndpointRef {
@@ -53,25 +54,63 @@ class EndpointCategory extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointQuestion extends _i1.EndpointRef {
+  EndpointQuestion(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'question';
+
+  _i2.Future<_i4.Question> createQuestion({
+    required int quizId,
+    required int point,
+    required String question,
+    required String additionalInformation,
+  }) =>
+      caller.callServerEndpoint<_i4.Question>(
+        'question',
+        'createQuestion',
+        {
+          'quizId': quizId,
+          'point': point,
+          'question': question,
+          'additionalInformation': additionalInformation,
+        },
+      );
+
+  _i2.Future<String> deleteQuestion(int id) =>
+      caller.callServerEndpoint<String>(
+        'question',
+        'deleteQuestion',
+        {'id': id},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointQuiz extends _i1.EndpointRef {
   EndpointQuiz(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'quiz';
 
-  _i2.Future<List<_i4.Quiz>> getQuizes() =>
-      caller.callServerEndpoint<List<_i4.Quiz>>(
+  _i2.Future<List<_i5.Quiz>> getQuizes() =>
+      caller.callServerEndpoint<List<_i5.Quiz>>(
         'quiz',
         'getQuizes',
         {},
       );
 
-  _i2.Future<_i4.Quiz> createQuiz({
+  _i2.Future<_i5.Quiz?> getQuiz(int id) => caller.callServerEndpoint<_i5.Quiz?>(
+        'quiz',
+        'getQuiz',
+        {'id': id},
+      );
+
+  _i2.Future<_i5.Quiz> createQuiz({
     required int categoryId,
     required String name,
     required String desc,
   }) =>
-      caller.callServerEndpoint<_i4.Quiz>(
+      caller.callServerEndpoint<_i5.Quiz>(
         'quiz',
         'createQuiz',
         {
@@ -79,6 +118,12 @@ class EndpointQuiz extends _i1.EndpointRef {
           'name': name,
           'desc': desc,
         },
+      );
+
+  _i2.Future<String> deleteQuiz(int id) => caller.callServerEndpoint<String>(
+        'quiz',
+        'deleteQuiz',
+        {'id': id},
       );
 }
 
@@ -102,15 +147,15 @@ class EndpointUsers extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<List<_i5.Player>> getPlayers() =>
-      caller.callServerEndpoint<List<_i5.Player>>(
+  _i2.Future<List<_i6.Player>> getPlayers() =>
+      caller.callServerEndpoint<List<_i6.Player>>(
         'users',
         'getPlayers',
         {},
       );
 
-  _i2.Future<List<_i6.Admin>> getAdmins() =>
-      caller.callServerEndpoint<List<_i6.Admin>>(
+  _i2.Future<List<_i7.Admin>> getAdmins() =>
+      caller.callServerEndpoint<List<_i7.Admin>>(
         'users',
         'getAdmins',
         {},
@@ -127,10 +172,10 @@ class EndpointUsers extends _i1.EndpointRef {
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i7.Caller(client);
+    auth = _i8.Caller(client);
   }
 
-  late final _i7.Caller auth;
+  late final _i8.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
@@ -142,19 +187,22 @@ class Client extends _i1.ServerpodClient {
     Duration? connectionTimeout,
   }) : super(
           host,
-          _i8.Protocol(),
+          _i9.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
         ) {
     category = EndpointCategory(this);
+    question = EndpointQuestion(this);
     quiz = EndpointQuiz(this);
     users = EndpointUsers(this);
     modules = _Modules(this);
   }
 
   late final EndpointCategory category;
+
+  late final EndpointQuestion question;
 
   late final EndpointQuiz quiz;
 
@@ -165,6 +213,7 @@ class Client extends _i1.ServerpodClient {
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'category': category,
+        'question': question,
         'quiz': quiz,
         'users': users,
       };

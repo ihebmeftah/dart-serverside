@@ -16,7 +16,6 @@ abstract class Quiz extends _i1.SerializableEntity {
     this.id,
     required this.name,
     this.desc,
-    required this.status,
     required this.categoryId,
     required this.userId,
     required this.points,
@@ -27,7 +26,6 @@ abstract class Quiz extends _i1.SerializableEntity {
     int? id,
     required String name,
     String? desc,
-    required _i2.QuizStatus status,
     required int categoryId,
     required int userId,
     required int points,
@@ -43,8 +41,6 @@ abstract class Quiz extends _i1.SerializableEntity {
       name: serializationManager.deserialize<String>(jsonSerialization['name']),
       desc:
           serializationManager.deserialize<String?>(jsonSerialization['desc']),
-      status: serializationManager
-          .deserialize<_i2.QuizStatus>(jsonSerialization['status']),
       categoryId: serializationManager
           .deserialize<int>(jsonSerialization['categoryId']),
       userId:
@@ -65,8 +61,6 @@ abstract class Quiz extends _i1.SerializableEntity {
 
   String? desc;
 
-  _i2.QuizStatus status;
-
   int categoryId;
 
   int userId;
@@ -79,7 +73,6 @@ abstract class Quiz extends _i1.SerializableEntity {
     int? id,
     String? name,
     String? desc,
-    _i2.QuizStatus? status,
     int? categoryId,
     int? userId,
     int? points,
@@ -91,7 +84,6 @@ abstract class Quiz extends _i1.SerializableEntity {
       if (id != null) 'id': id,
       'name': name,
       if (desc != null) 'desc': desc,
-      'status': status.toJson(),
       'categoryId': categoryId,
       'userId': userId,
       'points': points,
@@ -108,7 +100,6 @@ class _QuizImpl extends Quiz {
     int? id,
     required String name,
     String? desc,
-    required _i2.QuizStatus status,
     required int categoryId,
     required int userId,
     required int points,
@@ -117,7 +108,6 @@ class _QuizImpl extends Quiz {
           id: id,
           name: name,
           desc: desc,
-          status: status,
           categoryId: categoryId,
           userId: userId,
           points: points,
@@ -129,7 +119,6 @@ class _QuizImpl extends Quiz {
     Object? id = _Undefined,
     String? name,
     Object? desc = _Undefined,
-    _i2.QuizStatus? status,
     int? categoryId,
     int? userId,
     int? points,
@@ -139,7 +128,6 @@ class _QuizImpl extends Quiz {
       id: id is int? ? id : this.id,
       name: name ?? this.name,
       desc: desc is String? ? desc : this.desc,
-      status: status ?? this.status,
       categoryId: categoryId ?? this.categoryId,
       userId: userId ?? this.userId,
       points: points ?? this.points,
