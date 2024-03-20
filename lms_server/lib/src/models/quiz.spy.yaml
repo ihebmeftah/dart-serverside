@@ -1,0 +1,15 @@
+class: Quiz
+table: quiz
+fields:
+    name: String
+    desc: String?
+    status: QuizStatus
+    categoryId: int, relation(parent=category, onDelete=Cascade) ### Foreign key field
+    userId: int, relation(name=admin_quiz, parent=admin, onDelete=Cascade)
+    points: int
+
+
+indexes:
+  quiz_name_unique_idx:
+    fields: name
+    unique: true
