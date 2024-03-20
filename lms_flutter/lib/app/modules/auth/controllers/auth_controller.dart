@@ -5,8 +5,6 @@ import 'package:lms_flutter/app/routes/app_pages.dart';
 import 'package:lms_flutter/initclient.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 
-import '../../../../flavors.dart';
-
 class AuthController extends GetxController {
   final authController = EmailAuthController(client.modules.auth);
 
@@ -68,8 +66,8 @@ class AuthController extends GetxController {
             createemail.text, verificationCode.text);
         if (user != null) {
           user = await authController.signIn(createemail.text, createpwd.text);
-          final result = await client.users.createUsers(
-              isAdmin: F.appFlavor == Flavor.admin, userId: user!.id!);
+          final result =
+              await client.users.createUsers(isAdmin: true, userId: user!.id!);
           Get.offAllNamed(Routes.HOME);
           Get.snackbar("Done", result);
         } else {

@@ -1,6 +1,0 @@
-#include "Generated.xcconfig"
-
-FLUTTER_TARGET=lib/main_player.dart
-ASSET_PREFIX=player
-BUNDLE_NAME=Quiz player
-BUNDLE_DISPLAY_NAME=Quiz player

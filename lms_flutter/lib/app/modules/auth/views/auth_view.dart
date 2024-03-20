@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:lms_flutter/flavors.dart';
 
 import '../controllers/auth_controller.dart';
 
@@ -12,7 +11,6 @@ class AuthView extends GetView<AuthController> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(title: Text(F.name)),
         body: SafeArea(
           child: Column(
             children: [
