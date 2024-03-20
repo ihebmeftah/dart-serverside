@@ -23,9 +23,30 @@ class QuizEndpoint extends Endpoint {
     } else {
       return await Quiz.db.find(
         session,
-        where: (q) => q.status.equals(QuizStatus.validated),
+        include: Quiz.include(
+            question: Question.includeList(
+                include: Question.include(options: Option.includeList()))),
       );
     }
+  }
+
+  Future<Quiz?> getQuiz(Session session, int id) async {
+    final int? userId = await session.auth.authenticatedUserId;
+    if (userId == null) {
+      throw AppException(
+          message: 'This request required authintification',
+          errorType: ExceptionType.authenticationRequiredException);
+    }
+    final quiz = await Quiz.db.findById(
+      session,
+      id,
+      include: Quiz.include(
+        question: Question.includeList(
+          include: Question.include(options: Option.includeList()),
+        ),
+      ),
+    );
+    return quiz;
   }
 
   Future<Quiz> createQuiz(Session session,
@@ -65,8 +86,33 @@ class QuizEndpoint extends Endpoint {
             desc: desc,
             userId: userId,
             categoryId: categoryId,
-            status: QuizStatus.pending,
             points: 0));
     return createdQuiz;
+  }
+
+  Future<String> deleteQuiz(Session session, int id) async {
+    final int? userId = await session.auth.authenticatedUserId;
+    if (userId == null) {
+      throw AppException(
+        message: 'This request required authintification of admin',
+        errorType: ExceptionType.authenticationRequiredException,
+      );
+    }
+    final scopeOfUser = await session.scopes;
+    if (scopeOfUser?.contains(UsersScope.player) == true) {
+      throw AppException(
+        message: 'Only admin user can delete quiz',
+        errorType: ExceptionType.unauthorizedAccessException,
+      );
+    }
+    final quiz = await Quiz.db.findById(session, id);
+    if (quiz == null) {
+      throw AppException(
+        message: 'This quiz not  found',
+        errorType: ExceptionType.notFound,
+      );
+    }
+    await Quiz.db.deleteRow(session, quiz);
+    return 'Quiz deleted successfully = ${quiz.toString()}';
   }
 }
