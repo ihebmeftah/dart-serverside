@@ -6,3 +6,18 @@ values:
  - unauthorizedAccessException
  - duplicateKeyException
  - notFound
+ - notImplemented
+ - badRequest
+ - forbidden
+ - internalServerError
+ - validationException
+ - notAcceptable
+ - unprocessableEntity
+ - conflict
+ - preconditionFailed
+ - preconditionRequired
+ - tooManyRequests
+ - gatewayTimeout
+ - serviceUnavailable
+ - badGateway
+ - unknown
