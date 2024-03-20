@@ -21,29 +21,28 @@ class AppPages {
   static const INITIAL = Routes.HOME;
 
   static final routes = [
-    GetPage(name: _Paths.HOME, page: () => const HomeView(), bindings: [
-      HomeBinding(),
-      CategoryBinding(),
-      QuizBinding(),
-      UsersBinding()
-    ], children: [
-      GetPage(
-        name: _Paths.CATEGORY,
-        page: () => const CategoryView(),
-      ),
-      GetPage(
-        name: _Paths.USERS,
-        page: () => const UsersView(),
-      ),
-      GetPage(
-        name: _Paths.QUIZ,
-        page: () => const QuizView(),
-      ),
-    ]),
+    GetPage(
+        name: _Paths.HOME,
+        page: () => const HomeView(),
+        binding: HomeBinding()),
     GetPage(
       name: _Paths.AUTH,
       page: () => const AuthView(),
       binding: AuthBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORY,
+      page: () => const CategoryView(),
+      binding: CategoryBinding(),
+    ),
+    GetPage(
+        name: _Paths.USERS,
+        page: () => const UsersView(),
+        binding: UsersBinding()),
+    GetPage(
+      name: _Paths.QUIZ,
+      page: () => const QuizView(),
+      binding: QuizBinding(),
     ),
   ];
 }

@@ -1,29 +1,32 @@
-import 'package:flutter/widgets.dart';
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms_client/lms_client.dart';
-import 'package:lms_flutter/initclient.dart';
 
-class CategoryController extends GetxController with StateMixin {
-  final category = <Category>[].obs;
+import '../../../../initclient.dart';
 
-  final name = TextEditingController();
-  final desc = TextEditingController();
-
+class QuizDetailController extends GetxController with StateMixin {
   final form = GlobalKey<FormState>();
+
+  final question = TextEditingController();
+  final additionalInformation = TextEditingController();
+  Quiz? quiz;
   @override
   void onInit() async {
-    await getCategroy();
+    await getQuiz();
     super.onInit();
   }
 
-  Future<void> getCategroy() async {
+  Future<void> getQuiz() async {
     try {
-      category(await client.category.getCategory());
-      if (category.isEmpty) {
+      quiz = (await client.quiz.getQuiz(Get.arguments ?? quiz!.id!));
+      if (quiz == null) {
         change(null, status: RxStatus.empty());
       } else {
         change(null, status: RxStatus.success());
       }
+      log(quiz.toString(), name: "RESPONSE GET QUIZ BY ID : ");
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
@@ -32,16 +35,18 @@ class CategoryController extends GetxController with StateMixin {
     }
   }
 
-  Future<void> createCategory() async {
+  void addQuestion() async {
     try {
       if (form.currentState!.validate()) {
-        await client.category.createCategory(
-          name: name.text.trim(),
-          desc: desc.text.trim(),
-        );
-        await getCategroy();
-        name.clear();
-        desc.clear();
+        await client.question.createQuestion(
+            quizId: quiz!.id!,
+            point: 15,
+            question: question.text,
+            additionalInformation: additionalInformation.text);
+        await getQuiz();
+        question.clear();
+        additionalInformation.clear();
+        Get.back();
       }
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
@@ -51,10 +56,10 @@ class CategoryController extends GetxController with StateMixin {
     }
   }
 
-  Future<void> deleteCategroy(int id) async {
+  void deleteQuestion(int id) async {
     try {
-      await client.category.deleteCategroy(id);
-      await getCategroy();
+      await client.question.deleteQuestion(id);
+      await getQuiz();
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
     } catch (e) {

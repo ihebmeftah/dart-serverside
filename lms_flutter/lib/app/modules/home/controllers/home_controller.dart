@@ -28,13 +28,6 @@ class HomeController extends GetxController with StateMixin {
     }
   }
 
-  changeView(int i) {
-    int oldScreen = currentScreen;
-    currentScreen = i;
-    update([oldScreen, currentScreen, "body"]);
-    Get.back();
-  }
-
   void logout() async {
     await sessionManager.signOut();
     Get.offAllNamed(Routes.AUTH);

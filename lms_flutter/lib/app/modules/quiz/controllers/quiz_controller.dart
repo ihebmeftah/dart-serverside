@@ -61,6 +61,18 @@ class QuizController extends GetxController with StateMixin {
     }
   }
 
+  Future<void> deleteQuiz(int id) async {
+    try {
+      await client.quiz.deleteQuiz(id);
+      await getQuizes();
+    } on AppException catch (e) {
+      Get.snackbar(e.errorType.name, e.message);
+    } catch (e) {
+      Get.snackbar("Somthing wrong", "$e");
+      change(null, status: RxStatus.error(e.toString()));
+    }
+  }
+
   void selectCategory(Category? v) {
     selectedCategory(v);
   }

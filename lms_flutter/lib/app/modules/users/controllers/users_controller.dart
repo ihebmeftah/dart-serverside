@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:lms_client/lms_client.dart';
 import 'package:lms_flutter/initclient.dart';
@@ -23,7 +21,6 @@ class UsersController extends GetxController with StateMixin {
   Future getPlayers() async {
     try {
       players(await client.users.getPlayers());
-      log(players.toString());
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
@@ -35,7 +32,6 @@ class UsersController extends GetxController with StateMixin {
   Future getAdmins() async {
     try {
       admins(await client.users.getAdmins());
-      log(admins.toString());
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
