@@ -3,6 +3,9 @@ table: admin
 fields:
   userInfo: module:auth:UserInfo?, relation
   categories: List<Category>?, relation(name=admin_categroy)
+  quizes: List<Quiz>?, relation(name=admin_quiz)
+
+
 
 indexes:
   admin_info_id_unique_idx:
