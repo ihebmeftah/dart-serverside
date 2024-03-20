@@ -4,7 +4,7 @@ fields:
     name: String
     desc: String?
     status: QuizStatus
-    categoryId: int, relation(parent=category, onDelete=Cascade) ### Foreign key field
+    categoryId: int, relation(parent=category, onDelete=Cascade) ### One to one With an Id field : Foreign key field
     userId: int, relation(name=admin_quiz, parent=admin, onDelete=Cascade)
     points: int
 

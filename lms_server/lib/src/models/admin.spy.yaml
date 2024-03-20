@@ -2,8 +2,8 @@ class: Admin
 table: admin
 fields:
   userInfo: module:auth:UserInfo?, relation
-  categories: List<Category>?, relation(name=admin_categroy)
-  quizes: List<Quiz>?, relation(name=admin_quiz)
+  categories: List<Category>?, relation(name=admin_categroy) ### Bidirectional relations one to many
+  quizes: List<Quiz>?, relation(name=admin_quiz) ### Bidirectional relations one to many
 
 
 
