@@ -120,7 +120,7 @@ class SettingView extends GetView<SettingController> {
         ),
         SafeArea(
           child: ListTile(
-            onTap: () => Get.offAllNamed(Routes.AUTH),
+            onTap: controller.logout,
             title: Text(
               "Log out",
               style: TextStyle(
