@@ -25,7 +25,7 @@ class AuthController extends GetxController {
       if (loginkey.currentState!.validate()) {
         final user = await authController.signIn(email.text, pwd.text);
         if (user != null) {
-          Get.offAllNamed(Routes.HOME);
+          await navigateToNextRoute(user.scopeNames);
         } else {
           Get.snackbar("Error", "user not found");
         }
@@ -37,26 +37,50 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> navigateToNextRoute(List<String> roles) async {
+    if (GetPlatform.isWeb) {
+      if (roles.contains(Roles.admin.name)) {
+        Get.offAllNamed(Routes.ADMIN);
+      } else if (roles.contains(Roles.player.name)) {
+        await sessionManager.signOut();
+        Get.snackbar("Error", "Only admin hava access to web platfrom");
+      }
+    } else if (GetPlatform.isAndroid ||
+        GetPlatform.isIOS ||
+        GetPlatform.isMobile) {
+      if (roles.contains(Roles.player.name)) {
+        Get.offAllNamed(Routes.PLAYER);
+      } else if (roles.contains(Roles.admin.name)) {
+        await sessionManager.signOut();
+        Get.snackbar("Error", "Only player have access to mobile platfrom");
+      }
+    }
+  }
+
   Future<void> registre() async {
     if (registrekey.currentState!.validate()) {
-      await authController.createAccountRequest(
+      final user = await authController.createAccountRequest(
           username.text, createemail.text, createpwd.text);
-      Get.defaultDialog(
-          barrierDismissible: false,
-          title: "Verfication code",
-          middleText: "Wrtie verification code",
-          onConfirm: verifyAccount,
-          content: Form(
-              key: verificationkey,
-              child: TextFormField(
-                controller: verificationCode,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Field is required";
-                  }
-                  return null;
-                },
-              )));
+      if (user) {
+        Get.defaultDialog(
+            barrierDismissible: false,
+            title: "Verfication code",
+            middleText: "Wrtie verification code",
+            onConfirm: verifyAccount,
+            content: Form(
+                key: verificationkey,
+                child: TextFormField(
+                  controller: verificationCode,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Field is required";
+                    }
+                    return null;
+                  },
+                )));
+      } else {
+        Get.snackbar("Account exist", "this email is used in another account ");
+      }
     }
   }
 
@@ -67,10 +91,9 @@ class AuthController extends GetxController {
             createemail.text, verificationCode.text);
         if (user != null) {
           user = await authController.signIn(createemail.text, createpwd.text);
-          final result = await client.users
+          await client.users
               .createUsers(isAdmin: GetPlatform.isWeb, userId: user!.id!);
-          Get.offAllNamed(Routes.HOME);
-          Get.snackbar("Done", result);
+          await navigateToNextRoute(user.scopeNames);
         } else {
           Get.snackbar("Error", "verififcation code incorrect");
         }
