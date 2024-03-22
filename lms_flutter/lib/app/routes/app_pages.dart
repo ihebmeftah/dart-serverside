@@ -1,17 +1,18 @@
 import 'package:get/get.dart';
 
+import '../middleware/auth_middleware.dart';
 import '../modules/about/bindings/about_binding.dart';
 import '../modules/about/views/about_view.dart';
-import '../modules/admin_home/bindings/admin_home_binding.dart';
-import '../modules/admin_home/views/admin_home_view.dart';
+import '../modules/admin/bindings/admin_binding.dart';
+import '../modules/admin/views/admin_view.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/auth_view.dart';
 import '../modules/category/bindings/category_binding.dart';
 import '../modules/category/views/category_view.dart';
 import '../modules/help/bindings/help_binding.dart';
 import '../modules/help/views/help_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
+import '../modules/player/bindings/player_binding.dart';
+import '../modules/player/views/player_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/quiz_play/bindings/quiz_play_binding.dart';
@@ -29,19 +30,12 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
-
   static final routes = [
     GetPage(
-      name: _Paths.AUTH,
-      page: () => const AuthView(),
-      binding: AuthBinding(),
-    ),
-    GetPage(
-      name: _Paths.HOME,
-      page: () => const HomeView(),
-      bindings: [HomeBinding(), SettingBinding()],
-    ),
+        name: _Paths.AUTH,
+        page: () => const AuthView(),
+        binding: AuthBinding(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
       name: _Paths.QUIZHISTORY,
       page: () => const QuizhistoryView(),
@@ -78,9 +72,14 @@ class AppPages {
       binding: QuizPlayBinding(),
     ),
     GetPage(
-      name: _Paths.ADMIN_HOME,
-      page: () => const AdminHomeView(),
-      binding: AdminHomeBinding(),
+      name: _Paths.ADMIN,
+      page: () => const AdminView(),
+      bindings: [AdminBinding(), SettingBinding()],
+    ),
+    GetPage(
+      name: _Paths.PLAYER,
+      page: () => const PlayerView(),
+      bindings: [PlayerBinding(), SettingBinding()],
     ),
   ];
 }

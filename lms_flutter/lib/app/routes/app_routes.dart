@@ -5,7 +5,6 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
-  static const HOME = _Paths.HOME;
   static const AUTH = _Paths.AUTH;
   static const PROFILE = _Paths.PROFILE;
   static const QUIZHISTORY = _Paths.QUIZHISTORY;
@@ -14,12 +13,12 @@ abstract class Routes {
   static const CATEGORY = _Paths.CATEGORY;
   static const QUIZES_CAT = _Paths.QUIZES_CAT;
   static const QUIZ_PLAY = _Paths.QUIZ_PLAY;
-  static const ADMIN_HOME = _Paths.ADMIN_HOME;
+  static const ADMIN = _Paths.ADMIN;
+  static const PLAYER = _Paths.PLAYER;
 }
 
 abstract class _Paths {
   _Paths._();
-  static const HOME = '/home';
   static const AUTH = '/auth';
   static const PROFILE = '/profile';
   static const QUIZHISTORY = '/quizhistory';
@@ -28,5 +27,6 @@ abstract class _Paths {
   static const CATEGORY = '/category';
   static const QUIZES_CAT = '/quizes-cat';
   static const QUIZ_PLAY = '/quiz-play';
-  static const ADMIN_HOME = '/admin-home';
+  static const ADMIN = '/admin';
+  static const PLAYER = '/player';
 }
