@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lms_flutter/app/core/extension/spacing.dart';
 import 'package:lms_flutter/app/core/themes/themes.dart';
+import 'package:lms_flutter/app/modules/auth/views/register_view.dart';
 
 import '../../../component/appelevatedbutton.dart';
 import '../../../component/apptextformfield.dart';
@@ -74,7 +75,7 @@ class AuthView extends GetView<AuthController> {
                             onPressed: controller.login, title: "Login"),
                         GetPlatform.isWeb ? 10.spaceH : 5.spaceH,
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () => Get.to(() => const RegisterView()),
                             child: Text("Create Account",
                                 style: TextStyle(
                                     fontSize:
