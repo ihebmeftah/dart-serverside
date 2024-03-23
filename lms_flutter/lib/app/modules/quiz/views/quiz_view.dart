@@ -66,9 +66,12 @@ class QuizView extends GetView<QuizController> {
                   itemBuilder: (context, index) => ListTile(
                         title: Text(
                           controller.quizes[index].name,
-                          maxLines: 3,
                         ),
-                        subtitle: Text(controller.quizes[index].desc ?? "--"),
+                        subtitle: Text(
+                          controller.quizes[index].desc ?? "--",
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         trailing: IconButton(
                           onPressed: () => controller.deleteQuiz(
                             controller.quizes[index].id!,
