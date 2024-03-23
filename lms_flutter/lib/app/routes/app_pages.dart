@@ -74,7 +74,7 @@ class AppPages {
     GetPage(
       name: _Paths.ADMIN,
       page: () => const AdminView(),
-      bindings: [AdminBinding(), SettingBinding()],
+      bindings: [AdminBinding(), CategoryBinding()],
     ),
     GetPage(
       name: _Paths.PLAYER,
