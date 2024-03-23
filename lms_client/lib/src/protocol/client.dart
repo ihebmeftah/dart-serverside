@@ -99,6 +99,13 @@ class EndpointQuiz extends _i1.EndpointRef {
         {},
       );
 
+  _i2.Future<List<_i5.Quiz>> getQuizesByCategeroy(int categoryId) =>
+      caller.callServerEndpoint<List<_i5.Quiz>>(
+        'quiz',
+        'getQuizesByCategeroy',
+        {'categoryId': categoryId},
+      );
+
   _i2.Future<_i5.Quiz?> getQuiz(int id) => caller.callServerEndpoint<_i5.Quiz?>(
         'quiz',
         'getQuiz',
