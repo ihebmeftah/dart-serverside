@@ -16,17 +16,17 @@ class AppDropdown<T> extends StatefulWidget {
       this.onChange,
       this.controller});
   final T? value;
-  final List<DropdownMenuItem<Object>>? items;
+  final List<DropdownMenuItem<T>>? items;
   final String? label, hint;
   final bool profileDecoration;
   final Widget? counter;
   final ValueChanged<T?>? onChange;
   final TextEditingController? controller;
   @override
-  State<AppDropdown> createState() => _AppDropdownState();
+  State<AppDropdown<T>> createState() => _AppDropdownState<T>();
 }
 
-class _AppDropdownState extends State<AppDropdown> {
+class _AppDropdownState<T> extends State<AppDropdown<T>> {
   bool iserror = false;
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _AppDropdownState extends State<AppDropdown> {
               color: iserror ? Colors.red.shade900 : Colors.black87),
         ),
         widget.profileDecoration ? 0.spaceH : 5.spaceH,
-        DropdownButtonFormField(
+        DropdownButtonFormField<T>(
           value: widget.value,
           onChanged: widget.onChange,
           items: widget.items,
