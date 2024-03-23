@@ -11,13 +11,16 @@ class AppTextFormField extends StatefulWidget {
       this.hint,
       this.isPassword = false,
       this.isEmail = false,
+      this.isRequired = true,
       this.profileDecoration = false,
       this.counter,
       this.onChange,
+      this.maxLine = 1,
       this.controller});
   final String? label, hint;
-  final bool isPassword, isEmail, profileDecoration;
+  final bool isPassword, isRequired, isEmail, profileDecoration;
   final Widget? counter;
+  final int? maxLine;
   final ValueChanged<String>? onChange;
   final TextEditingController? controller;
   @override
@@ -40,30 +43,33 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         ),
         widget.profileDecoration ? 0.spaceH : 5.spaceH,
         TextFormField(
+          maxLines: widget.maxLine,
           controller: widget.controller,
           obscureText: widget.isPassword,
           onChanged: widget.onChange,
           onTapOutside: (event) {
             FocusManager.instance.primaryFocus?.unfocus();
           },
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              setState(() {
-                iserror = true;
-              });
-              return 'This field is required';
-            }
-            if (widget.isEmail && !GetUtils.isEmail(value)) {
-              setState(() {
-                iserror = true;
-              });
-              return 'This field is email';
-            }
-            setState(() {
-              iserror = false;
-            });
-            return null;
-          },
+          validator: widget.isRequired == false
+              ? null
+              : (value) {
+                  if (value == null || value.isEmpty) {
+                    setState(() {
+                      iserror = true;
+                    });
+                    return 'This field is required';
+                  }
+                  if (widget.isEmail && !GetUtils.isEmail(value)) {
+                    setState(() {
+                      iserror = true;
+                    });
+                    return 'This field is email';
+                  }
+                  setState(() {
+                    iserror = false;
+                  });
+                  return null;
+                },
           decoration: InputDecoration(
             suffixIcon: !widget.profileDecoration
                 ? null
