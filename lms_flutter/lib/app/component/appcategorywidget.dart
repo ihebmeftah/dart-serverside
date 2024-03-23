@@ -21,6 +21,8 @@ class AppCategroyWidget extends StatelessWidget {
         5.spaceH,
         Text(
           title!.capitalizeFirst!,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
               color: ThemesApp.secondary1,
               fontSize: 16.sp,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:lms_flutter/app/core/extension/spacing.dart';
 import 'package:lms_flutter/app/core/themes/themes.dart';
 
-class AppDropdown extends StatefulWidget {
+class AppDropdown<T> extends StatefulWidget {
   const AppDropdown(
       {super.key,
       required this.label,
@@ -14,12 +15,12 @@ class AppDropdown extends StatefulWidget {
       this.counter,
       this.onChange,
       this.controller});
-  final Object? value;
+  final T? value;
   final List<DropdownMenuItem<Object>>? items;
   final String? label, hint;
   final bool profileDecoration;
   final Widget? counter;
-  final ValueChanged<Object?>? onChange;
+  final ValueChanged<T?>? onChange;
   final TextEditingController? controller;
   @override
   State<AppDropdown> createState() => _AppDropdownState();
@@ -35,12 +36,12 @@ class _AppDropdownState extends State<AppDropdown> {
         Text(
           widget.label!,
           style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: GetPlatform.isWeb ? 6.sp : 16.sp,
               fontWeight: FontWeight.w500,
               color: iserror ? Colors.red.shade900 : Colors.black87),
         ),
         widget.profileDecoration ? 0.spaceH : 5.spaceH,
-        DropdownButtonFormField<Object>(
+        DropdownButtonFormField(
           value: widget.value,
           onChanged: widget.onChange,
           items: widget.items,
