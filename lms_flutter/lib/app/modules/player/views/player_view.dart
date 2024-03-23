@@ -176,7 +176,8 @@ class PlayerView extends GetView<PlayerController> {
                                     5) {
                               Get.toNamed(Routes.CATEGORY);
                             } else {
-                              Get.toNamed(Routes.QUIZES_CAT);
+                              Get.toNamed(
+                                  "${Routes.QUIZES_CAT}/${controller.categoryController.categories[index].id}");
                             }
                           },
                           child: index == 3 &&

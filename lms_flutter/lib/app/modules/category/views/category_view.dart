@@ -66,7 +66,7 @@ class CategoryView extends GetView<CategoryController> {
                                       controller.categories[index].id!,
                                     ),
                                     icon: const Icon(
-                                      Icons.remove,
+                                      Icons.delete,
                                     ),
                                   ),
                                 )),
@@ -92,7 +92,8 @@ class CategoryView extends GetView<CategoryController> {
                     ),
                     shrinkWrap: true,
                     itemBuilder: (context, index) => AppCard(
-                        ontap: () => Get.toNamed(Routes.QUIZES_CAT),
+                        ontap: () => Get.toNamed(
+                            "${Routes.QUIZES_CAT}/${controller.categories[index].id}"),
                         child: AppCategroyWidget(
                           img: "boarding".toPng,
                           title: controller.categories[index].name,
