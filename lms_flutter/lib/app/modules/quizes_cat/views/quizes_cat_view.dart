@@ -14,13 +14,14 @@ class QuizesCatView extends GetView<QuizesCatController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemesApp.primary,
+      appBar: AppBar(
         backgroundColor: ThemesApp.primary,
-        appBar: AppBar(
-          backgroundColor: ThemesApp.primary,
-          title: const Text('Quizes'),
-        ),
-        body: ListView.separated(
-          itemCount: 5,
+        title: const Text('Quizes'),
+      ),
+      body: controller.obx(
+        (state) => ListView.separated(
+          itemCount: controller.categoryQuizes.length,
           padding: EdgeInsets.all(20.w),
           separatorBuilder: (context, index) => 10.spaceH,
           itemBuilder: (context, index) => ListTile(
@@ -29,20 +30,30 @@ class QuizesCatView extends GetView<QuizesCatController> {
             contentPadding: EdgeInsets.all(10.h),
             leading: Image.asset("boarding".toPng),
             title: Text(
-              "World capitals",
+              controller.categoryQuizes[index].name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: ThemesApp.secondary2,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold),
             ),
             subtitle: Text(
-              "15 Questions",
+              "${controller.categoryQuizes[index].question?.length} Questions",
               style: TextStyle(
                   color: ThemesApp.secondary1,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w500),
             ),
           ),
-        ));
+        ),
+        onEmpty: const Center(
+          child: Text("Quizes for this category not found"),
+        ),
+        onError: (e) => Center(
+          child: Text(e.toString()),
+        ),
+      ),
+    );
   }
 }
