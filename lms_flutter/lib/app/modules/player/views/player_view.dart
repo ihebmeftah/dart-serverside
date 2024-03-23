@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lms_flutter/app/core/extension/imageext.dart';
 import 'package:lms_flutter/app/core/extension/spacing.dart';
+import 'package:lms_flutter/app/modules/category/controllers/category_controller.dart';
 
 import '../../../component/appcard.dart';
 import '../../../component/appcategorywidget.dart';
@@ -78,7 +79,7 @@ class PlayerView extends GetView<PlayerController> {
         body: GetBuilder<PlayerController>(
           id: "bottomNavBar",
           builder: (_) => SafeArea(
-            child: SingleChildScrollView(
+            child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,35 +148,57 @@ class PlayerView extends GetView<PlayerController> {
                       ),
                       TextButton(
                           onPressed: () => Get.toNamed(Routes.CATEGORY),
-                          child: Text("See all (${controller.category}) "))
+                          child: GetX<CategoryController>(builder: (_) {
+                            return Text(
+                                "See all (${controller.categoryController.categories.length}) ");
+                          }))
                     ],
                   ),
                   5.spaceH,
-                  GridView.builder(
-                    itemCount:
-                        controller.category > 5 ? 4 : controller.category,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15.w,
-                      mainAxisSpacing: 15.w,
+                  controller.categoryController.obx(
+                    (state) => GridView.builder(
+                      itemCount:
+                          controller.categoryController.categories.length >= 5
+                              ? 4
+                              : controller.categoryController.categories.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 15.w,
+                        mainAxisSpacing: 15.w,
+                      ),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => AppCard(
+                          ontap: () {
+                            if (index == 3 &&
+                                controller
+                                        .categoryController.categories.length >=
+                                    5) {
+                              Get.toNamed(Routes.CATEGORY);
+                            } else {
+                              Get.toNamed(Routes.QUIZES_CAT);
+                            }
+                          },
+                          child: index == 3 &&
+                                  controller.categoryController.categories
+                                          .length >=
+                                      5
+                              ? Text(
+                                  "+ ${controller.categoryController.categories.length - 3} others")
+                              : AppCategroyWidget(
+                                  img: "boarding".toPng,
+                                  title: controller.categoryController
+                                      .categories[index].name,
+                                  subtitle: "-- Quizzes",
+                                )),
                     ),
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => AppCard(
-                        ontap: () {
-                          if (index == 3 && controller.category > 5) {
-                            Get.toNamed(Routes.CATEGORY);
-                          } else {
-                            Get.toNamed(Routes.QUIZES_CAT);
-                          }
-                        },
-                        child: index == 3 && controller.category > 5
-                            ? Text("+ ${controller.category - 3} others")
-                            : AppCategroyWidget(
-                                img: "boarding".toPng,
-                                title: "Category",
-                                subtitle: "1$index Quizzes",
-                              )),
+                    onEmpty: const Center(
+                      child: Text("No category found"),
+                    ),
+                    onLoading: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    onError: (e) => Text(e.toString()),
                   ),
                 ],
               ),
