@@ -30,6 +30,28 @@ class QuizEndpoint extends Endpoint {
     }
   }
 
+  Future<List<Quiz>> getQuizesByCategeroy(
+      Session session, int categoryId) async {
+    final int? userId = await session.auth.authenticatedUserId;
+    if (userId == null) {
+      throw AppException(
+          message: 'This request required authintification of admin',
+          errorType: ExceptionType.authenticationRequiredException);
+    }
+    final existOrNotCategory = await Category.db.findById(session, categoryId);
+    if (existOrNotCategory == null) {
+      throw AppException(
+          message: 'Category not found', errorType: ExceptionType.notFound);
+    }
+    return await Quiz.db.find(
+      session,
+      where: (q) => q.categoryId.equals(categoryId),
+      include: Quiz.include(
+          question: Question.includeList(
+              include: Question.include(options: Option.includeList()))),
+    );
+  }
+
   Future<Quiz?> getQuiz(Session session, int id) async {
     final int? userId = await session.auth.authenticatedUserId;
     if (userId == null) {

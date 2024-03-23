@@ -175,6 +175,24 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['quiz'] as _i4.QuizEndpoint).getQuizes(session),
         ),
+        'getQuizesByCategeroy': _i1.MethodConnector(
+          name: 'getQuizesByCategeroy',
+          params: {
+            'categoryId': _i1.ParameterDescription(
+              name: 'categoryId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quiz'] as _i4.QuizEndpoint).getQuizesByCategeroy(
+            session,
+            params['categoryId'],
+          ),
+        ),
         'getQuiz': _i1.MethodConnector(
           name: 'getQuiz',
           params: {

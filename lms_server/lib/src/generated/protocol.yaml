@@ -7,6 +7,7 @@ question:
   - deleteQuestion:
 quiz:
   - getQuizes:
+  - getQuizesByCategeroy:
   - getQuiz:
   - createQuiz:
   - deleteQuiz:
