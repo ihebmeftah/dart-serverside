@@ -72,7 +72,7 @@ class QuizEndpoint extends Endpoint {
     }
     final existOrNot = await Quiz.db.findFirstRow(
       session,
-      where: (q) => q.name.equals(name),
+      where: (q) => q.name.ilike(name.trim()),
     );
     if (existOrNot != null) {
       throw AppException(
@@ -82,7 +82,7 @@ class QuizEndpoint extends Endpoint {
     final Quiz createdQuiz = await Quiz.db.insertRow(
         session,
         Quiz(
-            name: name,
+            name: name.trim(),
             desc: desc,
             userId: userId,
             categoryId: categoryId,

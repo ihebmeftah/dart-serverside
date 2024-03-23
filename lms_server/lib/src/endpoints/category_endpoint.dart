@@ -40,15 +40,15 @@ class CategoryEndpoint extends Endpoint {
     }
     final existOrNot = await Category.db.findFirstRow(
       session,
-      where: (cat) => cat.name.equals(name),
+      where: (cat) => cat.name.ilike(name.trim()),
     );
     if (existOrNot != null) {
       throw AppException(
           message: 'This name of category exist',
           errorType: ExceptionType.duplicateKeyException);
     }
-    final Category createdCategory = await Category.db
-        .insertRow(session, Category(name: name, desc: desc, userId: userId));
+    final Category createdCategory = await Category.db.insertRow(
+        session, Category(name: name.trim(), desc: desc, userId: userId));
     return createdCategory;
   }
 

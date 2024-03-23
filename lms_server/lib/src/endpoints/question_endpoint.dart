@@ -29,7 +29,7 @@ class QuestionEndpoint extends Endpoint {
           message: 'Quiz not found', errorType: ExceptionType.notFound);
     }
     final questionExist = await Question.db
-        .findFirstRow(session, where: (q) => q.question.equals(question));
+        .findFirstRow(session, where: (q) => q.question.ilike(question.trim()));
     if (questionExist != null) {
       throw AppException(
           message: 'Question exist',
@@ -38,7 +38,7 @@ class QuestionEndpoint extends Endpoint {
     final Question createdQuestion = await Question.db.insertRow(
         session,
         Question(
-            question: question,
+            question: question.trim(),
             additionalInformation: additionalInformation,
             quiz: quizId,
             points: point));
