@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../middleware/auth_middleware.dart';
@@ -15,6 +16,8 @@ import '../modules/player/bindings/player_binding.dart';
 import '../modules/player/views/player_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
+import '../modules/quiz/bindings/quiz_binding.dart';
+import '../modules/quiz/views/quiz_view.dart';
 import '../modules/quiz_play/bindings/quiz_play_binding.dart';
 import '../modules/quiz_play/views/quiz_play_view.dart';
 import '../modules/quizes_cat/bindings/quizes_cat_binding.dart';
@@ -29,7 +32,11 @@ part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
-
+  static GetPage get unkonwnRoutes => GetPage(
+      name: '/notfound',
+      page: () => const Center(
+            child: Text("404"),
+          ));
   static final routes = [
     GetPage(
         name: _Paths.AUTH,
@@ -62,7 +69,7 @@ class AppPages {
       binding: CategoryBinding(),
     ),
     GetPage(
-      name: _Paths.QUIZES_CAT,
+      name: "${_Paths.QUIZES_CAT}/:id",
       page: () => const QuizesCatView(),
       binding: QuizesCatBinding(),
     ),
@@ -74,12 +81,17 @@ class AppPages {
     GetPage(
       name: _Paths.ADMIN,
       page: () => const AdminView(),
-      bindings: [AdminBinding(), CategoryBinding()],
+      bindings: [AdminBinding(), CategoryBinding(), QuizBinding()],
     ),
     GetPage(
       name: _Paths.PLAYER,
       page: () => const PlayerView(),
       bindings: [PlayerBinding(), SettingBinding()],
+    ),
+    GetPage(
+      name: _Paths.QUIZ,
+      page: () => const QuizView(),
+      binding: QuizBinding(),
     ),
   ];
 }

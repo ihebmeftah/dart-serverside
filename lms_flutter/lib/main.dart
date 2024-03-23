@@ -20,6 +20,7 @@ void main() async {
             title: "Thuto",
             debugShowCheckedModeBanner: false,
             initialRoute: Routes.AUTH,
+            unknownRoute: AppPages.unkonwnRoutes,
             theme: ThemesApp.light,
             getPages: AppPages.routes,
           );
