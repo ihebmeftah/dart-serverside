@@ -23,9 +23,10 @@ import 'question.dart' as _i11;
 import 'quiz.dart' as _i12;
 import 'protocol.dart' as _i13;
 import 'package:lms_server/src/generated/category.dart' as _i14;
-import 'package:lms_server/src/generated/quiz.dart' as _i15;
-import 'package:lms_server/src/generated/player.dart' as _i16;
-import 'package:lms_server/src/generated/admin.dart' as _i17;
+import 'package:lms_server/src/generated/question.dart' as _i15;
+import 'package:lms_server/src/generated/quiz.dart' as _i16;
+import 'package:lms_server/src/generated/player.dart' as _i17;
+import 'package:lms_server/src/generated/admin.dart' as _i18;
 export 'admin.dart';
 export 'category.dart';
 export 'enum/roles.enum.dart';
@@ -589,16 +590,20 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data as List).map((e) => deserialize<_i14.Category>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i15.Quiz>) {
-      return (data as List).map((e) => deserialize<_i15.Quiz>(e)).toList()
+    if (t == List<_i15.Question>) {
+      return (data as List).map((e) => deserialize<_i15.Question>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i16.Player>) {
-      return (data as List).map((e) => deserialize<_i16.Player>(e)).toList()
+    if (t == List<_i16.Quiz>) {
+      return (data as List).map((e) => deserialize<_i16.Quiz>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i17.Admin>) {
-      return (data as List).map((e) => deserialize<_i17.Admin>(e)).toList()
+    if (t == List<_i17.Player>) {
+      return (data as List).map((e) => deserialize<_i17.Player>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i18.Admin>) {
+      return (data as List).map((e) => deserialize<_i18.Admin>(e)).toList()
           as dynamic;
     }
     if (t == List<int>) {

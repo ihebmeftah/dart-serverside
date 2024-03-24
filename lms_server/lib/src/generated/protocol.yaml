@@ -3,6 +3,7 @@ category:
   - createCategory:
   - deleteCategroy:
 question:
+  - getQuestionsByQuiz:
   - createQuestion:
   - deleteQuestion:
 quiz:

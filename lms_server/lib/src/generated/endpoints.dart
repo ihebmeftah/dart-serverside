@@ -106,16 +106,30 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'question',
       endpoint: endpoints['question']!,
       methodConnectors: {
-        'createQuestion': _i1.MethodConnector(
-          name: 'createQuestion',
+        'getQuestionsByQuiz': _i1.MethodConnector(
+          name: 'getQuestionsByQuiz',
           params: {
             'quizId': _i1.ParameterDescription(
               name: 'quizId',
               type: _i1.getType<int>(),
               nullable: false,
-            ),
-            'point': _i1.ParameterDescription(
-              name: 'point',
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['question'] as _i3.QuestionEndpoint)
+                  .getQuestionsByQuiz(
+            session,
+            params['quizId'],
+          ),
+        ),
+        'createQuestion': _i1.MethodConnector(
+          name: 'createQuestion',
+          params: {
+            'quizId': _i1.ParameterDescription(
+              name: 'quizId',
               type: _i1.getType<int>(),
               nullable: false,
             ),
@@ -137,7 +151,6 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['question'] as _i3.QuestionEndpoint).createQuestion(
             session,
             quizId: params['quizId'],
-            point: params['point'],
             question: params['question'],
             additionalInformation: params['additionalInformation'],
           ),

@@ -4,10 +4,20 @@ import 'package:serverpod/server.dart';
 import '../scopes/users.scopes.dart';
 
 class QuestionEndpoint extends Endpoint {
+  Future<List<Question>> getQuestionsByQuiz(Session session, int quizId) async {
+    final quiz = await Quiz.db.findById(session, quizId);
+    if (quiz == null) {
+      throw AppException(
+          message: 'Quiz not found', errorType: ExceptionType.notFound);
+    }
+    return await Question.db.find(session,
+        where: (p0) => p0.quiz.equals(quizId),
+        include: Question.include(options: Option.includeList()));
+  }
+
   Future<Question> createQuestion(
     Session session, {
     required int quizId,
-    required int point,
     required String question,
     required String additionalInformation,
   }) async {
@@ -28,6 +38,13 @@ class QuestionEndpoint extends Endpoint {
       throw AppException(
           message: 'Quiz not found', errorType: ExceptionType.notFound);
     }
+    int nbQuestionsOfQuiz =
+        await Question.db.count(session, where: (p0) => p0.quiz.equals(quizId));
+    if (nbQuestionsOfQuiz >= 10) {
+      throw AppException(
+          message: 'Quiz can have max 10 questions',
+          errorType: ExceptionType.badRequest);
+    }
     final questionExist = await Question.db
         .findFirstRow(session, where: (q) => q.question.ilike(question.trim()));
     if (questionExist != null) {
@@ -41,7 +58,7 @@ class QuestionEndpoint extends Endpoint {
             question: question.trim(),
             additionalInformation: additionalInformation,
             quiz: quizId,
-            points: point));
+            points: 5));
     quiz.points += createdQuestion.points;
     await Quiz.db.updateRow(session, quiz);
     return createdQuestion;

@@ -21,10 +21,11 @@ import 'question.dart' as _i9;
 import 'quiz.dart' as _i10;
 import 'protocol.dart' as _i11;
 import 'package:lms_client/src/protocol/category.dart' as _i12;
-import 'package:lms_client/src/protocol/quiz.dart' as _i13;
-import 'package:lms_client/src/protocol/player.dart' as _i14;
-import 'package:lms_client/src/protocol/admin.dart' as _i15;
-import 'package:serverpod_auth_client/module.dart' as _i16;
+import 'package:lms_client/src/protocol/question.dart' as _i13;
+import 'package:lms_client/src/protocol/quiz.dart' as _i14;
+import 'package:lms_client/src/protocol/player.dart' as _i15;
+import 'package:lms_client/src/protocol/admin.dart' as _i16;
+import 'package:serverpod_auth_client/module.dart' as _i17;
 export 'admin.dart';
 export 'category.dart';
 export 'enum/roles.enum.dart';
@@ -132,23 +133,27 @@ class Protocol extends _i1.SerializationManager {
       return (data as List).map((e) => deserialize<_i12.Category>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i13.Quiz>) {
-      return (data as List).map((e) => deserialize<_i13.Quiz>(e)).toList()
+    if (t == List<_i13.Question>) {
+      return (data as List).map((e) => deserialize<_i13.Question>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i14.Player>) {
-      return (data as List).map((e) => deserialize<_i14.Player>(e)).toList()
+    if (t == List<_i14.Quiz>) {
+      return (data as List).map((e) => deserialize<_i14.Quiz>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i15.Admin>) {
-      return (data as List).map((e) => deserialize<_i15.Admin>(e)).toList()
+    if (t == List<_i15.Player>) {
+      return (data as List).map((e) => deserialize<_i15.Player>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i16.Admin>) {
+      return (data as List).map((e) => deserialize<_i16.Admin>(e)).toList()
           as dynamic;
     }
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
     try {
-      return _i16.Protocol().deserialize<T>(data, t);
+      return _i17.Protocol().deserialize<T>(data, t);
     } catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -156,7 +161,7 @@ class Protocol extends _i1.SerializationManager {
   @override
   String? getClassNameForObject(Object data) {
     String? className;
-    className = _i16.Protocol().getClassNameForObject(data);
+    className = _i17.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -194,7 +199,7 @@ class Protocol extends _i1.SerializationManager {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
-      return _i16.Protocol().deserializeByClassName(data);
+      return _i17.Protocol().deserializeByClassName(data);
     }
     if (data['className'] == 'Admin') {
       return deserialize<_i2.Admin>(data['data']);

@@ -60,9 +60,15 @@ class EndpointQuestion extends _i1.EndpointRef {
   @override
   String get name => 'question';
 
+  _i2.Future<List<_i4.Question>> getQuestionsByQuiz(int quizId) =>
+      caller.callServerEndpoint<List<_i4.Question>>(
+        'question',
+        'getQuestionsByQuiz',
+        {'quizId': quizId},
+      );
+
   _i2.Future<_i4.Question> createQuestion({
     required int quizId,
-    required int point,
     required String question,
     required String additionalInformation,
   }) =>
@@ -71,7 +77,6 @@ class EndpointQuestion extends _i1.EndpointRef {
         'createQuestion',
         {
           'quizId': quizId,
-          'point': point,
           'question': question,
           'additionalInformation': additionalInformation,
         },
