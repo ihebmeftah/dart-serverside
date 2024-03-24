@@ -18,6 +18,7 @@ abstract class Question extends _i1.SerializableEntity {
     required this.additionalInformation,
     required this.quiz,
     required this.points,
+    this.status,
     this.options,
   });
 
@@ -27,6 +28,7 @@ abstract class Question extends _i1.SerializableEntity {
     required String additionalInformation,
     required int quiz,
     required int points,
+    _i2.QuestionStatus? status,
     List<_i2.Option>? options,
   }) = _QuestionImpl;
 
@@ -43,6 +45,8 @@ abstract class Question extends _i1.SerializableEntity {
       quiz: serializationManager.deserialize<int>(jsonSerialization['quiz']),
       points:
           serializationManager.deserialize<int>(jsonSerialization['points']),
+      status: serializationManager
+          .deserialize<_i2.QuestionStatus?>(jsonSerialization['status']),
       options: serializationManager
           .deserialize<List<_i2.Option>?>(jsonSerialization['options']),
     );
@@ -61,6 +65,8 @@ abstract class Question extends _i1.SerializableEntity {
 
   int points;
 
+  _i2.QuestionStatus? status;
+
   List<_i2.Option>? options;
 
   Question copyWith({
@@ -69,6 +75,7 @@ abstract class Question extends _i1.SerializableEntity {
     String? additionalInformation,
     int? quiz,
     int? points,
+    _i2.QuestionStatus? status,
     List<_i2.Option>? options,
   });
   @override
@@ -79,6 +86,7 @@ abstract class Question extends _i1.SerializableEntity {
       'additionalInformation': additionalInformation,
       'quiz': quiz,
       'points': points,
+      if (status != null) 'status': status?.toJson(),
       if (options != null)
         'options': options?.toJson(valueToJson: (v) => v.toJson()),
     };
@@ -94,6 +102,7 @@ class _QuestionImpl extends Question {
     required String additionalInformation,
     required int quiz,
     required int points,
+    _i2.QuestionStatus? status,
     List<_i2.Option>? options,
   }) : super._(
           id: id,
@@ -101,6 +110,7 @@ class _QuestionImpl extends Question {
           additionalInformation: additionalInformation,
           quiz: quiz,
           points: points,
+          status: status,
           options: options,
         );
 
@@ -111,6 +121,7 @@ class _QuestionImpl extends Question {
     String? additionalInformation,
     int? quiz,
     int? points,
+    Object? status = _Undefined,
     Object? options = _Undefined,
   }) {
     return Question(
@@ -120,6 +131,7 @@ class _QuestionImpl extends Question {
           additionalInformation ?? this.additionalInformation,
       quiz: quiz ?? this.quiz,
       points: points ?? this.points,
+      status: status is _i2.QuestionStatus? ? status : this.status,
       options: options is List<_i2.Option>? ? options : this.options?.clone(),
     );
   }
