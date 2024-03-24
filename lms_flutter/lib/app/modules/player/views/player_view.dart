@@ -35,23 +35,6 @@ class PlayerView extends GetView<PlayerController> {
               ],
             ),
           ),
-          leading: Builder(builder: (context) {
-            return IconButton(
-              icon: CircleAvatar(
-                radius: 15.r,
-                backgroundImage: AssetImage("userpic".toJpg),
-              ),
-              onPressed: () => Get.toNamed(Routes.PROFILE),
-            );
-          }),
-          actions: [
-            Builder(builder: (context) {
-              return IconButton(
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: const Icon(Icons.settings, size: 30));
-            }),
-            10.spaceW
-          ],
         ),
         drawer: const Drawer(
           child: SettingView(),
