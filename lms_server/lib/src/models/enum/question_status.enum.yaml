@@ -1,0 +1,6 @@
+enum: QuestionStatus
+serialized: byName
+values:
+ - skipped
+ - correct
+ - incorrect
