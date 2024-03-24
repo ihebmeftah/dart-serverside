@@ -25,7 +25,10 @@ class QuizEndpoint extends Endpoint {
         session,
         include: Quiz.include(
             question: Question.includeList(
-                include: Question.include(options: Option.includeList()))),
+                where: (p0) => p0.options.count().equals(4),
+                include: Question.include(
+                  options: Option.includeList(),
+                ))),
       );
     }
   }
@@ -48,6 +51,7 @@ class QuizEndpoint extends Endpoint {
       where: (q) => q.categoryId.equals(categoryId),
       include: Quiz.include(
           question: Question.includeList(
+              where: (p0) => p0.options.count().equals(4),
               include: Question.include(options: Option.includeList()))),
     );
   }
