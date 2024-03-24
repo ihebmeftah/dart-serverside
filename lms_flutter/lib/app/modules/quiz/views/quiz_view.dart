@@ -6,6 +6,7 @@ import 'package:lms_client/lms_client.dart';
 import 'package:lms_flutter/app/component/appdropdown.dart';
 import 'package:lms_flutter/app/core/extension/spacing.dart';
 import 'package:lms_flutter/app/modules/category/controllers/category_controller.dart';
+import 'package:lms_flutter/app/routes/app_pages.dart';
 
 import '../../../component/appelevatedbutton.dart';
 import '../../../component/apptextformfield.dart';
@@ -64,6 +65,9 @@ class QuizView extends GetView<QuizController> {
               (state) => ListView.builder(
                   itemCount: controller.quizes.length,
                   itemBuilder: (context, index) => ListTile(
+                        onTap: () => Get.toNamed(
+                          "${Routes.QUIZ}/${controller.quizes[index].id}",
+                        ),
                         title: Text(
                           controller.quizes[index].name,
                         ),

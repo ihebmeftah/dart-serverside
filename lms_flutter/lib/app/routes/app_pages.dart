@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lms_flutter/app/modules/quiz/views/quiz_details_view.dart';
 
 import '../middleware/auth_middleware.dart';
 import '../modules/about/bindings/about_binding.dart';
@@ -17,6 +18,7 @@ import '../modules/player/views/player_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/quiz/bindings/quiz_binding.dart';
+import '../modules/quiz/bindings/quiz_details_binding.dart';
 import '../modules/quiz/views/quiz_view.dart';
 import '../modules/quiz_play/bindings/quiz_play_binding.dart';
 import '../modules/quiz_play/views/quiz_play_view.dart';
@@ -89,9 +91,15 @@ class AppPages {
       bindings: [PlayerBinding(), SettingBinding()],
     ),
     GetPage(
-      name: _Paths.QUIZ,
-      page: () => const QuizView(),
-      binding: QuizBinding(),
-    ),
+        name: _Paths.QUIZ,
+        page: () => const QuizView(),
+        binding: QuizBinding(),
+        children: [
+          GetPage(
+            name: "/:id",
+            page: () => const QuizDetailsView(),
+            binding: QuizDetailsBinding(),
+          )
+        ]),
   ];
 }
