@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:lms_flutter/app/core/extension/imageext.dart';
 import 'package:lms_flutter/app/core/themes/themes.dart';
 
 import '../../../routes/app_pages.dart';
@@ -22,10 +21,11 @@ class SettingView extends GetView<SettingController> {
                 decoration: BoxDecoration(color: ThemesApp.secondary2),
                 currentAccountPicture: CircleAvatar(
                   radius: 25.r,
-                  backgroundImage: AssetImage("userpic".toJpg),
+                  backgroundImage: NetworkImage(controller.userInfo!.imageUrl!),
                 ),
-                accountName: Text("nathaniel".capitalizeFirst!),
-                accountEmail: const Text("nathaniel@gmail.com")),
+                accountName:
+                    Text(controller.userInfo!.userName.capitalizeFirst!),
+                accountEmail: Text(controller.userInfo!.email ?? "--")),
             ListTile(
               onTap: () => Get.toNamed(Routes.PROFILE),
               title: Text(

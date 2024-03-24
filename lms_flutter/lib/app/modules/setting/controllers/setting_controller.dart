@@ -3,6 +3,7 @@ import 'package:lms_flutter/app/routes/app_pages.dart';
 import 'package:lms_flutter/initclient.dart';
 
 class SettingController extends GetxController {
+  final userInfo = sessionManager.signedInUser;
   bool soundStatus = false;
   bool notificationStatus = false;
 
