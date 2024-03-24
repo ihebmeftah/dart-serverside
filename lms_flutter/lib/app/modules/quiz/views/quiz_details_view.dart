@@ -94,39 +94,96 @@ class QuizDetailsView extends GetView<QuizDetailsController> {
                                 subtitle: Row(
                                   children: [
                                     Expanded(
-                                        child: TextButton(
-                                            onPressed: () {
-                                              Get.bottomSheet(
-                                                  SizedBox(
-                                                    height: Get.height / 2,
-                                                    width: Get.width,
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        ListTile(
-                                                            leading: const Icon(
-                                                                Icons
-                                                                    .music_note),
-                                                            title: const Text(
-                                                                'Music'),
-                                                            onTap: () => {}),
-                                                        ListTile(
-                                                          leading: const Icon(
-                                                              Icons.videocam),
-                                                          title: const Text(
-                                                              'Video'),
-                                                          onTap: () => {},
-                                                        ),
-                                                      ],
-                                                    ),
+                                        child: TextButton(onPressed: () {
+                                      Get.bottomSheet(
+                                          Container(
+                                            padding: EdgeInsets.all(20.h),
+                                            height: Get.height / 1.2,
+                                            width: Get.width,
+                                            child: Form(
+                                              key: controller.optionForm,
+                                              child: Column(
+                                                children: <Widget>[
+                                                  AppTextFormField(
+                                                    label: 'Option value',
+                                                    controller:
+                                                        controller.optiontext,
                                                   ),
-                                                  backgroundColor:
-                                                      Colors.white);
-                                            },
-                                            child: Text(
-                                              'Add options (${controller.questions[index].options?.length})',
-                                              style: const TextStyle(
-                                                  color: Colors.blue),
-                                            ))),
+                                                  20.spaceH,
+                                                  GetBuilder<
+                                                      QuizDetailsController>(
+                                                    id: "option",
+                                                    builder: (controller) =>
+                                                        SwitchListTile.adaptive(
+                                                            title: const Text(
+                                                                'Correct'),
+                                                            value: controller
+                                                                .isCorrect,
+                                                            onChanged: controller
+                                                                .switchCorrect),
+                                                  ),
+                                                  AppElevatedButton(
+                                                      onPressed: () => controller
+                                                          .createOption(
+                                                              controller
+                                                                  .questions[
+                                                                      index]
+                                                                  .id!),
+                                                      title: ('add')),
+                                                  Expanded(child: GetX<
+                                                          QuizDetailsController>(
+                                                      builder: (context) {
+                                                    return controller
+                                                            .questions[index]
+                                                            .options!
+                                                            .isEmpty
+                                                        ? const Text(
+                                                            'No options')
+                                                        : ListView.builder(
+                                                            itemCount:
+                                                                controller
+                                                                    .questions[
+                                                                        index]
+                                                                    .options
+                                                                    ?.length,
+                                                            itemBuilder:
+                                                                (context, i) =>
+                                                                    ListTile(
+                                                                      trailing: IconButton(
+                                                                          onPressed: () => controller.deleteOption(controller.questions[index].options![i].id!),
+                                                                          icon: const Icon(
+                                                                            Icons.delete,
+                                                                            color:
+                                                                                Colors.red,
+                                                                          )),
+                                                                      subtitle: controller
+                                                                              .questions[index]
+                                                                              .options![i]
+                                                                              .isCorrect
+                                                                          ? const Text("Correct options")
+                                                                          : null,
+                                                                      title: Text(controller
+                                                                          .questions[
+                                                                              index]
+                                                                          .options![
+                                                                              i]
+                                                                          .text),
+                                                                    ));
+                                                  }))
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.white);
+                                    }, child: GetX<QuizDetailsController>(
+                                            builder: (context) {
+                                      return Text(
+                                        'Add options (${controller.questions[index].options?.length})',
+                                        style:
+                                            const TextStyle(color: Colors.blue),
+                                      );
+                                    }))),
                                     Expanded(
                                         child: TextButton(
                                             onPressed: () => controller

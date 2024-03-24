@@ -8,8 +8,12 @@ import '../../../../initclient.dart';
 
 class QuizDetailsController extends GetxController with StateMixin {
   Rx<Quiz?> quiz = Rx(null);
-  final form = GlobalKey<FormState>();
-  final question = TextEditingController(), addInfo = TextEditingController();
+  final form = GlobalKey<FormState>(), optionForm = GlobalKey<FormState>();
+  final question = TextEditingController(),
+      addInfo = TextEditingController(),
+      optiontext = TextEditingController();
+
+  bool isCorrect = false;
   final questions = <Question>[].obs;
   @override
   void onInit() async {
@@ -72,5 +76,42 @@ class QuizDetailsController extends GetxController with StateMixin {
       log(e.toString());
       change(null, status: RxStatus.error(e.toString()));
     }
+  }
+
+  Future<void> createOption(int questionId) async {
+    try {
+      if (optionForm.currentState!.validate()) {
+        await client.option.createOption(
+            questionId: questionId,
+            text: optiontext.text,
+            isCorrect: isCorrect);
+        await getQuestionsByQuiz();
+        optiontext.clear();
+        isCorrect = false;
+        update(["option"]);
+      }
+    } on AppException catch (e) {
+      Get.snackbar(e.errorType.name, e.message);
+    } catch (e) {
+      log(e.toString());
+      change(null, status: RxStatus.error(e.toString()));
+    }
+  }
+
+  Future<void> deleteOption(int id) async {
+    try {
+      await client.option.deleteOption(id);
+      await getQuestionsByQuiz();
+    } on AppException catch (e) {
+      Get.snackbar(e.errorType.name, e.message);
+    } catch (e) {
+      log(e.toString());
+      change(null, status: RxStatus.error(e.toString()));
+    }
+  }
+
+  switchCorrect(bool b) {
+    isCorrect = b;
+    update(["option"]);
   }
 }

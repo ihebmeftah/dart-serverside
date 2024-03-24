@@ -2,6 +2,9 @@ category:
   - getCategory:
   - createCategory:
   - deleteCategroy:
+option:
+  - createOption:
+  - deleteOption:
 question:
   - getQuestionsByQuiz:
   - createQuestion:

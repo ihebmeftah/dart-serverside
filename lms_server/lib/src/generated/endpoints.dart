@@ -10,10 +10,11 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/category_endpoint.dart' as _i2;
-import '../endpoints/question_endpoint.dart' as _i3;
-import '../endpoints/quiz_endpoint.dart' as _i4;
-import '../endpoints/users_endpoint.dart' as _i5;
-import 'package:serverpod_auth_server/module.dart' as _i6;
+import '../endpoints/option_endpoint.dart' as _i3;
+import '../endpoints/question_endpoint.dart' as _i4;
+import '../endpoints/quiz_endpoint.dart' as _i5;
+import '../endpoints/users_endpoint.dart' as _i6;
+import 'package:serverpod_auth_server/module.dart' as _i7;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -25,19 +26,25 @@ class Endpoints extends _i1.EndpointDispatch {
           'category',
           null,
         ),
-      'question': _i3.QuestionEndpoint()
+      'option': _i3.OptionEndpoint()
+        ..initialize(
+          server,
+          'option',
+          null,
+        ),
+      'question': _i4.QuestionEndpoint()
         ..initialize(
           server,
           'question',
           null,
         ),
-      'quiz': _i4.QuizEndpoint()
+      'quiz': _i5.QuizEndpoint()
         ..initialize(
           server,
           'quiz',
           null,
         ),
-      'users': _i5.UsersEndpoint()
+      'users': _i6.UsersEndpoint()
         ..initialize(
           server,
           'users',
@@ -102,6 +109,60 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['option'] = _i1.EndpointConnector(
+      name: 'option',
+      endpoint: endpoints['option']!,
+      methodConnectors: {
+        'createOption': _i1.MethodConnector(
+          name: 'createOption',
+          params: {
+            'questionId': _i1.ParameterDescription(
+              name: 'questionId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'text': _i1.ParameterDescription(
+              name: 'text',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'isCorrect': _i1.ParameterDescription(
+              name: 'isCorrect',
+              type: _i1.getType<bool>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['option'] as _i3.OptionEndpoint).createOption(
+            session,
+            questionId: params['questionId'],
+            text: params['text'],
+            isCorrect: params['isCorrect'],
+          ),
+        ),
+        'deleteOption': _i1.MethodConnector(
+          name: 'deleteOption',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['option'] as _i3.OptionEndpoint).deleteOption(
+            session,
+            params['id'],
+          ),
+        ),
+      },
+    );
     connectors['question'] = _i1.EndpointConnector(
       name: 'question',
       endpoint: endpoints['question']!,
@@ -119,7 +180,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['question'] as _i3.QuestionEndpoint)
+              (endpoints['question'] as _i4.QuestionEndpoint)
                   .getQuestionsByQuiz(
             session,
             params['quizId'],
@@ -148,7 +209,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['question'] as _i3.QuestionEndpoint).createQuestion(
+              (endpoints['question'] as _i4.QuestionEndpoint).createQuestion(
             session,
             quizId: params['quizId'],
             question: params['question'],
@@ -168,7 +229,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['question'] as _i3.QuestionEndpoint).deleteQuestion(
+              (endpoints['question'] as _i4.QuestionEndpoint).deleteQuestion(
             session,
             params['id'],
           ),
@@ -186,7 +247,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).getQuizes(session),
+              (endpoints['quiz'] as _i5.QuizEndpoint).getQuizes(session),
         ),
         'getQuizesByCategeroy': _i1.MethodConnector(
           name: 'getQuizesByCategeroy',
@@ -201,7 +262,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).getQuizesByCategeroy(
+              (endpoints['quiz'] as _i5.QuizEndpoint).getQuizesByCategeroy(
             session,
             params['categoryId'],
           ),
@@ -219,7 +280,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).getQuiz(
+              (endpoints['quiz'] as _i5.QuizEndpoint).getQuiz(
             session,
             params['id'],
           ),
@@ -247,7 +308,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).createQuiz(
+              (endpoints['quiz'] as _i5.QuizEndpoint).createQuiz(
             session,
             categoryId: params['categoryId'],
             name: params['name'],
@@ -267,7 +328,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quiz'] as _i4.QuizEndpoint).deleteQuiz(
+              (endpoints['quiz'] as _i5.QuizEndpoint).deleteQuiz(
             session,
             params['id'],
           ),
@@ -296,7 +357,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i5.UsersEndpoint).createUsers(
+              (endpoints['users'] as _i6.UsersEndpoint).createUsers(
             session,
             isAdmin: params['isAdmin'],
             userId: params['userId'],
@@ -309,7 +370,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i5.UsersEndpoint).getPlayers(session),
+              (endpoints['users'] as _i6.UsersEndpoint).getPlayers(session),
         ),
         'getAdmins': _i1.MethodConnector(
           name: 'getAdmins',
@@ -318,7 +379,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i5.UsersEndpoint).getAdmins(session),
+              (endpoints['users'] as _i6.UsersEndpoint).getAdmins(session),
         ),
         'getUsersNumber': _i1.MethodConnector(
           name: 'getUsersNumber',
@@ -327,10 +388,10 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i5.UsersEndpoint).getUsersNumber(session),
+              (endpoints['users'] as _i6.UsersEndpoint).getUsersNumber(session),
         ),
       },
     );
-    modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
   }
 }
