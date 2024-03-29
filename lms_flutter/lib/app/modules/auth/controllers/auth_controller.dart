@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms_client/lms_client.dart';
-import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
 import '../../../../initclient.dart';
 import '../../../routes/app_pages.dart';
 
 class AuthController extends GetxController {
-  final authController = EmailAuthController(client.modules.auth);
-
   final loginkey = GlobalKey<FormState>();
   final registrekey = GlobalKey<FormState>();
   final verificationkey = GlobalKey<FormState>();
@@ -23,11 +21,17 @@ class AuthController extends GetxController {
   void login() async {
     try {
       if (loginkey.currentState!.validate()) {
-        final user = await authController.signIn(email.text, pwd.text);
-        if (user != null) {
-          await navigateToNextRoute(user.scopeNames);
-        } else {
-          Get.snackbar("Error", "user not found");
+        final serverResponse =
+            await client.users.login(email: email.text, password: pwd.text);
+        if (serverResponse.success) {
+          final sessionManager = await SessionManager.instance;
+
+          await sessionManager.registerSignedInUser(
+            serverResponse.userInfo!,
+            serverResponse.keyId!,
+            serverResponse.key!,
+          );
+          navigateToNextRoute(serverResponse.userInfo!.scopeNames);
         }
       }
     } on AppException catch (e) {
@@ -58,47 +62,32 @@ class AuthController extends GetxController {
   }
 
   Future<void> registre() async {
-    if (registrekey.currentState!.validate()) {
-      final user = await authController.createAccountRequest(
-          username.text, createemail.text, createpwd.text);
-      if (user) {
-        Get.defaultDialog(
-            barrierDismissible: false,
-            title: "Verfication code",
-            middleText: "Wrtie verification code",
-            onConfirm: verifyAccount,
-            content: Form(
-                key: verificationkey,
-                child: TextFormField(
-                  controller: verificationCode,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Field is required";
-                    }
-                    return null;
-                  },
-                )));
-      } else {
-        Get.snackbar("Account exist", "this email is used in another account ");
+    try {
+      if (registrekey.currentState!.validate()) {
+        final serverResponse = await client.users.register(
+            isAdmin: GetPlatform.isWeb && GetPlatform.isMobile == false,
+            name: username.text,
+            email: createemail.text,
+            password: createpwd.text);
+        if (serverResponse.success) {
+          final sessionManager = await SessionManager.instance;
+          await sessionManager.registerSignedInUser(
+            serverResponse.userInfo!,
+            serverResponse.keyId!,
+            serverResponse.key!,
+          );
+          navigateToNextRoute(serverResponse.userInfo!.scopeNames);
+        }
       }
+    } on AppException catch (e) {
+      Get.snackbar(e.errorType.name, e.message);
+    } catch (e) {
+      Get.snackbar("Error", "$e");
     }
   }
 
   void verifyAccount() async {
-    try {
-      if (verificationkey.currentState!.validate()) {
-        var user = await authController.validateAccount(
-            createemail.text, verificationCode.text);
-        if (user != null) {
-          user = await authController.signIn(createemail.text, createpwd.text);
-          await client.users
-              .createUsers(isAdmin: GetPlatform.isWeb, userId: user!.id!);
-          await navigateToNextRoute(user.scopeNames);
-        } else {
-          Get.snackbar("Error", "verififcation code incorrect");
-        }
-      }
-    } on AppException catch (e) {
+    try {} on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
       Get.snackbar("Error", "$e");

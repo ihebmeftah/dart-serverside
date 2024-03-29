@@ -14,10 +14,8 @@ import 'package:lms_client/src/protocol/category.dart' as _i3;
 import 'package:lms_client/src/protocol/option.dart' as _i4;
 import 'package:lms_client/src/protocol/question.dart' as _i5;
 import 'package:lms_client/src/protocol/quiz.dart' as _i6;
-import 'package:lms_client/src/protocol/player.dart' as _i7;
-import 'package:lms_client/src/protocol/admin.dart' as _i8;
-import 'package:serverpod_auth_client/module.dart' as _i9;
-import 'protocol.dart' as _i10;
+import 'package:serverpod_auth_client/module.dart' as _i7;
+import 'protocol.dart' as _i8;
 
 /// {@category Endpoint}
 class EndpointCategory extends _i1.EndpointRef {
@@ -176,48 +174,43 @@ class EndpointUsers extends _i1.EndpointRef {
   @override
   String get name => 'users';
 
-  _i2.Future<String> createUsers({
+  _i2.Future<_i7.AuthenticationResponse> register({
     required bool isAdmin,
-    required int userId,
+    required String name,
+    required String email,
+    required String password,
   }) =>
-      caller.callServerEndpoint<String>(
+      caller.callServerEndpoint<_i7.AuthenticationResponse>(
         'users',
-        'createUsers',
+        'register',
         {
           'isAdmin': isAdmin,
-          'userId': userId,
+          'name': name,
+          'email': email,
+          'password': password,
         },
       );
 
-  _i2.Future<List<_i7.Player>> getPlayers() =>
-      caller.callServerEndpoint<List<_i7.Player>>(
+  _i2.Future<_i7.AuthenticationResponse> login({
+    required String email,
+    required String password,
+  }) =>
+      caller.callServerEndpoint<_i7.AuthenticationResponse>(
         'users',
-        'getPlayers',
-        {},
-      );
-
-  _i2.Future<List<_i8.Admin>> getAdmins() =>
-      caller.callServerEndpoint<List<_i8.Admin>>(
-        'users',
-        'getAdmins',
-        {},
-      );
-
-  ///(ADMIN , PLAYER)
-  _i2.Future<List<int>> getUsersNumber() =>
-      caller.callServerEndpoint<List<int>>(
-        'users',
-        'getUsersNumber',
-        {},
+        'login',
+        {
+          'email': email,
+          'password': password,
+        },
       );
 }
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i9.Caller(client);
+    auth = _i7.Caller(client);
   }
 
-  late final _i9.Caller auth;
+  late final _i7.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
@@ -229,7 +222,7 @@ class Client extends _i1.ServerpodClient {
     Duration? connectionTimeout,
   }) : super(
           host,
-          _i10.Protocol(),
+          _i8.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,

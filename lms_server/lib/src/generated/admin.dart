@@ -18,6 +18,7 @@ abstract class Admin extends _i1.TableRow {
     int? id,
     required this.userInfoId,
     this.userInfo,
+    required this.password,
     this.categories,
     this.quizes,
   }) : super(id);
@@ -26,6 +27,7 @@ abstract class Admin extends _i1.TableRow {
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    required String password,
     List<_i3.Category>? categories,
     List<_i3.Quiz>? quizes,
   }) = _AdminImpl;
@@ -40,6 +42,8 @@ abstract class Admin extends _i1.TableRow {
           .deserialize<int>(jsonSerialization['userInfoId']),
       userInfo: serializationManager
           .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
+      password: serializationManager
+          .deserialize<String>(jsonSerialization['password']),
       categories: serializationManager
           .deserialize<List<_i3.Category>?>(jsonSerialization['categories']),
       quizes: serializationManager
@@ -55,6 +59,8 @@ abstract class Admin extends _i1.TableRow {
 
   _i2.UserInfo? userInfo;
 
+  String password;
+
   List<_i3.Category>? categories;
 
   List<_i3.Quiz>? quizes;
@@ -66,6 +72,7 @@ abstract class Admin extends _i1.TableRow {
     int? id,
     int? userInfoId,
     _i2.UserInfo? userInfo,
+    String? password,
     List<_i3.Category>? categories,
     List<_i3.Quiz>? quizes,
   });
@@ -75,6 +82,7 @@ abstract class Admin extends _i1.TableRow {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
+      'password': password,
       if (categories != null)
         'categories': categories?.toJson(valueToJson: (v) => v.toJson()),
       if (quizes != null)
@@ -88,6 +96,7 @@ abstract class Admin extends _i1.TableRow {
     return {
       'id': id,
       'userInfoId': userInfoId,
+      'password': password,
     };
   }
 
@@ -97,6 +106,7 @@ abstract class Admin extends _i1.TableRow {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.allToJson(),
+      'password': password,
       if (categories != null)
         'categories': categories?.toJson(valueToJson: (v) => v.allToJson()),
       if (quizes != null)
@@ -116,6 +126,9 @@ abstract class Admin extends _i1.TableRow {
         return;
       case 'userInfoId':
         userInfoId = value;
+        return;
+      case 'password':
+        password = value;
         return;
       default:
         throw UnimplementedError();
@@ -287,12 +300,14 @@ class _AdminImpl extends Admin {
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    required String password,
     List<_i3.Category>? categories,
     List<_i3.Quiz>? quizes,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
+          password: password,
           categories: categories,
           quizes: quizes,
         );
@@ -302,6 +317,7 @@ class _AdminImpl extends Admin {
     Object? id = _Undefined,
     int? userInfoId,
     Object? userInfo = _Undefined,
+    String? password,
     Object? categories = _Undefined,
     Object? quizes = _Undefined,
   }) {
@@ -310,6 +326,7 @@ class _AdminImpl extends Admin {
       userInfoId: userInfoId ?? this.userInfoId,
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
+      password: password ?? this.password,
       categories: categories is List<_i3.Category>?
           ? categories
           : this.categories?.clone(),
@@ -324,11 +341,17 @@ class AdminTable extends _i1.Table {
       'userInfoId',
       this,
     );
+    password = _i1.ColumnString(
+      'password',
+      this,
+    );
   }
 
   late final _i1.ColumnInt userInfoId;
 
   _i2.UserInfoTable? _userInfo;
+
+  late final _i1.ColumnString password;
 
   _i3.CategoryTable? ___categories;
 
@@ -417,6 +440,7 @@ class AdminTable extends _i1.Table {
   List<_i1.Column> get columns => [
         id,
         userInfoId,
+        password,
       ];
 
   @override

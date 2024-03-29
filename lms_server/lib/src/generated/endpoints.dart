@@ -339,17 +339,27 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'users',
       endpoint: endpoints['users']!,
       methodConnectors: {
-        'createUsers': _i1.MethodConnector(
-          name: 'createUsers',
+        'register': _i1.MethodConnector(
+          name: 'register',
           params: {
             'isAdmin': _i1.ParameterDescription(
               name: 'isAdmin',
               type: _i1.getType<bool>(),
               nullable: false,
             ),
-            'userId': _i1.ParameterDescription(
-              name: 'userId',
-              type: _i1.getType<int>(),
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'email': _i1.ParameterDescription(
+              name: 'email',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'password': _i1.ParameterDescription(
+              name: 'password',
+              type: _i1.getType<String>(),
               nullable: false,
             ),
           },
@@ -357,38 +367,37 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i6.UsersEndpoint).createUsers(
+              (endpoints['users'] as _i6.UsersEndpoint).register(
             session,
             isAdmin: params['isAdmin'],
-            userId: params['userId'],
+            name: params['name'],
+            email: params['email'],
+            password: params['password'],
           ),
         ),
-        'getPlayers': _i1.MethodConnector(
-          name: 'getPlayers',
-          params: {},
+        'login': _i1.MethodConnector(
+          name: 'login',
+          params: {
+            'email': _i1.ParameterDescription(
+              name: 'email',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'password': _i1.ParameterDescription(
+              name: 'password',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
           call: (
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i6.UsersEndpoint).getPlayers(session),
-        ),
-        'getAdmins': _i1.MethodConnector(
-          name: 'getAdmins',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['users'] as _i6.UsersEndpoint).getAdmins(session),
-        ),
-        'getUsersNumber': _i1.MethodConnector(
-          name: 'getUsersNumber',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['users'] as _i6.UsersEndpoint).getUsersNumber(session),
+              (endpoints['users'] as _i6.UsersEndpoint).login(
+            session,
+            email: params['email'],
+            password: params['password'],
+          ),
         ),
       },
     );

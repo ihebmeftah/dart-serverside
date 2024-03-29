@@ -1,83 +1,85 @@
 import 'package:lms_server/src/generated/protocol.dart';
-import 'package:lms_server/src/scopes/users.scopes.dart';
 import 'package:serverpod/server.dart';
 import 'package:serverpod_auth_server/module.dart';
 
+import '../scopes/users.scopes.dart';
+
 class UsersEndpoint extends Endpoint {
-  Future<String> createUsers(
+  Future<AuthenticationResponse> register(
     Session session, {
     required bool isAdmin,
-    required int userId,
+    required String name,
+    required String email,
+    required String password,
   }) async {
-    UserInfo? user = await Users.findUserByUserId(session, userId);
-    if (user == null) {
+    UserInfo? userInfo;
+    userInfo = await Users.findUserByEmail(session, email);
+    userInfo ??= await Users.findUserByIdentifier(session, email);
+    if (userInfo != null) {
       throw AppException(
-          message:
-              "User (Email / id ) not regisred in the user table created by auth module",
-          errorType: ExceptionType.userNotFoundException);
+          message: "User already exist",
+          errorType: ExceptionType.duplicateKeyException);
     }
+    userInfo = UserInfo(
+      userIdentifier: email,
+      userName: name,
+      email: email,
+      blocked: false,
+      created: DateTime.now().toUtc(),
+      scopeNames: [isAdmin ? UsersScope.admin.name! : UsersScope.player.name!],
+    );
+    userInfo = await Users.createUser(session, userInfo, 'myAuthMethod');
     if (isAdmin) {
-      await Admin.db
-          .insertRow(session, Admin(userInfoId: user.id!, userInfo: user));
-      await Users.updateUserScopes(session, userId, {UsersScope.admin});
+      await Admin.db.insertRow(
+          session, Admin(userInfoId: userInfo!.id!, password: password));
     } else {
-      await Player.db
-          .insertRow(session, Player(userInfoId: user.id!, userInfo: user));
-      await Users.updateUserScopes(session, userId, {UsersScope.player});
+      await Player.db.insertRow(
+          session, Player(userInfoId: userInfo!.id!, password: password));
     }
-    return "User ${user.id} created succefully";
+    final authToken =
+        await session.auth.signInUser(userInfo.id!, 'myAuthMethod');
+    return AuthenticationResponse(
+      success: true,
+      keyId: authToken.id,
+      key: authToken.key,
+      userInfo: userInfo,
+    );
   }
 
-  Future<List<Player>> getPlayers(Session session) async {
-    final int? userId = await session.auth.authenticatedUserId;
-    if (userId == null) {
+  Future<AuthenticationResponse> login(
+    Session session, {
+    required String email,
+    required String password,
+  }) async {
+    final userInfo = await Users.findUserByEmail(session, email);
+    if (userInfo == null) {
       throw AppException(
-          message: 'This request required authintification of admin',
-          errorType: ExceptionType.authenticationRequiredException);
+          message: "User not exist", errorType: ExceptionType.notFound);
     }
-    final scopeOfUser = await session.scopes;
-    if (scopeOfUser?.contains(UsersScope.player) == true) {
-      throw AppException(
-          message: 'Only admin user can create categroy',
-          errorType: ExceptionType.unauthorizedAccessException);
+    if (userInfo.scopes.contains(UsersScope.admin)) {
+      final admin = await Admin.db.findById(session, userInfo.id!);
+      if (admin!.password != password) {
+        throw AppException(
+          message: "Wrong password",
+          errorType: ExceptionType.authenticationRequiredException,
+        );
+      }
+    } else {
+      final player = await Player.db.findById(session, userInfo.id!);
+      if (player!.password != password) {
+        throw AppException(
+          message: "Wrong password",
+          errorType: ExceptionType.authenticationRequiredException,
+        );
+      }
     }
-    return Player.db
-        .find(session, include: Player.include(userInfo: UserInfo.include()));
-  }
-
-  Future<List<Admin>> getAdmins(Session session) async {
-    final int? userId = await session.auth.authenticatedUserId;
-    if (userId == null) {
-      throw AppException(
-          message: 'This request required authintification of admin',
-          errorType: ExceptionType.authenticationRequiredException);
-    }
-    final scopeOfUser = await session.scopes;
-    if (scopeOfUser?.contains(UsersScope.player) == true) {
-      throw AppException(
-          message: 'Only admin user can create categroy',
-          errorType: ExceptionType.unauthorizedAccessException);
-    }
-    return Admin.db
-        .find(session, include: Admin.include(userInfo: UserInfo.include()));
-  }
-
-  ///(ADMIN , PLAYER)
-  Future<List<int>> getUsersNumber(Session session) async {
-    final int? userId = await session.auth.authenticatedUserId;
-    if (userId == null) {
-      throw AppException(
-          message: 'This request required authintification of admin',
-          errorType: ExceptionType.authenticationRequiredException);
-    }
-    final scopeOfUser = await session.scopes;
-    if (scopeOfUser?.contains(UsersScope.player) == true) {
-      throw AppException(
-          message: 'Only admin user can create categroy',
-          errorType: ExceptionType.unauthorizedAccessException);
-    }
-    final int numberPlayer = await Player.db.count(session);
-    final int numberAdmin = await Player.db.count(session);
-    return [numberAdmin, numberPlayer];
+    final authToken =
+        await session.auth.signInUser(userInfo.id!, 'myAuthMethod');
+    return AuthenticationResponse(
+      success: true,
+      keyId: authToken.id,
+      key: authToken.key,
+      userInfo: userInfo,
+    );
   }
 }

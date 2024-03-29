@@ -16,12 +16,14 @@ abstract class Player extends _i1.SerializableEntity {
     this.id,
     required this.userInfoId,
     this.userInfo,
+    required this.password,
   });
 
   factory Player({
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    required String password,
   }) = _PlayerImpl;
 
   factory Player.fromJson(
@@ -34,6 +36,8 @@ abstract class Player extends _i1.SerializableEntity {
           .deserialize<int>(jsonSerialization['userInfoId']),
       userInfo: serializationManager
           .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
+      password: serializationManager
+          .deserialize<String>(jsonSerialization['password']),
     );
   }
 
@@ -46,10 +50,13 @@ abstract class Player extends _i1.SerializableEntity {
 
   _i2.UserInfo? userInfo;
 
+  String password;
+
   Player copyWith({
     int? id,
     int? userInfoId,
     _i2.UserInfo? userInfo,
+    String? password,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -57,6 +64,7 @@ abstract class Player extends _i1.SerializableEntity {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
+      'password': password,
     };
   }
 }
@@ -68,10 +76,12 @@ class _PlayerImpl extends Player {
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    required String password,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
+          password: password,
         );
 
   @override
@@ -79,12 +89,14 @@ class _PlayerImpl extends Player {
     Object? id = _Undefined,
     int? userInfoId,
     Object? userInfo = _Undefined,
+    String? password,
   }) {
     return Player(
       id: id is int? ? id : this.id,
       userInfoId: userInfoId ?? this.userInfoId,
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
+      password: password ?? this.password,
     );
   }
 }

@@ -2,6 +2,7 @@ class: Player
 table: player
 fields:
   userInfo: module:auth:UserInfo?, relation
+  password: String
 
 indexes:
   player_info_id_unique_idx:

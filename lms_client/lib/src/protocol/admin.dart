@@ -17,6 +17,7 @@ abstract class Admin extends _i1.SerializableEntity {
     this.id,
     required this.userInfoId,
     this.userInfo,
+    required this.password,
     this.categories,
     this.quizes,
   });
@@ -25,6 +26,7 @@ abstract class Admin extends _i1.SerializableEntity {
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    required String password,
     List<_i3.Category>? categories,
     List<_i3.Quiz>? quizes,
   }) = _AdminImpl;
@@ -39,6 +41,8 @@ abstract class Admin extends _i1.SerializableEntity {
           .deserialize<int>(jsonSerialization['userInfoId']),
       userInfo: serializationManager
           .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
+      password: serializationManager
+          .deserialize<String>(jsonSerialization['password']),
       categories: serializationManager
           .deserialize<List<_i3.Category>?>(jsonSerialization['categories']),
       quizes: serializationManager
@@ -55,6 +59,8 @@ abstract class Admin extends _i1.SerializableEntity {
 
   _i2.UserInfo? userInfo;
 
+  String password;
+
   List<_i3.Category>? categories;
 
   List<_i3.Quiz>? quizes;
@@ -63,6 +69,7 @@ abstract class Admin extends _i1.SerializableEntity {
     int? id,
     int? userInfoId,
     _i2.UserInfo? userInfo,
+    String? password,
     List<_i3.Category>? categories,
     List<_i3.Quiz>? quizes,
   });
@@ -72,6 +79,7 @@ abstract class Admin extends _i1.SerializableEntity {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
+      'password': password,
       if (categories != null)
         'categories': categories?.toJson(valueToJson: (v) => v.toJson()),
       if (quizes != null)
@@ -87,12 +95,14 @@ class _AdminImpl extends Admin {
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    required String password,
     List<_i3.Category>? categories,
     List<_i3.Quiz>? quizes,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
+          password: password,
           categories: categories,
           quizes: quizes,
         );
@@ -102,6 +112,7 @@ class _AdminImpl extends Admin {
     Object? id = _Undefined,
     int? userInfoId,
     Object? userInfo = _Undefined,
+    String? password,
     Object? categories = _Undefined,
     Object? quizes = _Undefined,
   }) {
@@ -110,6 +121,7 @@ class _AdminImpl extends Admin {
       userInfoId: userInfoId ?? this.userInfoId,
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
+      password: password ?? this.password,
       categories: categories is List<_i3.Category>?
           ? categories
           : this.categories?.clone(),

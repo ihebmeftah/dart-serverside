@@ -26,8 +26,6 @@ import 'protocol.dart' as _i14;
 import 'package:lms_server/src/generated/category.dart' as _i15;
 import 'package:lms_server/src/generated/question.dart' as _i16;
 import 'package:lms_server/src/generated/quiz.dart' as _i17;
-import 'package:lms_server/src/generated/player.dart' as _i18;
-import 'package:lms_server/src/generated/admin.dart' as _i19;
 export 'admin.dart';
 export 'category.dart';
 export 'enum/question_status.enum.dart';
@@ -67,6 +65,12 @@ class Protocol extends _i1.SerializationManagerServer {
           columnType: _i2.ColumnType.integer,
           isNullable: false,
           dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'password',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
         ),
       ],
       foreignKeys: [
@@ -268,6 +272,12 @@ class Protocol extends _i1.SerializationManagerServer {
           columnType: _i2.ColumnType.integer,
           isNullable: false,
           dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'password',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
         ),
       ],
       foreignKeys: [
@@ -598,17 +608,6 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == List<_i17.Quiz>) {
       return (data as List).map((e) => deserialize<_i17.Quiz>(e)).toList()
           as dynamic;
-    }
-    if (t == List<_i18.Player>) {
-      return (data as List).map((e) => deserialize<_i18.Player>(e)).toList()
-          as dynamic;
-    }
-    if (t == List<_i19.Admin>) {
-      return (data as List).map((e) => deserialize<_i19.Admin>(e)).toList()
-          as dynamic;
-    }
-    if (t == List<int>) {
-      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);

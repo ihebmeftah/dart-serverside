@@ -16,7 +16,5 @@ quiz:
   - createQuiz:
   - deleteQuiz:
 users:
-  - createUsers:
-  - getPlayers:
-  - getAdmins:
-  - getUsersNumber:
+  - register:
+  - login:

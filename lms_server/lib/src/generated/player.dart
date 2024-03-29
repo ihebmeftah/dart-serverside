@@ -16,12 +16,14 @@ abstract class Player extends _i1.TableRow {
     int? id,
     required this.userInfoId,
     this.userInfo,
+    required this.password,
   }) : super(id);
 
   factory Player({
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    required String password,
   }) = _PlayerImpl;
 
   factory Player.fromJson(
@@ -34,6 +36,8 @@ abstract class Player extends _i1.TableRow {
           .deserialize<int>(jsonSerialization['userInfoId']),
       userInfo: serializationManager
           .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
+      password: serializationManager
+          .deserialize<String>(jsonSerialization['password']),
     );
   }
 
@@ -45,6 +49,8 @@ abstract class Player extends _i1.TableRow {
 
   _i2.UserInfo? userInfo;
 
+  String password;
+
   @override
   _i1.Table get table => t;
 
@@ -52,6 +58,7 @@ abstract class Player extends _i1.TableRow {
     int? id,
     int? userInfoId,
     _i2.UserInfo? userInfo,
+    String? password,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -59,6 +66,7 @@ abstract class Player extends _i1.TableRow {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
+      'password': password,
     };
   }
 
@@ -68,6 +76,7 @@ abstract class Player extends _i1.TableRow {
     return {
       'id': id,
       'userInfoId': userInfoId,
+      'password': password,
     };
   }
 
@@ -77,6 +86,7 @@ abstract class Player extends _i1.TableRow {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.allToJson(),
+      'password': password,
     };
   }
 
@@ -92,6 +102,9 @@ abstract class Player extends _i1.TableRow {
         return;
       case 'userInfoId':
         userInfoId = value;
+        return;
+      case 'password':
+        password = value;
         return;
       default:
         throw UnimplementedError();
@@ -255,10 +268,12 @@ class _PlayerImpl extends Player {
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    required String password,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
+          password: password,
         );
 
   @override
@@ -266,12 +281,14 @@ class _PlayerImpl extends Player {
     Object? id = _Undefined,
     int? userInfoId,
     Object? userInfo = _Undefined,
+    String? password,
   }) {
     return Player(
       id: id is int? ? id : this.id,
       userInfoId: userInfoId ?? this.userInfoId,
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
+      password: password ?? this.password,
     );
   }
 }
@@ -282,11 +299,17 @@ class PlayerTable extends _i1.Table {
       'userInfoId',
       this,
     );
+    password = _i1.ColumnString(
+      'password',
+      this,
+    );
   }
 
   late final _i1.ColumnInt userInfoId;
 
   _i2.UserInfoTable? _userInfo;
+
+  late final _i1.ColumnString password;
 
   _i2.UserInfoTable get userInfo {
     if (_userInfo != null) return _userInfo!;
@@ -305,6 +328,7 @@ class PlayerTable extends _i1.Table {
   List<_i1.Column> get columns => [
         id,
         userInfoId,
+        password,
       ];
 
   @override

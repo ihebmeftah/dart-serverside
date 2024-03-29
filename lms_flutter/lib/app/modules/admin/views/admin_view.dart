@@ -142,8 +142,9 @@ class AdminView extends GetView<AdminController> {
                     selectedTileColor: ThemesApp.primary,
                     selectedColor: ThemesApp.secondary2,
                     leading: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(controller.admin!.imageUrl!),
+                      backgroundImage: controller.admin?.imageUrl == null
+                          ? null
+                          : NetworkImage(controller.admin!.imageUrl!),
                     ),
                     trailing: IconButton(
                         onPressed: controller.logout,
