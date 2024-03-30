@@ -22,10 +22,11 @@ import 'option.dart' as _i10;
 import 'player.dart' as _i11;
 import 'question.dart' as _i12;
 import 'quiz.dart' as _i13;
-import 'protocol.dart' as _i14;
-import 'package:lms_server/src/generated/category.dart' as _i15;
-import 'package:lms_server/src/generated/question.dart' as _i16;
-import 'package:lms_server/src/generated/quiz.dart' as _i17;
+import 'rank.dart' as _i14;
+import 'protocol.dart' as _i15;
+import 'package:lms_server/src/generated/category.dart' as _i16;
+import 'package:lms_server/src/generated/question.dart' as _i17;
+import 'package:lms_server/src/generated/quiz.dart' as _i18;
 export 'admin.dart';
 export 'category.dart';
 export 'enum/question_status.enum.dart';
@@ -36,6 +37,7 @@ export 'option.dart';
 export 'player.dart';
 export 'question.dart';
 export 'quiz.dart';
+export 'rank.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -149,6 +151,12 @@ class Protocol extends _i1.SerializationManagerServer {
           columnType: _i2.ColumnType.integer,
           isNullable: false,
           dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'nbQuiz',
+          columnType: _i2.ColumnType.integer,
+          isNullable: true,
+          dartType: 'int?',
         ),
       ],
       foreignKeys: [
@@ -278,6 +286,36 @@ class Protocol extends _i1.SerializationManagerServer {
           columnType: _i2.ColumnType.text,
           isNullable: false,
           dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'totalPoint',
+          columnType: _i2.ColumnType.integer,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'quizesDone',
+          columnType: _i2.ColumnType.integer,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'sounds',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'notification',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'rank',
+          columnType: _i2.ColumnType.json,
+          isNullable: true,
+          dartType: 'protocol:Rank?',
         ),
       ],
       foreignKeys: [
@@ -504,6 +542,87 @@ class Protocol extends _i1.SerializationManagerServer {
       ],
       managed: true,
     ),
+    _i2.TableDefinition(
+      name: 'rank',
+      dartName: 'Rank',
+      schema: 'public',
+      module: 'lms',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'rank_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'minpoints',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'maxpoints',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'level',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'rank_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'rank_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'name',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'minpoints',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'maxpoints',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'level',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
     ..._i3.Protocol.targetTableDefinitions,
     ..._i2.Protocol.targetTableDefinitions,
   ];
@@ -547,6 +666,9 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i13.Quiz) {
       return _i13.Quiz.fromJson(data, this) as T;
     }
+    if (t == _i14.Rank) {
+      return _i14.Rank.fromJson(data, this) as T;
+    }
     if (t == _i1.getType<_i4.Admin?>()) {
       return (data != null ? _i4.Admin.fromJson(data, this) : null) as T;
     }
@@ -577,36 +699,39 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i13.Quiz?>()) {
       return (data != null ? _i13.Quiz.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<List<_i14.Category>?>()) {
+    if (t == _i1.getType<_i14.Rank?>()) {
+      return (data != null ? _i14.Rank.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<List<_i15.Category>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i14.Category>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i15.Category>(e)).toList()
           : null) as dynamic;
     }
-    if (t == _i1.getType<List<_i14.Quiz>?>()) {
+    if (t == _i1.getType<List<_i15.Quiz>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i14.Quiz>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i15.Quiz>(e)).toList()
           : null) as dynamic;
     }
-    if (t == _i1.getType<List<_i14.Option>?>()) {
+    if (t == _i1.getType<List<_i15.Option>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i14.Option>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i15.Option>(e)).toList()
           : null) as dynamic;
     }
-    if (t == _i1.getType<List<_i14.Question>?>()) {
+    if (t == _i1.getType<List<_i15.Question>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i14.Question>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i15.Question>(e)).toList()
           : null) as dynamic;
     }
-    if (t == List<_i15.Category>) {
-      return (data as List).map((e) => deserialize<_i15.Category>(e)).toList()
+    if (t == List<_i16.Category>) {
+      return (data as List).map((e) => deserialize<_i16.Category>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i16.Question>) {
-      return (data as List).map((e) => deserialize<_i16.Question>(e)).toList()
+    if (t == List<_i17.Question>) {
+      return (data as List).map((e) => deserialize<_i17.Question>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i17.Quiz>) {
-      return (data as List).map((e) => deserialize<_i17.Quiz>(e)).toList()
+    if (t == List<_i18.Quiz>) {
+      return (data as List).map((e) => deserialize<_i18.Quiz>(e)).toList()
           as dynamic;
     }
     try {
@@ -655,6 +780,9 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i13.Quiz) {
       return 'Quiz';
     }
+    if (data is _i14.Rank) {
+      return 'Rank';
+    }
     return super.getClassNameForObject(data);
   }
 
@@ -694,6 +822,9 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'Quiz') {
       return deserialize<_i13.Quiz>(data['data']);
     }
+    if (data['className'] == 'Rank') {
+      return deserialize<_i14.Rank>(data['data']);
+    }
     return super.deserializeByClassName(data);
   }
 
@@ -724,6 +855,8 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i12.Question.t;
       case _i13.Quiz:
         return _i13.Quiz.t;
+      case _i14.Rank:
+        return _i14.Rank.t;
     }
     return null;
   }

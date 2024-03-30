@@ -20,11 +20,12 @@ import 'option.dart' as _i8;
 import 'player.dart' as _i9;
 import 'question.dart' as _i10;
 import 'quiz.dart' as _i11;
-import 'protocol.dart' as _i12;
-import 'package:lms_client/src/protocol/category.dart' as _i13;
-import 'package:lms_client/src/protocol/question.dart' as _i14;
-import 'package:lms_client/src/protocol/quiz.dart' as _i15;
-import 'package:serverpod_auth_client/module.dart' as _i16;
+import 'rank.dart' as _i12;
+import 'protocol.dart' as _i13;
+import 'package:lms_client/src/protocol/category.dart' as _i14;
+import 'package:lms_client/src/protocol/question.dart' as _i15;
+import 'package:lms_client/src/protocol/quiz.dart' as _i16;
+import 'package:serverpod_auth_client/module.dart' as _i17;
 export 'admin.dart';
 export 'category.dart';
 export 'enum/question_status.enum.dart';
@@ -35,6 +36,7 @@ export 'option.dart';
 export 'player.dart';
 export 'question.dart';
 export 'quiz.dart';
+export 'rank.dart';
 export 'client.dart';
 
 class Protocol extends _i1.SerializationManager {
@@ -85,6 +87,9 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i11.Quiz) {
       return _i11.Quiz.fromJson(data, this) as T;
     }
+    if (t == _i12.Rank) {
+      return _i12.Rank.fromJson(data, this) as T;
+    }
     if (t == _i1.getType<_i2.Admin?>()) {
       return (data != null ? _i2.Admin.fromJson(data, this) : null) as T;
     }
@@ -115,40 +120,43 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i11.Quiz?>()) {
       return (data != null ? _i11.Quiz.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<List<_i12.Category>?>()) {
+    if (t == _i1.getType<_i12.Rank?>()) {
+      return (data != null ? _i12.Rank.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<List<_i13.Category>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i12.Category>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i13.Category>(e)).toList()
           : null) as dynamic;
     }
-    if (t == _i1.getType<List<_i12.Quiz>?>()) {
+    if (t == _i1.getType<List<_i13.Quiz>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i12.Quiz>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i13.Quiz>(e)).toList()
           : null) as dynamic;
     }
-    if (t == _i1.getType<List<_i12.Option>?>()) {
+    if (t == _i1.getType<List<_i13.Option>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i12.Option>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i13.Option>(e)).toList()
           : null) as dynamic;
     }
-    if (t == _i1.getType<List<_i12.Question>?>()) {
+    if (t == _i1.getType<List<_i13.Question>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i12.Question>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i13.Question>(e)).toList()
           : null) as dynamic;
     }
-    if (t == List<_i13.Category>) {
-      return (data as List).map((e) => deserialize<_i13.Category>(e)).toList()
+    if (t == List<_i14.Category>) {
+      return (data as List).map((e) => deserialize<_i14.Category>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i14.Question>) {
-      return (data as List).map((e) => deserialize<_i14.Question>(e)).toList()
+    if (t == List<_i15.Question>) {
+      return (data as List).map((e) => deserialize<_i15.Question>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i15.Quiz>) {
-      return (data as List).map((e) => deserialize<_i15.Quiz>(e)).toList()
+    if (t == List<_i16.Quiz>) {
+      return (data as List).map((e) => deserialize<_i16.Quiz>(e)).toList()
           as dynamic;
     }
     try {
-      return _i16.Protocol().deserialize<T>(data, t);
+      return _i17.Protocol().deserialize<T>(data, t);
     } catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -156,7 +164,7 @@ class Protocol extends _i1.SerializationManager {
   @override
   String? getClassNameForObject(Object data) {
     String? className;
-    className = _i16.Protocol().getClassNameForObject(data);
+    className = _i17.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -190,6 +198,9 @@ class Protocol extends _i1.SerializationManager {
     if (data is _i11.Quiz) {
       return 'Quiz';
     }
+    if (data is _i12.Rank) {
+      return 'Rank';
+    }
     return super.getClassNameForObject(data);
   }
 
@@ -197,7 +208,7 @@ class Protocol extends _i1.SerializationManager {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
-      return _i16.Protocol().deserializeByClassName(data);
+      return _i17.Protocol().deserializeByClassName(data);
     }
     if (data['className'] == 'Admin') {
       return deserialize<_i2.Admin>(data['data']);
@@ -228,6 +239,9 @@ class Protocol extends _i1.SerializationManager {
     }
     if (data['className'] == 'Quiz') {
       return deserialize<_i11.Quiz>(data['data']);
+    }
+    if (data['className'] == 'Rank') {
+      return deserialize<_i12.Rank>(data['data']);
     }
     return super.deserializeByClassName(data);
   }

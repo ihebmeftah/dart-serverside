@@ -1,0 +1,12 @@
+class: Rank
+table: rank
+fields:
+    name: String
+    minpoints: int
+    maxpoints: int
+    level: int
+
+indexes:
+  rank_unique_idx:
+    fields: name,minpoints,maxpoints,level
+    unique: true
