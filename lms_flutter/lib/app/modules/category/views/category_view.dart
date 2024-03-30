@@ -97,7 +97,8 @@ class CategoryView extends GetView<CategoryController> {
                         child: AppCategroyWidget(
                           img: "boarding".toPng,
                           title: controller.categories[index].name,
-                          subtitle: "-- Quizzes",
+                          subtitle:
+                              "${controller.categories[index].nbQuiz ?? 0} Quizzes",
                         )),
                   ),
                   onEmpty: const Center(child: Text("No category found")),

@@ -16,6 +16,7 @@ abstract class Category extends _i1.TableRow {
     required this.name,
     required this.desc,
     required this.userId,
+    this.nbQuiz,
   }) : super(id);
 
   factory Category({
@@ -23,6 +24,7 @@ abstract class Category extends _i1.TableRow {
     required String name,
     required String desc,
     required int userId,
+    int? nbQuiz,
   }) = _CategoryImpl;
 
   factory Category.fromJson(
@@ -35,6 +37,8 @@ abstract class Category extends _i1.TableRow {
       desc: serializationManager.deserialize<String>(jsonSerialization['desc']),
       userId:
           serializationManager.deserialize<int>(jsonSerialization['userId']),
+      nbQuiz:
+          serializationManager.deserialize<int?>(jsonSerialization['nbQuiz']),
     );
   }
 
@@ -48,6 +52,8 @@ abstract class Category extends _i1.TableRow {
 
   int userId;
 
+  int? nbQuiz;
+
   @override
   _i1.Table get table => t;
 
@@ -56,6 +62,7 @@ abstract class Category extends _i1.TableRow {
     String? name,
     String? desc,
     int? userId,
+    int? nbQuiz,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -64,6 +71,7 @@ abstract class Category extends _i1.TableRow {
       'name': name,
       'desc': desc,
       'userId': userId,
+      if (nbQuiz != null) 'nbQuiz': nbQuiz,
     };
   }
 
@@ -75,6 +83,7 @@ abstract class Category extends _i1.TableRow {
       'name': name,
       'desc': desc,
       'userId': userId,
+      'nbQuiz': nbQuiz,
     };
   }
 
@@ -85,6 +94,7 @@ abstract class Category extends _i1.TableRow {
       'name': name,
       'desc': desc,
       'userId': userId,
+      if (nbQuiz != null) 'nbQuiz': nbQuiz,
     };
   }
 
@@ -106,6 +116,9 @@ abstract class Category extends _i1.TableRow {
         return;
       case 'userId':
         userId = value;
+        return;
+      case 'nbQuiz':
+        nbQuiz = value;
         return;
       default:
         throw UnimplementedError();
@@ -262,11 +275,13 @@ class _CategoryImpl extends Category {
     required String name,
     required String desc,
     required int userId,
+    int? nbQuiz,
   }) : super._(
           id: id,
           name: name,
           desc: desc,
           userId: userId,
+          nbQuiz: nbQuiz,
         );
 
   @override
@@ -275,12 +290,14 @@ class _CategoryImpl extends Category {
     String? name,
     String? desc,
     int? userId,
+    Object? nbQuiz = _Undefined,
   }) {
     return Category(
       id: id is int? ? id : this.id,
       name: name ?? this.name,
       desc: desc ?? this.desc,
       userId: userId ?? this.userId,
+      nbQuiz: nbQuiz is int? ? nbQuiz : this.nbQuiz,
     );
   }
 }
@@ -299,6 +316,10 @@ class CategoryTable extends _i1.Table {
       'userId',
       this,
     );
+    nbQuiz = _i1.ColumnInt(
+      'nbQuiz',
+      this,
+    );
   }
 
   late final _i1.ColumnString name;
@@ -307,12 +328,15 @@ class CategoryTable extends _i1.Table {
 
   late final _i1.ColumnInt userId;
 
+  late final _i1.ColumnInt nbQuiz;
+
   @override
   List<_i1.Column> get columns => [
         id,
         name,
         desc,
         userId,
+        nbQuiz,
       ];
 }
 

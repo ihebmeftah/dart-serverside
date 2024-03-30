@@ -173,7 +173,8 @@ class PlayerView extends GetView<PlayerController> {
                                   img: "boarding".toPng,
                                   title: controller.categoryController
                                       .categories[index].name,
-                                  subtitle: "-- Quizzes",
+                                  subtitle:
+                                      "${controller.categoryController.categories[index].nbQuiz ?? "0"} Quizzes",
                                 )),
                     ),
                     onEmpty: const Center(

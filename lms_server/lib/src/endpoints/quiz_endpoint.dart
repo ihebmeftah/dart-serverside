@@ -91,21 +91,21 @@ class QuizEndpoint extends Endpoint {
           message: 'Only admin user can create quize',
           errorType: ExceptionType.unauthorizedAccessException);
     }
-    final existOrNotCategory = await Category.db.findById(session, categoryId);
-    if (existOrNotCategory == null) {
+    final category = await Category.db.findById(session, categoryId);
+    if (category == null) {
       throw AppException(
           message: 'Category not found', errorType: ExceptionType.notFound);
     }
-    final existOrNot = await Quiz.db.findFirstRow(
+    Quiz? quiz = await Quiz.db.findFirstRow(
       session,
       where: (q) => q.name.ilike(name.trim()),
     );
-    if (existOrNot != null) {
+    if (quiz != null) {
       throw AppException(
           message: 'This name of quiz exist $name',
           errorType: ExceptionType.duplicateKeyException);
     }
-    final Quiz createdQuiz = await Quiz.db.insertRow(
+    quiz = await Quiz.db.insertRow(
         session,
         Quiz(
             name: name.trim(),
@@ -113,7 +113,10 @@ class QuizEndpoint extends Endpoint {
             userId: userId,
             categoryId: categoryId,
             points: 0));
-    return createdQuiz;
+    category.nbQuiz = (category.nbQuiz ?? 0) + 1;
+    await Category.db.updateRow(session, category);
+    print(category.nbQuiz);
+    return quiz;
   }
 
   Future<String> deleteQuiz(Session session, int id) async {
