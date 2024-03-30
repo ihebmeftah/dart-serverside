@@ -24,14 +24,14 @@ class AuthController extends GetxController {
         final serverResponse =
             await client.users.login(email: email.text, password: pwd.text);
         if (serverResponse.success) {
-          final sessionManager = await SessionManager.instance;
-
           await sessionManager.registerSignedInUser(
             serverResponse.userInfo!,
             serverResponse.keyId!,
             serverResponse.key!,
           );
           navigateToNextRoute(serverResponse.userInfo!.scopeNames);
+        } else if (serverResponse.success == false) {
+          Get.snackbar("Error", "Invalid email or password");
         }
       }
     } on AppException catch (e) {
@@ -77,17 +77,11 @@ class AuthController extends GetxController {
             serverResponse.key!,
           );
           navigateToNextRoute(serverResponse.userInfo!.scopeNames);
+        } else if (serverResponse.success == false) {
+          Get.snackbar("Error", "Invalid email or password");
         }
       }
     } on AppException catch (e) {
-      Get.snackbar(e.errorType.name, e.message);
-    } catch (e) {
-      Get.snackbar("Error", "$e");
-    }
-  }
-
-  void verifyAccount() async {
-    try {} on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
       Get.snackbar("Error", "$e");

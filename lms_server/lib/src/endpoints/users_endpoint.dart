@@ -17,16 +17,18 @@ class UsersEndpoint extends Endpoint {
     userInfo ??= await Users.findUserByIdentifier(session, email);
     if (userInfo != null) {
       throw AppException(
-          message: "User already exist",
-          errorType: ExceptionType.duplicateKeyException);
+        message: 'User with this email already exist',
+        errorType: ExceptionType.duplicateKeyException,
+      );
     }
+    final UsersScope scopes = isAdmin ? UsersScope.admin : UsersScope.player;
     userInfo = UserInfo(
       userIdentifier: email,
       userName: name,
       email: email,
       blocked: false,
       created: DateTime.now().toUtc(),
-      scopeNames: [isAdmin ? UsersScope.admin.name! : UsersScope.player.name!],
+      scopeNames: [scopes.name!],
     );
     userInfo = await Users.createUser(session, userInfo, 'myAuthMethod');
     if (isAdmin) {
@@ -36,8 +38,8 @@ class UsersEndpoint extends Endpoint {
       await Player.db.insertRow(
           session, Player(userInfoId: userInfo!.id!, password: password));
     }
-    final authToken =
-        await session.auth.signInUser(userInfo.id!, 'myAuthMethod');
+    final authToken = await session.auth
+        .signInUser(userInfo.id!, 'myAuthMethod', scopes: {scopes});
     return AuthenticationResponse(
       success: true,
       keyId: authToken.id,
@@ -53,28 +55,30 @@ class UsersEndpoint extends Endpoint {
   }) async {
     final userInfo = await Users.findUserByEmail(session, email);
     if (userInfo == null) {
-      throw AppException(
-          message: "User not exist", errorType: ExceptionType.notFound);
+      return AuthenticationResponse(
+        success: false,
+        failReason: AuthenticationFailReason.invalidCredentials,
+      );
     }
     if (userInfo.scopes.contains(UsersScope.admin)) {
       final admin = await Admin.db.findById(session, userInfo.id!);
       if (admin!.password != password) {
-        throw AppException(
-          message: "Wrong password",
-          errorType: ExceptionType.authenticationRequiredException,
+        return AuthenticationResponse(
+          success: false,
+          failReason: AuthenticationFailReason.invalidCredentials,
         );
       }
     } else {
       final player = await Player.db.findById(session, userInfo.id!);
       if (player!.password != password) {
-        throw AppException(
-          message: "Wrong password",
-          errorType: ExceptionType.authenticationRequiredException,
+        return AuthenticationResponse(
+          success: false,
+          failReason: AuthenticationFailReason.invalidCredentials,
         );
       }
     }
-    final authToken =
-        await session.auth.signInUser(userInfo.id!, 'myAuthMethod');
+    final authToken = await session.auth
+        .signInUser(userInfo.id!, 'myAuthMethod', scopes: userInfo.scopes);
     return AuthenticationResponse(
       success: true,
       keyId: authToken.id,
