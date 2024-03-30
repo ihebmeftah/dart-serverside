@@ -38,10 +38,19 @@ class UsersEndpoint extends Endpoint {
           session, Admin(userInfoId: userInfo!.id!, password: hashedPassword));
     } else {
       await Player.db.insertRow(
-          session, Player(userInfoId: userInfo!.id!, password: hashedPassword));
+          session,
+          Player(
+            userInfoId: userInfo!.id!,
+            password: hashedPassword,
+            sounds: true,
+            notification: true,
+          ));
     }
-    final authToken = await session.auth
-        .signInUser(userInfo.id!, 'myAuthMethod', scopes: {scopes});
+    final authToken = await session.auth.signInUser(
+      userInfo.id!,
+      'myAuthMethod',
+      scopes: {scopes},
+    );
     return AuthenticationResponse(
       success: true,
       keyId: authToken.id,
