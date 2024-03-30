@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:lms_client/lms_client.dart';
 import 'package:lms_flutter/app/modules/category/controllers/category_controller.dart';
 
-import '../../../../initclient.dart';
+import '../../../../client_services.dart';
 
 class QuizController extends GetxController with StateMixin {
   CategoryController categoryController = Get.find();
@@ -21,7 +21,7 @@ class QuizController extends GetxController with StateMixin {
 
   Future<void> getQuizes() async {
     try {
-      quizes(await client.quiz.getQuizes());
+      quizes(await ClientServices.client.quiz.getQuizes());
       if (quizes.isEmpty) {
         change(null, status: RxStatus.empty());
       } else {
@@ -38,7 +38,7 @@ class QuizController extends GetxController with StateMixin {
   void createQuiz() async {
     try {
       if (form.currentState!.validate()) {
-        await client.quiz.createQuiz(
+        await ClientServices.client.quiz.createQuiz(
             name: quizName.text,
             desc: quizDesc.text,
             categoryId: selectedCategroy!.id!);
@@ -56,7 +56,7 @@ class QuizController extends GetxController with StateMixin {
 
   void deleteQuiz(int id) async {
     try {
-      await client.quiz.deleteQuiz(id);
+      await ClientServices.client.quiz.deleteQuiz(id);
       await getQuizes();
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);

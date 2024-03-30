@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:lms_client/lms_client.dart';
 
-import '../../../../initclient.dart';
+import '../../../../client_services.dart';
 
 class QuizesCatController extends GetxController with StateMixin {
   final categoryQuizes = <Quiz>[].obs;
@@ -15,7 +15,7 @@ class QuizesCatController extends GetxController with StateMixin {
 
   Future<void> getQuizesByCategeroy() async {
     try {
-      categoryQuizes(await client.quiz
+      categoryQuizes(await ClientServices.client.quiz
           .getQuizesByCategeroy(int.parse(Get.parameters['id']!)));
       if (categoryQuizes.isEmpty) {
         change(null, status: RxStatus.empty());

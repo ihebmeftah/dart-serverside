@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:lms_flutter/app/routes/app_pages.dart';
-import 'package:lms_flutter/initclient.dart';
+import 'package:lms_flutter/client_services.dart';
 
 class SettingController extends GetxController {
-  final userInfo = sessionManager.signedInUser;
+  final userInfo = ClientServices.session.signedInUser;
   bool soundStatus = false;
   bool notificationStatus = false;
 
@@ -18,7 +18,7 @@ class SettingController extends GetxController {
   }
 
   void logout() async {
-    await sessionManager.signOut();
+    await ClientServices.session.signOut();
     Get.offAllNamed(Routes.AUTH);
   }
 }

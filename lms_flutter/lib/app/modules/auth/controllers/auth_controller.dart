@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:lms_client/lms_client.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
-import '../../../../initclient.dart';
+import '../../../../client_services.dart';
 import '../../../routes/app_pages.dart';
 
 class AuthController extends GetxController {
@@ -21,10 +21,10 @@ class AuthController extends GetxController {
   void login() async {
     try {
       if (loginkey.currentState!.validate()) {
-        final serverResponse =
-            await client.users.login(email: email.text, password: pwd.text);
+        final serverResponse = await ClientServices.client.users
+            .login(email: email.text, password: pwd.text);
         if (serverResponse.success) {
-          await sessionManager.registerSignedInUser(
+          await ClientServices.session.registerSignedInUser(
             serverResponse.userInfo!,
             serverResponse.keyId!,
             serverResponse.key!,
@@ -46,7 +46,7 @@ class AuthController extends GetxController {
       if (roles.contains(Roles.admin.name)) {
         Get.offAllNamed(Routes.ADMIN);
       } else if (roles.contains(Roles.player.name)) {
-        await sessionManager.signOut();
+        await ClientServices.session.signOut();
         Get.snackbar("Error", "Only admin hava access to web platfrom");
       }
     } else if (GetPlatform.isAndroid ||
@@ -55,7 +55,7 @@ class AuthController extends GetxController {
       if (roles.contains(Roles.player.name)) {
         Get.offAllNamed(Routes.PLAYER);
       } else if (roles.contains(Roles.admin.name)) {
-        await sessionManager.signOut();
+        await ClientServices.session.signOut();
         Get.snackbar("Error", "Only player have access to mobile platfrom");
       }
     }
@@ -64,7 +64,7 @@ class AuthController extends GetxController {
   Future<void> registre() async {
     try {
       if (registrekey.currentState!.validate()) {
-        final serverResponse = await client.users.register(
+        final serverResponse = await ClientServices.client.users.register(
             isAdmin: GetPlatform.isWeb && GetPlatform.isMobile == false,
             name: username.text,
             email: createemail.text,

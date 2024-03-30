@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 
 import 'app/core/themes/themes.dart';
 import 'app/routes/app_pages.dart';
-import 'initclient.dart';
+import 'client_services.dart';
 
 void main() async {
-  await appClientInit();
+  await Get.putAsync(() async => ClientServices());
   await ScreenUtil.ensureScreenSize();
   runApp(
     ScreenUtilInit(

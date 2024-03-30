@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms_client/lms_client.dart';
 
-import '../../../../initclient.dart';
+import '../../../../client_services.dart';
 
 class QuizDetailsController extends GetxController with StateMixin {
   Rx<Quiz?> quiz = Rx(null);
@@ -23,7 +23,7 @@ class QuizDetailsController extends GetxController with StateMixin {
 
   Future<void> getQuiz() async {
     try {
-      quiz(await client.quiz.getQuiz(int.parse(Get.parameters['id']!)));
+      quiz(await ClientServices.client.quiz.getQuiz(int.parse(Get.parameters['id']!)));
       await getQuestionsByQuiz();
       if (quiz.value == null) {
         change(null, status: RxStatus.empty());
@@ -40,7 +40,7 @@ class QuizDetailsController extends GetxController with StateMixin {
 
   Future<void> getQuestionsByQuiz() async {
     try {
-      questions(await client.question.getQuestionsByQuiz(quiz.value!.id!));
+      questions(await ClientServices.client.question.getQuestionsByQuiz(quiz.value!.id!));
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
     } catch (e) {
@@ -52,7 +52,7 @@ class QuizDetailsController extends GetxController with StateMixin {
   Future<void> createQuestion() async {
     try {
       if (form.currentState!.validate()) {
-        await client.question.createQuestion(
+        await ClientServices.client.question.createQuestion(
             quizId: quiz.value!.id!,
             question: question.text,
             additionalInformation: addInfo.text);
@@ -68,7 +68,7 @@ class QuizDetailsController extends GetxController with StateMixin {
 
   Future<void> deleteQuestion(int id) async {
     try {
-      await client.question.deleteQuestion(id);
+      await ClientServices.client.question.deleteQuestion(id);
       await getQuestionsByQuiz();
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
@@ -81,7 +81,7 @@ class QuizDetailsController extends GetxController with StateMixin {
   Future<void> createOption(int questionId) async {
     try {
       if (optionForm.currentState!.validate()) {
-        await client.option.createOption(
+        await ClientServices.client.option.createOption(
             questionId: questionId,
             text: optiontext.text,
             isCorrect: isCorrect);
@@ -100,7 +100,7 @@ class QuizDetailsController extends GetxController with StateMixin {
 
   Future<void> deleteOption(int id) async {
     try {
-      await client.option.deleteOption(id);
+      await ClientServices.client.option.deleteOption(id);
       await getQuestionsByQuiz();
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);

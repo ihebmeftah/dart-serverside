@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:lms_flutter/initclient.dart';
+import 'package:lms_flutter/client_services.dart';
 
 import '../../../routes/app_pages.dart';
 
 class AdminController extends GetxController {
-  final admin = sessionManager.signedInUser;
+  final admin = ClientServices.session.signedInUser;
   int index = 0;
 
   void switchView(int i) {
@@ -13,7 +13,7 @@ class AdminController extends GetxController {
   }
 
   void logout() async {
-    await sessionManager.signOut();
+    await ClientServices.session.signOut();
     Get.offAllNamed(Routes.AUTH);
   }
 }

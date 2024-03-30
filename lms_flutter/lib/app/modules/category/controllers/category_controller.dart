@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms_client/lms_client.dart';
 
-import '../../../../initclient.dart';
+import '../../../../client_services.dart';
 
 class CategoryController extends GetxController with StateMixin {
   final form = GlobalKey<FormState>();
@@ -18,7 +18,7 @@ class CategoryController extends GetxController with StateMixin {
 
   Future<void> getCategories() async {
     try {
-      categories(await client.category.getCategory());
+      categories(await ClientServices.client.category.getCategory());
       if (categories.isEmpty) {
         change(null, status: RxStatus.empty());
       } else {
@@ -35,7 +35,7 @@ class CategoryController extends GetxController with StateMixin {
   void createCategroy() async {
     try {
       if (form.currentState!.validate()) {
-        await client.category.createCategory(
+        await ClientServices.client.category.createCategory(
           name: catName.text,
           desc: catDesc.text,
         );
@@ -53,7 +53,7 @@ class CategoryController extends GetxController with StateMixin {
 
   void deleteCategory(int id) async {
     try {
-      await client.category.deleteCategroy(id);
+      await ClientServices.client.category.deleteCategroy(id);
       await getCategories();
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
