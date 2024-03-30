@@ -21,7 +21,9 @@ class SettingView extends GetView<SettingController> {
                 decoration: BoxDecoration(color: ThemesApp.secondary2),
                 currentAccountPicture: CircleAvatar(
                   radius: 25.r,
-                  backgroundImage: NetworkImage(controller.userInfo!.imageUrl!),
+                  backgroundImage: controller.userInfo!.imageUrl == null
+                      ? null
+                      : NetworkImage(controller.userInfo!.imageUrl!),
                 ),
                 accountName:
                     Text(controller.userInfo!.userName.capitalizeFirst!),
