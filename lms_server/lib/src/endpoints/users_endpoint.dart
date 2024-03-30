@@ -1,3 +1,4 @@
+import 'package:crypt/crypt.dart';
 import 'package:lms_server/src/generated/protocol.dart';
 import 'package:serverpod/server.dart';
 import 'package:serverpod_auth_server/module.dart';
@@ -31,12 +32,13 @@ class UsersEndpoint extends Endpoint {
       scopeNames: [scopes.name!],
     );
     userInfo = await Users.createUser(session, userInfo, 'myAuthMethod');
+    final hashedPassword = Crypt.sha256(password).toString();
     if (isAdmin) {
       await Admin.db.insertRow(
-          session, Admin(userInfoId: userInfo!.id!, password: password));
+          session, Admin(userInfoId: userInfo!.id!, password: hashedPassword));
     } else {
       await Player.db.insertRow(
-          session, Player(userInfoId: userInfo!.id!, password: password));
+          session, Player(userInfoId: userInfo!.id!, password: hashedPassword));
     }
     final authToken = await session.auth
         .signInUser(userInfo.id!, 'myAuthMethod', scopes: {scopes});
@@ -62,7 +64,10 @@ class UsersEndpoint extends Endpoint {
     }
     if (userInfo.scopes.contains(UsersScope.admin)) {
       final admin = await Admin.db.findById(session, userInfo.id!);
-      if (admin!.password != password) {
+      print(admin?.password);
+      print(Crypt.sha256(password).hash);
+      print(Crypt.sha256(password));
+      if (!Crypt(admin!.password).match(password)) {
         return AuthenticationResponse(
           success: false,
           failReason: AuthenticationFailReason.invalidCredentials,
@@ -70,7 +75,7 @@ class UsersEndpoint extends Endpoint {
       }
     } else {
       final player = await Player.db.findById(session, userInfo.id!);
-      if (player!.password != password) {
+      if (!Crypt(player!.password).match(password)) {
         return AuthenticationResponse(
           success: false,
           failReason: AuthenticationFailReason.invalidCredentials,
