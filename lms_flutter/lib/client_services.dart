@@ -14,6 +14,10 @@ class ClientServices extends GetxService {
   static SessionManager get session =>
       Get.find<ClientServices>()._sessionManager;
 
+  static bool get isAdmin =>
+      instance._sessionManager.signedInUser?.scopeNames
+          .contains(Roles.admin.name) ??
+      GetPlatform.isWeb && GetPlatform.isMobile == false;
   late SessionManager _sessionManager;
   late Client _client;
 
