@@ -10,6 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod_auth_server/module.dart' as _i2;
+import 'protocol.dart' as _i3;
 
 abstract class Player extends _i1.TableRow {
   Player._({
@@ -17,6 +18,11 @@ abstract class Player extends _i1.TableRow {
     required this.userInfoId,
     this.userInfo,
     required this.password,
+    this.totalPoint,
+    this.quizesDone,
+    required this.sounds,
+    required this.notification,
+    this.rank,
   }) : super(id);
 
   factory Player({
@@ -24,6 +30,11 @@ abstract class Player extends _i1.TableRow {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     required String password,
+    int? totalPoint,
+    int? quizesDone,
+    required bool sounds,
+    required bool notification,
+    _i3.Rank? rank,
   }) = _PlayerImpl;
 
   factory Player.fromJson(
@@ -38,6 +49,16 @@ abstract class Player extends _i1.TableRow {
           .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
       password: serializationManager
           .deserialize<String>(jsonSerialization['password']),
+      totalPoint: serializationManager
+          .deserialize<int?>(jsonSerialization['totalPoint']),
+      quizesDone: serializationManager
+          .deserialize<int?>(jsonSerialization['quizesDone']),
+      sounds:
+          serializationManager.deserialize<bool>(jsonSerialization['sounds']),
+      notification: serializationManager
+          .deserialize<bool>(jsonSerialization['notification']),
+      rank: serializationManager
+          .deserialize<_i3.Rank?>(jsonSerialization['rank']),
     );
   }
 
@@ -51,6 +72,16 @@ abstract class Player extends _i1.TableRow {
 
   String password;
 
+  int? totalPoint;
+
+  int? quizesDone;
+
+  bool sounds;
+
+  bool notification;
+
+  _i3.Rank? rank;
+
   @override
   _i1.Table get table => t;
 
@@ -59,6 +90,11 @@ abstract class Player extends _i1.TableRow {
     int? userInfoId,
     _i2.UserInfo? userInfo,
     String? password,
+    int? totalPoint,
+    int? quizesDone,
+    bool? sounds,
+    bool? notification,
+    _i3.Rank? rank,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -67,6 +103,11 @@ abstract class Player extends _i1.TableRow {
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
       'password': password,
+      if (totalPoint != null) 'totalPoint': totalPoint,
+      if (quizesDone != null) 'quizesDone': quizesDone,
+      'sounds': sounds,
+      'notification': notification,
+      if (rank != null) 'rank': rank?.toJson(),
     };
   }
 
@@ -77,6 +118,11 @@ abstract class Player extends _i1.TableRow {
       'id': id,
       'userInfoId': userInfoId,
       'password': password,
+      'totalPoint': totalPoint,
+      'quizesDone': quizesDone,
+      'sounds': sounds,
+      'notification': notification,
+      'rank': rank,
     };
   }
 
@@ -87,6 +133,11 @@ abstract class Player extends _i1.TableRow {
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.allToJson(),
       'password': password,
+      if (totalPoint != null) 'totalPoint': totalPoint,
+      if (quizesDone != null) 'quizesDone': quizesDone,
+      'sounds': sounds,
+      'notification': notification,
+      if (rank != null) 'rank': rank?.allToJson(),
     };
   }
 
@@ -105,6 +156,21 @@ abstract class Player extends _i1.TableRow {
         return;
       case 'password':
         password = value;
+        return;
+      case 'totalPoint':
+        totalPoint = value;
+        return;
+      case 'quizesDone':
+        quizesDone = value;
+        return;
+      case 'sounds':
+        sounds = value;
+        return;
+      case 'notification':
+        notification = value;
+        return;
+      case 'rank':
+        rank = value;
         return;
       default:
         throw UnimplementedError();
@@ -269,11 +335,21 @@ class _PlayerImpl extends Player {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     required String password,
+    int? totalPoint,
+    int? quizesDone,
+    required bool sounds,
+    required bool notification,
+    _i3.Rank? rank,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
           password: password,
+          totalPoint: totalPoint,
+          quizesDone: quizesDone,
+          sounds: sounds,
+          notification: notification,
+          rank: rank,
         );
 
   @override
@@ -282,6 +358,11 @@ class _PlayerImpl extends Player {
     int? userInfoId,
     Object? userInfo = _Undefined,
     String? password,
+    Object? totalPoint = _Undefined,
+    Object? quizesDone = _Undefined,
+    bool? sounds,
+    bool? notification,
+    Object? rank = _Undefined,
   }) {
     return Player(
       id: id is int? ? id : this.id,
@@ -289,6 +370,11 @@ class _PlayerImpl extends Player {
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
       password: password ?? this.password,
+      totalPoint: totalPoint is int? ? totalPoint : this.totalPoint,
+      quizesDone: quizesDone is int? ? quizesDone : this.quizesDone,
+      sounds: sounds ?? this.sounds,
+      notification: notification ?? this.notification,
+      rank: rank is _i3.Rank? ? rank : this.rank?.copyWith(),
     );
   }
 }
@@ -303,6 +389,26 @@ class PlayerTable extends _i1.Table {
       'password',
       this,
     );
+    totalPoint = _i1.ColumnInt(
+      'totalPoint',
+      this,
+    );
+    quizesDone = _i1.ColumnInt(
+      'quizesDone',
+      this,
+    );
+    sounds = _i1.ColumnBool(
+      'sounds',
+      this,
+    );
+    notification = _i1.ColumnBool(
+      'notification',
+      this,
+    );
+    rank = _i1.ColumnSerializable(
+      'rank',
+      this,
+    );
   }
 
   late final _i1.ColumnInt userInfoId;
@@ -310,6 +416,16 @@ class PlayerTable extends _i1.Table {
   _i2.UserInfoTable? _userInfo;
 
   late final _i1.ColumnString password;
+
+  late final _i1.ColumnInt totalPoint;
+
+  late final _i1.ColumnInt quizesDone;
+
+  late final _i1.ColumnBool sounds;
+
+  late final _i1.ColumnBool notification;
+
+  late final _i1.ColumnSerializable rank;
 
   _i2.UserInfoTable get userInfo {
     if (_userInfo != null) return _userInfo!;
@@ -329,6 +445,11 @@ class PlayerTable extends _i1.Table {
         id,
         userInfoId,
         password,
+        totalPoint,
+        quizesDone,
+        sounds,
+        notification,
+        rank,
       ];
 
   @override
