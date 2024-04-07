@@ -11,3 +11,5 @@ build/
 
 # Directory created by dartdoc
 doc/api/
+
+lms_client/lib/src/protocol

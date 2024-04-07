@@ -11,4 +11,5 @@ doc/api/
 # Passwords file
 config/passwords.yaml
 migrations/
+lib/src/generated
 migrations/migration_registry.txt
