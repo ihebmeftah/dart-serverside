@@ -1,12 +1,21 @@
 class: Rank
 table: rank
 fields:
-    name: String
-    minpoints: int
-    maxpoints: int
-    level: int
+  name: String
+  minpoints: int
+  maxpoints: int
+  level: int
 
 indexes:
-  rank_unique_idx:
-    fields: name,minpoints,maxpoints,level
+  name_rank_unique_idx:
+    fields: name
+    unique: true
+  minpoints_rank_unique_idx:
+    fields: minpoints
+    unique: true
+  maxpoints_rank_unique_idx:
+    fields: maxpoints
+    unique: true
+  level_rank_unique_idx:
+    fields: level
     unique: true
