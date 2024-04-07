@@ -44,6 +44,8 @@ class UsersEndpoint extends Endpoint {
             password: hashedPassword,
             sounds: true,
             notification: true,
+            totalPoint: 0,
+            quizesDone: 0,
           ));
     }
     final authToken = await session.auth.signInUser(

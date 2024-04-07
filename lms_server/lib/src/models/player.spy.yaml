@@ -3,8 +3,8 @@ table: player
 fields:
   userInfo: module:auth:UserInfo?, relation
   password: String
-  totalPoint: int?
-  quizesDone: int?
+  totalPoint: int
+  quizesDone: int
   sounds: bool
   notification: bool
   rank: Rank?
