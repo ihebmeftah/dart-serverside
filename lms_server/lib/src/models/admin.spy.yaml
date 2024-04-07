@@ -10,5 +10,5 @@ fields:
 
 indexes:
   admin_info_id_unique_idx:
-    fields: userInfoId,id
+    fields: userInfoId
     unique: true
