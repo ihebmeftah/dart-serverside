@@ -1,0 +1,6 @@
+enum: PlayQuizStatus
+serialized: byName
+values:
+  - skipped
+  - correct
+  - incorrect

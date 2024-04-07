@@ -1,0 +1,11 @@
+class: PlayQuiz
+table: play_quiz
+fields:
+  quiz: Quiz?, relation(onDelete=Cascade)
+  player: Player?, relation(onDelete=Cascade)
+  status: PlayQuiz
+
+indexes:
+  playquiz_unique_idx:
+    fields: quizId
+    unique: true
