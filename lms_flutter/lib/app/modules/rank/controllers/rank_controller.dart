@@ -11,8 +11,6 @@ class RankController extends GetxController with StateMixin {
   final rankname = TextEditingController(),
       rankmin = TextEditingController(),
       rankmax = TextEditingController();
-  final ranklevel = [1, 2, 3, 4, 5];
-  int? selectedRankLevel;
   final ranks = <Rank>[].obs;
 
   @override
@@ -41,15 +39,13 @@ class RankController extends GetxController with StateMixin {
     try {
       if (form.currentState!.validate()) {
         await ClientServices.client.rank.createRank(
-            name: rankname.text,
-            minpoints: int.parse(rankmin.text),
-            maxpoints: int.parse(rankmax.text),
-            level: selectedRankLevel!);
+          name: rankname.text,
+          maxpoints: int.parse(rankmax.text),
+        );
         await getRanks();
         rankname.clear();
         rankmin.clear();
         rankmax.clear();
-        selectedRankLevel = null;
       }
     } on AppException catch (e) {
       Get.snackbar(e.errorType.name, e.message);
@@ -71,7 +67,5 @@ class RankController extends GetxController with StateMixin {
     }
   }
 
-  void selectLevel(int? v) {
-    selectedRankLevel = v;
-  }
+
 }

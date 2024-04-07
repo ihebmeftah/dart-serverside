@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:lms_flutter/app/component/appdropdown.dart';
 import 'package:lms_flutter/app/core/extension/spacing.dart';
 
 import '../../../component/appelevatedbutton.dart';
@@ -31,36 +30,11 @@ class RankView extends GetView<RankController> {
                           label: "Rank name",
                           hint: "e.g: Rank 1"),
                       20.spaceH,
-                      AppDropdown(
-                          value: controller.selectedRankLevel,
-                          label: "Rank level",
-                          hint: "e.g: 1",
-                          onChange: controller.selectLevel,
-                          items: controller.ranklevel
-                              .map((e) => DropdownMenuItem(
-                                  value: e, child: Text(e.toString())))
-                              .toList()),
-                      20.spaceH,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: AppTextFormField(
-                              controller: controller.rankmin,
-                              keyboardType: TextInputType.number,
-                              label: "Rank min points",
-                              hint: "eg: 0",
-                            ),
-                          ),
-                          20.spaceW,
-                          Expanded(
-                            child: AppTextFormField(
-                              controller: controller.rankmax,
-                              keyboardType: TextInputType.number,
-                              label: "Rank max points",
-                              hint: "eg: 100",
-                            ),
-                          )
-                        ],
+                      AppTextFormField(
+                        controller: controller.rankmax,
+                        keyboardType: TextInputType.number,
+                        label: "Rank max points",
+                        hint: "eg: 100",
                       ),
                       40.spaceH,
                       AppElevatedButton(
@@ -76,8 +50,7 @@ class RankView extends GetView<RankController> {
               (state) => ListView.builder(
                   itemCount: controller.ranks.length,
                   itemBuilder: (context, index) => ListTile(
-                        title: Text(
-                            "${controller.ranks[index].name} (${controller.ranks[index].level})"),
+                        title: Text(controller.ranks[index].name),
                         subtitle: Text(
                             "${controller.ranks[index].minpoints} ${controller.ranks[index].maxpoints}"),
                         trailing: IconButton(

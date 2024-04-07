@@ -24,36 +24,30 @@ class RankEndpoint extends Endpoint {
   Future<Rank> createRank(
     Session session, {
     required String name,
-    required int minpoints,
     required int maxpoints,
-    required int level,
   }) async {
-    final int? userId = await session.auth.authenticatedUserId;
-    if (userId == null) {
-      throw AppException(
-          message: 'This request required authintification of admin',
-          errorType: ExceptionType.authenticationRequiredException);
+    int? minpoints;
+    final ranks = await getRanks(session);
+    if (ranks.isEmpty) {
+      minpoints = 0;
+    } else {
+      minpoints = ranks.last.maxpoints + 1;
+      if (maxpoints < ranks.last.maxpoints) {
+        throw AppException(
+          message:
+              'Max points of the new rank must greater than $minpoints and  than max point of the last rank : ${ranks.last.maxpoints}',
+          errorType: ExceptionType.validationException,
+        );
+      }
     }
-    final scopeOfUser = await session.scopes;
-    if (scopeOfUser?.contains(UsersScope.player) == true) {
-      throw AppException(
-        message: 'Only admin user can create rank',
-        errorType: ExceptionType.unauthorizedAccessException,
-      );
-    }
-    if ([1, 2, 3, 4, 5].any((element) => element == level) == false) {
-      throw AppException(
-        message: 'Level is required and should be 1 -> 5 max',
-        errorType: ExceptionType.validationException,
-      );
-    }
+
     final createdRank = await Rank.db.insertRow(
         session,
         Rank(
-            name: name,
-            minpoints: minpoints,
-            maxpoints: maxpoints,
-            level: level));
+          name: name,
+          minpoints: minpoints,
+          maxpoints: maxpoints,
+        ));
     return createdRank;
   }
 
