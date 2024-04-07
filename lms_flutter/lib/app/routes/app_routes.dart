@@ -16,6 +16,7 @@ abstract class Routes {
   static const ADMIN = _Paths.ADMIN;
   static const PLAYER = _Paths.PLAYER;
   static const QUIZ = _Paths.QUIZ;
+  static const RANK = _Paths.RANK;
 }
 
 abstract class _Paths {
@@ -31,4 +32,5 @@ abstract class _Paths {
   static const ADMIN = '/admin';
   static const PLAYER = '/player';
   static const QUIZ = '/quiz';
+  static const RANK = '/rank';
 }

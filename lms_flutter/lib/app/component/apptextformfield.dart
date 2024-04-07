@@ -10,6 +10,7 @@ class AppTextFormField extends StatefulWidget {
       required this.label,
       this.hint,
       this.isPassword = false,
+      this.keyboardType,
       this.isEmail = false,
       this.isRequired = true,
       this.profileDecoration = false,
@@ -23,6 +24,7 @@ class AppTextFormField extends StatefulWidget {
   final int? maxLine;
   final ValueChanged<String>? onChange;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
   @override
   State<AppTextFormField> createState() => _AppTextFormFieldState();
 }
@@ -43,6 +45,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         ),
         widget.profileDecoration ? 0.spaceH : 5.spaceH,
         TextFormField(
+          keyboardType: widget.keyboardType,
           maxLines: widget.maxLine,
           controller: widget.controller,
           obscureText: widget.isPassword,

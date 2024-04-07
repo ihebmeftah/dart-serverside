@@ -7,6 +7,7 @@ import 'package:lms_flutter/app/core/extension/spacing.dart';
 import 'package:lms_flutter/app/core/themes/themes.dart';
 import 'package:lms_flutter/app/modules/category/views/category_view.dart';
 import 'package:lms_flutter/app/modules/quiz/views/quiz_view.dart';
+import 'package:lms_flutter/app/modules/rank/views/rank_view.dart';
 
 import '../controllers/admin_controller.dart';
 
@@ -168,7 +169,7 @@ class AdminView extends GetView<AdminController> {
                 const CategoryView(),
                 const QuizView(),
                 const Text("Users"),
-                const Text("Rankings"),
+                const RankView(),
                 const Text("School grades"),
               ][controller.index],
             ))

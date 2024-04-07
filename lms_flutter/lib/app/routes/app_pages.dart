@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
-import 'package:lms_flutter/app/modules/quiz/views/quiz_details_view.dart';
 
 import '../middleware/auth_middleware.dart';
 import '../modules/about/bindings/about_binding.dart';
@@ -19,6 +19,7 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/quiz/bindings/quiz_binding.dart';
 import '../modules/quiz/bindings/quiz_details_binding.dart';
+import '../modules/quiz/views/quiz_details_view.dart';
 import '../modules/quiz/views/quiz_view.dart';
 import '../modules/quiz_play/bindings/quiz_play_binding.dart';
 import '../modules/quiz_play/views/quiz_play_view.dart';
@@ -26,6 +27,8 @@ import '../modules/quizes_cat/bindings/quizes_cat_binding.dart';
 import '../modules/quizes_cat/views/quizes_cat_view.dart';
 import '../modules/quizhistory/bindings/quizhistory_binding.dart';
 import '../modules/quizhistory/views/quizhistory_view.dart';
+import '../modules/rank/bindings/rank_binding.dart';
+import '../modules/rank/views/rank_view.dart';
 import '../modules/setting/bindings/setting_binding.dart';
 
 // ignore_for_file: constant_identifier_names
@@ -83,7 +86,12 @@ class AppPages {
     GetPage(
       name: _Paths.ADMIN,
       page: () => const AdminView(),
-      bindings: [AdminBinding(), CategoryBinding(), QuizBinding()],
+      bindings: [
+        AdminBinding(),
+        CategoryBinding(),
+        QuizBinding(),
+        RankBinding()
+      ],
     ),
     GetPage(
       name: _Paths.PLAYER,
@@ -101,5 +109,10 @@ class AppPages {
             binding: QuizDetailsBinding(),
           )
         ]),
+    GetPage(
+      name: _Paths.RANK,
+      page: () => const RankView(),
+      binding: RankBinding(),
+    ),
   ];
 }
