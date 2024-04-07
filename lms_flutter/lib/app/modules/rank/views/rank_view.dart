@@ -88,7 +88,7 @@ class RankView extends GetView<RankController> {
                           ),
                         ),
                       )),
-              onEmpty: const Center(child: Text("No category found")),
+              onEmpty: const Center(child: Text("No ranks found")),
               onError: (error) => Text(
                 error.toString(),
               ),
