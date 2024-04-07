@@ -15,6 +15,10 @@ quiz:
   - getQuiz:
   - createQuiz:
   - deleteQuiz:
+rank:
+  - getRanks:
+  - createRank:
+  - deleteRank:
 users:
   - register:
   - login:

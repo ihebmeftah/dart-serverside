@@ -13,8 +13,9 @@ import '../endpoints/category_endpoint.dart' as _i2;
 import '../endpoints/option_endpoint.dart' as _i3;
 import '../endpoints/question_endpoint.dart' as _i4;
 import '../endpoints/quiz_endpoint.dart' as _i5;
-import '../endpoints/users_endpoint.dart' as _i6;
-import 'package:serverpod_auth_server/module.dart' as _i7;
+import '../endpoints/rank_endpoint.dart' as _i6;
+import '../endpoints/users_endpoint.dart' as _i7;
+import 'package:serverpod_auth_server/module.dart' as _i8;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -44,7 +45,13 @@ class Endpoints extends _i1.EndpointDispatch {
           'quiz',
           null,
         ),
-      'users': _i6.UsersEndpoint()
+      'rank': _i6.RankEndpoint()
+        ..initialize(
+          server,
+          'rank',
+          null,
+        ),
+      'users': _i7.UsersEndpoint()
         ..initialize(
           server,
           'users',
@@ -335,6 +342,75 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['rank'] = _i1.EndpointConnector(
+      name: 'rank',
+      endpoint: endpoints['rank']!,
+      methodConnectors: {
+        'getRanks': _i1.MethodConnector(
+          name: 'getRanks',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['rank'] as _i6.RankEndpoint).getRanks(session),
+        ),
+        'createRank': _i1.MethodConnector(
+          name: 'createRank',
+          params: {
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'minpoints': _i1.ParameterDescription(
+              name: 'minpoints',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'maxpoints': _i1.ParameterDescription(
+              name: 'maxpoints',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'level': _i1.ParameterDescription(
+              name: 'level',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['rank'] as _i6.RankEndpoint).createRank(
+            session,
+            name: params['name'],
+            minpoints: params['minpoints'],
+            maxpoints: params['maxpoints'],
+            level: params['level'],
+          ),
+        ),
+        'deleteRank': _i1.MethodConnector(
+          name: 'deleteRank',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['rank'] as _i6.RankEndpoint).deleteRank(
+            session,
+            params['id'],
+          ),
+        ),
+      },
+    );
     connectors['users'] = _i1.EndpointConnector(
       name: 'users',
       endpoint: endpoints['users']!,
@@ -367,7 +443,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i6.UsersEndpoint).register(
+              (endpoints['users'] as _i7.UsersEndpoint).register(
             session,
             isAdmin: params['isAdmin'],
             name: params['name'],
@@ -393,7 +469,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i6.UsersEndpoint).login(
+              (endpoints['users'] as _i7.UsersEndpoint).login(
             session,
             email: params['email'],
             password: params['password'],
@@ -401,6 +477,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i8.Endpoints()..initializeEndpoints(server);
   }
 }

@@ -18,8 +18,8 @@ abstract class Player extends _i1.TableRow {
     required this.userInfoId,
     this.userInfo,
     required this.password,
-    this.totalPoint,
-    this.quizesDone,
+    required this.totalPoint,
+    required this.quizesDone,
     required this.sounds,
     required this.notification,
     this.rank,
@@ -30,8 +30,8 @@ abstract class Player extends _i1.TableRow {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     required String password,
-    int? totalPoint,
-    int? quizesDone,
+    required int totalPoint,
+    required int quizesDone,
     required bool sounds,
     required bool notification,
     _i3.Rank? rank,
@@ -50,9 +50,9 @@ abstract class Player extends _i1.TableRow {
       password: serializationManager
           .deserialize<String>(jsonSerialization['password']),
       totalPoint: serializationManager
-          .deserialize<int?>(jsonSerialization['totalPoint']),
+          .deserialize<int>(jsonSerialization['totalPoint']),
       quizesDone: serializationManager
-          .deserialize<int?>(jsonSerialization['quizesDone']),
+          .deserialize<int>(jsonSerialization['quizesDone']),
       sounds:
           serializationManager.deserialize<bool>(jsonSerialization['sounds']),
       notification: serializationManager
@@ -72,9 +72,9 @@ abstract class Player extends _i1.TableRow {
 
   String password;
 
-  int? totalPoint;
+  int totalPoint;
 
-  int? quizesDone;
+  int quizesDone;
 
   bool sounds;
 
@@ -103,8 +103,8 @@ abstract class Player extends _i1.TableRow {
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
       'password': password,
-      if (totalPoint != null) 'totalPoint': totalPoint,
-      if (quizesDone != null) 'quizesDone': quizesDone,
+      'totalPoint': totalPoint,
+      'quizesDone': quizesDone,
       'sounds': sounds,
       'notification': notification,
       if (rank != null) 'rank': rank?.toJson(),
@@ -133,8 +133,8 @@ abstract class Player extends _i1.TableRow {
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.allToJson(),
       'password': password,
-      if (totalPoint != null) 'totalPoint': totalPoint,
-      if (quizesDone != null) 'quizesDone': quizesDone,
+      'totalPoint': totalPoint,
+      'quizesDone': quizesDone,
       'sounds': sounds,
       'notification': notification,
       if (rank != null) 'rank': rank?.allToJson(),
@@ -335,8 +335,8 @@ class _PlayerImpl extends Player {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     required String password,
-    int? totalPoint,
-    int? quizesDone,
+    required int totalPoint,
+    required int quizesDone,
     required bool sounds,
     required bool notification,
     _i3.Rank? rank,
@@ -358,8 +358,8 @@ class _PlayerImpl extends Player {
     int? userInfoId,
     Object? userInfo = _Undefined,
     String? password,
-    Object? totalPoint = _Undefined,
-    Object? quizesDone = _Undefined,
+    int? totalPoint,
+    int? quizesDone,
     bool? sounds,
     bool? notification,
     Object? rank = _Undefined,
@@ -370,8 +370,8 @@ class _PlayerImpl extends Player {
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
       password: password ?? this.password,
-      totalPoint: totalPoint is int? ? totalPoint : this.totalPoint,
-      quizesDone: quizesDone is int? ? quizesDone : this.quizesDone,
+      totalPoint: totalPoint ?? this.totalPoint,
+      quizesDone: quizesDone ?? this.quizesDone,
       sounds: sounds ?? this.sounds,
       notification: notification ?? this.notification,
       rank: rank is _i3.Rank? ? rank : this.rank?.copyWith(),

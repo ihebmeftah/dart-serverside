@@ -19,7 +19,6 @@ abstract class Question extends _i1.TableRow {
     required this.additionalInformation,
     required this.quiz,
     required this.points,
-    this.status,
     this.options,
   }) : super(id);
 
@@ -29,7 +28,6 @@ abstract class Question extends _i1.TableRow {
     required String additionalInformation,
     required int quiz,
     required int points,
-    _i2.QuestionStatus? status,
     List<_i2.Option>? options,
   }) = _QuestionImpl;
 
@@ -46,8 +44,6 @@ abstract class Question extends _i1.TableRow {
       quiz: serializationManager.deserialize<int>(jsonSerialization['quiz']),
       points:
           serializationManager.deserialize<int>(jsonSerialization['points']),
-      status: serializationManager
-          .deserialize<_i2.QuestionStatus?>(jsonSerialization['status']),
       options: serializationManager
           .deserialize<List<_i2.Option>?>(jsonSerialization['options']),
     );
@@ -65,8 +61,6 @@ abstract class Question extends _i1.TableRow {
 
   int points;
 
-  _i2.QuestionStatus? status;
-
   List<_i2.Option>? options;
 
   @override
@@ -78,7 +72,6 @@ abstract class Question extends _i1.TableRow {
     String? additionalInformation,
     int? quiz,
     int? points,
-    _i2.QuestionStatus? status,
     List<_i2.Option>? options,
   });
   @override
@@ -89,7 +82,6 @@ abstract class Question extends _i1.TableRow {
       'additionalInformation': additionalInformation,
       'quiz': quiz,
       'points': points,
-      if (status != null) 'status': status?.toJson(),
       if (options != null)
         'options': options?.toJson(valueToJson: (v) => v.toJson()),
     };
@@ -104,7 +96,6 @@ abstract class Question extends _i1.TableRow {
       'additionalInformation': additionalInformation,
       'quiz': quiz,
       'points': points,
-      'status': status,
     };
   }
 
@@ -116,7 +107,6 @@ abstract class Question extends _i1.TableRow {
       'additionalInformation': additionalInformation,
       'quiz': quiz,
       'points': points,
-      if (status != null) 'status': status?.toJson(),
       if (options != null)
         'options': options?.toJson(valueToJson: (v) => v.allToJson()),
     };
@@ -143,9 +133,6 @@ abstract class Question extends _i1.TableRow {
         return;
       case 'points':
         points = value;
-        return;
-      case 'status':
-        status = value;
         return;
       default:
         throw UnimplementedError();
@@ -311,7 +298,6 @@ class _QuestionImpl extends Question {
     required String additionalInformation,
     required int quiz,
     required int points,
-    _i2.QuestionStatus? status,
     List<_i2.Option>? options,
   }) : super._(
           id: id,
@@ -319,7 +305,6 @@ class _QuestionImpl extends Question {
           additionalInformation: additionalInformation,
           quiz: quiz,
           points: points,
-          status: status,
           options: options,
         );
 
@@ -330,7 +315,6 @@ class _QuestionImpl extends Question {
     String? additionalInformation,
     int? quiz,
     int? points,
-    Object? status = _Undefined,
     Object? options = _Undefined,
   }) {
     return Question(
@@ -340,7 +324,6 @@ class _QuestionImpl extends Question {
           additionalInformation ?? this.additionalInformation,
       quiz: quiz ?? this.quiz,
       points: points ?? this.points,
-      status: status is _i2.QuestionStatus? ? status : this.status,
       options: options is List<_i2.Option>? ? options : this.options?.clone(),
     );
   }
@@ -364,11 +347,6 @@ class QuestionTable extends _i1.Table {
       'points',
       this,
     );
-    status = _i1.ColumnEnum(
-      'status',
-      this,
-      _i1.EnumSerialization.byName,
-    );
   }
 
   late final _i1.ColumnString question;
@@ -378,8 +356,6 @@ class QuestionTable extends _i1.Table {
   late final _i1.ColumnInt quiz;
 
   late final _i1.ColumnInt points;
-
-  late final _i1.ColumnEnum<_i2.QuestionStatus> status;
 
   _i2.OptionTable? ___options;
 
@@ -423,7 +399,6 @@ class QuestionTable extends _i1.Table {
         additionalInformation,
         quiz,
         points,
-        status,
       ];
 
   @override
