@@ -58,7 +58,7 @@ class QuestionEndpoint extends Endpoint {
             question: question.trim(),
             additionalInformation: additionalInformation,
             quiz: quizId,
-            points: 5));
+            points: 5 ,));
     quiz.points += createdQuestion.points;
     await Quiz.db.updateRow(session, quiz);
     return createdQuestion;
