@@ -5,6 +5,12 @@ import '../scopes/users.scopes.dart';
 
 class QuestionEndpoint extends Endpoint {
   Future<List<Question>> getQuestionsByQuiz(Session session, int quizId) async {
+    final int? userId = await session.auth.authenticatedUserId;
+    if (userId == null) {
+      throw AppException(
+          message: 'This request required authintification of admin',
+          errorType: ExceptionType.authenticationRequiredException);
+    }
     final quiz = await Quiz.db.findById(session, quizId);
     if (quiz == null) {
       throw AppException(
@@ -55,10 +61,11 @@ class QuestionEndpoint extends Endpoint {
     final Question createdQuestion = await Question.db.insertRow(
         session,
         Question(
-            question: question.trim(),
-            additionalInformation: additionalInformation,
-            quiz: quizId,
-            points: 5 ,));
+          question: question.trim(),
+          additionalInformation: additionalInformation,
+          quiz: quizId,
+          points: 5,
+        ));
     quiz.points += createdQuestion.points;
     await Quiz.db.updateRow(session, quiz);
     return createdQuestion;
