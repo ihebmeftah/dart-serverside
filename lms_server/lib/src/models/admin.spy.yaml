@@ -6,8 +6,6 @@ fields:
   categories: List<Category>?, relation(name=admin_categroy) ### Bidirectional relations one to many
   quizes: List<Quiz>?, relation(name=admin_quiz) ### Bidirectional relations one to many
 
-
-
 indexes:
   admin_info_id_unique_idx:
     fields: userInfoId
