@@ -5,6 +5,7 @@ fields:
     desc: String
     userId: int, relation(name=admin_categroy, parent=admin,  onDelete=Cascade) ###  foreign key field - Bidirectional relations one to many
     nbQuiz: int?
+
 indexes:
   category_name_unique_idx:
     fields: name
