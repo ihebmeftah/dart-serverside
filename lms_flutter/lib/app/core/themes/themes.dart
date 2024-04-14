@@ -18,6 +18,8 @@ class ThemesApp {
       fontFamily: 'Mali',
       useMaterial3: true,
       colorSchemeSeed: primary,
+      snackBarTheme: const SnackBarThemeData(
+          behavior: SnackBarBehavior.floating, width: double.infinity / 2),
       listTileTheme: ListTileThemeData(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
