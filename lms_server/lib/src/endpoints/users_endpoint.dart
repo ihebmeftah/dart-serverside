@@ -75,9 +75,6 @@ class UsersEndpoint extends Endpoint {
     }
     if (userInfo.scopes.contains(UsersScope.admin)) {
       final admin = await Admin.db.findById(session, userInfo.id!);
-      print(admin?.password);
-      print(Crypt.sha256(password).hash);
-      print(Crypt.sha256(password));
       if (!Crypt(admin!.password).match(password)) {
         return AuthenticationResponse(
           success: false,
