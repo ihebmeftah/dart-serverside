@@ -20,81 +20,54 @@ class ProfileView extends GetView<ProfileController> {
           backgroundColor: ThemesApp.primary,
           title: const Text('Profile'),
         ),
-        body: Center(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CircleAvatar(
+                radius: 50.r,
+                backgroundImage: controller.user!.imageUrl == null
+                    ? null
+                    : NetworkImage(controller.user!.imageUrl!),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Form(
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          const Expanded(
-                            child: AppTextFormField(
-                                profileDecoration: true,
-                                hint: "Nathaniel",
-                                label: "First name"),
-                          ),
-                          15.spaceW,
-                          const Expanded(
-                            child: AppTextFormField(
-                                profileDecoration: true,
-                                hint: "smith",
-                                label: "Last name"),
-                          ),
-                        ],
-                      ),
-                      15.spaceH,
-                      AppDropdown(
-                          value: "1",
-                          items: ["1", "2", "3", "4"]
-                              .map((e) =>
-                                  DropdownMenuItem(value: e, child: Text(e)))
-                              .toList(),
+                      AppTextFormField(
+                          controller: controller.username,
                           profileDecoration: true,
-                          onChange: (value) {},
-                          hint: "Select grade level",
-                          label: "Select grade level"),
+                          hint: "Nathaniel",
+                          label: "First name"),
                       15.spaceH,
-                      AppDropdown(
-                          value: "tunisia",
-                          items: ["tunisia", "south africa", "Algeria"]
-                              .map((e) => DropdownMenuItem(
-                                  value: e, child: Text(e.capitalizeFirst!)))
-                              .toList(),
-                          profileDecoration: true,
-                          onChange: (value) {},
-                          hint: "Select Country/Region",
-                          label: "Select Country/Region"),
-                      15.spaceH,
-                      const AppTextFormField(
+                      AppTextFormField(
+                          isEmail: true,
+                          controller: controller.email,
                           profileDecoration: true,
                           hint: "nathaniel.smith@gmail.com",
                           label: "Email Address"),
                     ],
                   ),
                 ),
-                15.spaceH,
-                SafeArea(
-                  child: Column(
-                    children: [
-                      const AppElevatedButton(title: 'Update'),
-                      TextButton(
-                          onPressed: () => Get.to(() => const PasswordView()),
-                          child: Text(
-                            'Change password',
-                            style: TextStyle(
-                                fontSize: 14.sp, fontWeight: FontWeight.bold),
-                          )),
-                    ],
-                  ),
+              ),
+              SafeArea(
+                child: Column(
+                  children: [
+                    const AppElevatedButton(title: 'Update'),
+                    TextButton(
+                        onPressed: () => Get.to(() => const PasswordView()),
+                        child: Text(
+                          'Change password',
+                          style: TextStyle(
+                              fontSize: 14.sp, fontWeight: FontWeight.bold),
+                        )),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ));
   }
