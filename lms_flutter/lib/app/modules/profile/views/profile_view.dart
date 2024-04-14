@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:lms_flutter/app/component/appdropdown.dart';
 import 'package:lms_flutter/app/component/appelevatedbutton.dart';
 import 'package:lms_flutter/app/component/apptextformfield.dart';
 import 'package:lms_flutter/app/core/extension/spacing.dart';
