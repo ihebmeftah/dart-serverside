@@ -2,11 +2,11 @@ name: lms_flutter
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project with Serverpod.
-environment: 
-  sdk: '>=3.0.0 <4.0.0'
-  flutter: '>=3.10.0'
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
 
-dependencies: 
+dependencies:
   serverpod_flutter: 1.2.6
   serverpod_auth_shared_flutter: 1.2.6
   cupertino_icons: ^1.0.5
@@ -15,20 +15,19 @@ dependencies:
   hexcolor: ^3.0.1
   animate_do: ^3.3.4
   flutter_animate: ^4.5.0
+  url_strategy: ^0.2.0
   animated_text_kit: ^4.2.2
-  flutter: 
+  flutter:
     sdk: flutter
-  lms_client: 
+  lms_client:
     path: ../lms_client
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: ^3.0.0
-  flutter_test: 
+  flutter_test:
     sdk: flutter
 
-
-
-flutter: 
+flutter:
   assets:
     - assets/images/
   fonts:
@@ -36,4 +35,3 @@ flutter:
       fonts:
         - asset: assets/fonts/Mali-Regular.ttf
   uses-material-design: true
-
