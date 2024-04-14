@@ -34,13 +34,15 @@ class AdminView extends GetView<AdminController> {
                         backgroundImage: AssetImage("logo".toPng),
                       ),
                       5.spaceW,
-                      Text(
-                        "Thuto\nDashboard",
-                        style: TextStyle(
-                          fontSize: 6.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Get.width < 1013
+                          ? const SizedBox()
+                          : Text(
+                              "Thuto\nDashboard",
+                              style: TextStyle(
+                                fontSize: 6.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -56,11 +58,13 @@ class AdminView extends GetView<AdminController> {
                       selectedTileColor: ThemesApp.primary,
                       selectedColor: ThemesApp.secondary2,
                       leading: const Icon(Icons.home),
-                      title: Text(
-                        "Dashboard",
-                        style: TextStyle(
-                            fontSize: 4.sp, fontWeight: FontWeight.w500),
-                      ),
+                      title: Get.width < 1013
+                          ? const SizedBox()
+                          : Text(
+                              "Dashboard",
+                              style: TextStyle(
+                                  fontSize: 4.sp, fontWeight: FontWeight.w500),
+                            ),
                     );
                   }),
                   20.spaceH,
@@ -71,11 +75,13 @@ class AdminView extends GetView<AdminController> {
                       selectedTileColor: ThemesApp.primary,
                       selectedColor: ThemesApp.secondary2,
                       leading: const Icon(Icons.category),
-                      title: Text(
-                        "Category",
-                        style: TextStyle(
-                            fontSize: 4.sp, fontWeight: FontWeight.w500),
-                      ),
+                      title: Get.width < 1013
+                          ? const SizedBox()
+                          : Text(
+                              "Category",
+                              style: TextStyle(
+                                  fontSize: 4.sp, fontWeight: FontWeight.w500),
+                            ),
                     );
                   }),
                   20.spaceH,
@@ -86,11 +92,13 @@ class AdminView extends GetView<AdminController> {
                       selectedTileColor: ThemesApp.primary,
                       selectedColor: ThemesApp.secondary2,
                       leading: const Icon(Icons.quiz),
-                      title: Text(
-                        "Quizes",
-                        style: TextStyle(
-                            fontSize: 4.sp, fontWeight: FontWeight.w500),
-                      ),
+                      title: Get.width < 1013
+                          ? const SizedBox()
+                          : Text(
+                              "Quizes",
+                              style: TextStyle(
+                                  fontSize: 4.sp, fontWeight: FontWeight.w500),
+                            ),
                     );
                   }),
                   20.spaceH,
@@ -101,11 +109,13 @@ class AdminView extends GetView<AdminController> {
                       selectedTileColor: ThemesApp.primary,
                       selectedColor: ThemesApp.secondary2,
                       leading: const Icon(Icons.account_box),
-                      title: Text(
-                        "Users",
-                        style: TextStyle(
-                            fontSize: 4.sp, fontWeight: FontWeight.w500),
-                      ),
+                      title: Get.width < 1013
+                          ? const SizedBox()
+                          : Text(
+                              "Users",
+                              style: TextStyle(
+                                  fontSize: 4.sp, fontWeight: FontWeight.w500),
+                            ),
                     );
                   }),
                   20.spaceH,
@@ -116,11 +126,13 @@ class AdminView extends GetView<AdminController> {
                       selectedTileColor: ThemesApp.primary,
                       selectedColor: ThemesApp.secondary2,
                       leading: const Icon(Icons.grade),
-                      title: Text(
-                        "Rankings",
-                        style: TextStyle(
-                            fontSize: 4.sp, fontWeight: FontWeight.w500),
-                      ),
+                      title: Get.width < 1013
+                          ? const SizedBox()
+                          : Text(
+                              "Rankings",
+                              style: TextStyle(
+                                  fontSize: 4.sp, fontWeight: FontWeight.w500),
+                            ),
                     );
                   }),
                   20.spaceH,
@@ -131,11 +143,13 @@ class AdminView extends GetView<AdminController> {
                       selectedTileColor: ThemesApp.primary,
                       selectedColor: ThemesApp.secondary2,
                       leading: const Icon(Icons.school),
-                      title: Text(
-                        "School grades",
-                        style: TextStyle(
-                            fontSize: 4.sp, fontWeight: FontWeight.w500),
-                      ),
+                      title: Get.width < 1013
+                          ? const SizedBox()
+                          : Text(
+                              "School grades",
+                              style: TextStyle(
+                                  fontSize: 4.sp, fontWeight: FontWeight.w500),
+                            ),
                     );
                   }),
                   const Spacer(),
@@ -150,11 +164,13 @@ class AdminView extends GetView<AdminController> {
                     trailing: IconButton(
                         onPressed: controller.logout,
                         icon: const Icon(Icons.logout)),
-                    title: Text(
-                      controller.admin?.userName ?? "",
-                      style: TextStyle(
-                          fontSize: 4.sp, fontWeight: FontWeight.w500),
-                    ),
+                    title: Get.width < 1013
+                        ? const SizedBox()
+                        : Text(
+                            controller.admin?.userName ?? "",
+                            style: TextStyle(
+                                fontSize: 4.sp, fontWeight: FontWeight.w500),
+                          ),
                   )
                 ],
               ))
